@@ -6,6 +6,7 @@
     "isEnabled": true,
     "connectionDetails": {
       "sourceType": "Azure Blob Storage",
+      "account_url": "https://sjpcarbon.blob.core.windows.net/carbonone",
       "blobConnectionString": "https://sjpcarbon.blob.core.windows.net/carbonone/files/product_data/products.csv"}
   }
 

@@ -1,5 +1,15 @@
 import json
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient
+
+try:
+    print("Azure Blob Storage Python quickstart sample")
+
+    # Quickstart code goes here
+
+except Exception as ex:
+    print('Exception:')
+    print(ex)
 
 # First Establish Connection Details
 with open('./src/contracts/_sourceSystem.json', 'r') as f:
@@ -7,3 +17,12 @@ with open('./src/contracts/_sourceSystem.json', 'r') as f:
 
 
 products_conneciton_string = connectionDetails['connectionDetails']['blobConnectionString']
+
+try:
+    print("Azure Blob Storage Python quickstart sample")
+
+    # Quickstart code goes here
+
+except Exception as ex:
+    print('Exception:')
+    print(ex)
