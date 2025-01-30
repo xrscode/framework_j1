@@ -1,0 +1,91 @@
+{
+    "$schema": "../../../../framework/contracts/schemas/entity.json",
+    "code": "bamboo_employees",
+    "name": "Employees",
+    "description": "Employees Bamboo API",
+    "isEnabled": true,
+    "type": "Ingestion",
+    "dataClassification": {
+      "classification": "General"
+    },
+    "gdprMatchingColumn": "Id",
+    "curationStages": [
+      {
+        "curationStage": "BASE",
+        "isEnabled": true,
+        "processScript": {
+          "type": "Databricks Notebook",
+          "path": "/Data Platform/2 - RAW to BASE/",
+          "name": "RAW to BASE - Bamboo"
+        }
+      }
+    ],
+    "ingestionDetails": {
+      "ingestionMethod": "Incremental",
+      "sourceQueryTemplate": "directory",
+      "incrementalLoadDetails": {
+        "watermarkColumnType": "DateTime"
+      },
+      "ingestionGroups": [],
+      "ingestionFileType": "json"
+    },
+    "columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "ProductID",
+        "dataType": {
+          "name": "int",
+          "isNullable": false
+        },
+        "isPrimaryKey": true,
+        "isNaturalKey": true,
+        "dataClassification": {
+          "classification": "General"
+        }
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "ProductName",
+        "dataType": {
+          "name": "varchar",
+          "length": 100,
+          "isNullable": true
+        },
+        "isPrimaryKey": false,
+        "isNaturalKey": false,
+        "dataClassification": {
+          "classification": "General",
+          "isPII": true,
+          "pIIReplacementValue": "DefaultStringMasking"
+        }
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "Category",
+        "dataType": {
+          "name": "varchar",
+          "length": 100,
+          "isNullable": true
+        },
+        "isPrimaryKey": false,
+        "isNaturalKey": false,
+        "dataClassification": {
+          "classification": "General"
+        }
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "ListPrice",
+        "dataType": {
+          "name": "varchar",
+          "length": 100,
+          "isNullable": true
+        },
+        "isPrimaryKey": false,
+        "isNaturalKey": false,
+        "dataClassification": {
+          "classification": "General"
+         }
+        }
+    ]
+}

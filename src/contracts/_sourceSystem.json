@@ -1,0 +1,12 @@
+{
+    "$schema": "../../../../framework/contracts/schemas/sourceSystem.json",
+    "code": "adventureWorks",
+    "name": "AdventureWorks",
+    "description": "Bamboo is the core HR platform used by Adatis.",
+    "isEnabled": true,
+    "connectionDetails": {
+      "sourceType": "Azure Blob Storage",
+      "blobConnectionString": "https://sjpcarbon.blob.core.windows.net/carbonone/files/product_data/products.csv"}
+  }
+
+  
