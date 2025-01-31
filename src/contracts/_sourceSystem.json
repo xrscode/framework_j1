@@ -7,15 +7,9 @@
     "connectionDetails": {
       "sourceType": "Azure Blob Storage",
       "containerName": "carbonone",
-      "account_url": "https://sjpcarbon.blob.core.windows.net/carbonone",
-      "blobConnectionString": "https://sjpcarbon.blob.core.windows.net/carbonone/files/product_data/products.csv"},
       "connectionString": "https://sjpcarbon.blob.core.windows.net/",
-      "keyVault": {
-        "tenant_id": "6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46",
-        "client_id": "",
-        "key_vault_url": "",
-        "sas_token_name": ""
-      }
+      "fileLocation": "files/product_data/products.csv"
+    }
   }
 
   
