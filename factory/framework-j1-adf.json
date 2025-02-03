@@ -1,0 +1,9 @@
+{
+	"name": "framework-j1-adf",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4f537e21-173b-4430-a216-f2cd30ec3db8",
+		"tenantId": "6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46"
+	}
+}

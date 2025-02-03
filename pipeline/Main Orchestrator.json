@@ -1,0 +1,108 @@
+{
+	"name": "Main Orchestrator",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set EntityName",
+				"description": "Start the pipeline by defining an entity name.  This way, the metadata can be accessed in the metadata database.",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "EntityName",
+					"value": {
+						"value": "@pipeline().parameters.entityName",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Get Metadata",
+				"description": "This activity will query the metadata database, to establish the ingestion source.",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set EntityName",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT * \nFROM metadata \nWHERE entityName = '@{pipeline().parameters.entityName}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MetaData_Dataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "RAW",
+				"description": "Run the RAW Ingestion Notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW",
+					"baseParameters": {
+						"metaData": {
+							"value": "@string(activity('Get Metadata').output.firstRow)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Framework Databricks",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"entityName": {
+				"type": "String"
+			}
+		},
+		"variables": {
+			"EntityName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-02-03T14:40:35Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
