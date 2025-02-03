@@ -9,6 +9,8 @@ load_dotenv()
 
 """
 SQL SERVER/DATABASE CONNECTION
+This will set up the metaData table. 
+If run, it will remove all data from the table.
 """
 
 # Database connection details:
@@ -45,6 +47,16 @@ try:
     print('Table and Schema created.')
 except Exception as e:
     print(e)
+
+
+
+
+
+
+
+
+
+
 
 
 """

@@ -16,18 +16,14 @@
         "processScript": {
           "type": "Databricks Notebook",
           "path": "/Data Platform/2 - RAW to BASE/",
-          "name": "RAW to BASE - Bamboo"
+          "name": "RAW"
         }
       }
     ],
     "ingestionDetails": {
       "ingestionMethod": "Incremental",
-      "sourceQueryTemplate": "directory",
-      "incrementalLoadDetails": {
-        "watermarkColumnType": "DateTime"
-      },
-      "ingestionGroups": [],
-      "ingestionFileType": "json"
+      "sourceQueryTemplate": "SELECT Id, IsDeleted, MasterRecordId FROM table",
+      "ingestionFileType": "parquet"
     },
     "columns": [
       {
