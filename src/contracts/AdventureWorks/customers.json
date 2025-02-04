@@ -1,0 +1,80 @@
+{
+    "code": "AdventureWorks",
+    "name": "customers",
+    "description": "The customers entity contains information about AdventureWorks customers.",
+    "isEnabled": true,
+    "sourceSystemCode": "AdventureWorks",
+    "connectionDetails": {
+      "sourceType": "HTTP",
+      "requestType": "GET",
+      "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv",
+      "fileName": "customers.csv",
+      "fileFormat": "CSV",
+      "delimiterColumn": ",",
+      "delimiterRow": "\n"
+    },
+    "ingestionDetails": {
+      "ingest": "/src/notebooks/RAW",
+      "transform": "/src/notebooks/TRANSFORM",
+      "curate": "/src/notebooks/CURATE"
+    },    
+    "columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "ProductID",
+        "dataType": {
+          "name": "int",
+          "isNullable": false
+        },
+        "isPrimaryKey": true,
+        "isNaturalKey": true,
+        "dataClassification": {
+          "classification": "General"
+        }
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "ProductName",
+        "dataType": {
+          "name": "varchar",
+          "length": 100,
+          "isNullable": true
+        },
+        "isPrimaryKey": false,
+        "isNaturalKey": false,
+        "dataClassification": {
+          "classification": "General",
+          "isPII": true,
+          "pIIReplacementValue": "DefaultStringMasking"
+        }
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "Category",
+        "dataType": {
+          "name": "varchar",
+          "length": 100,
+          "isNullable": true
+        },
+        "isPrimaryKey": false,
+        "isNaturalKey": false,
+        "dataClassification": {
+          "classification": "General"
+        }
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "ListPrice",
+        "dataType": {
+          "name": "varchar",
+          "length": 100,
+          "isNullable": true
+        },
+        "isPrimaryKey": false,
+        "isNaturalKey": false,
+        "dataClassification": {
+          "classification": "General"
+         }
+        }
+    ]
+}
