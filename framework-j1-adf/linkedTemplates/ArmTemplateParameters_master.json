@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "framework-j1-adf"
+		},
+		"Metadata Database_password": {
+			"value": ""
+		},
+		"Azure Key Vault_properties_typeProperties_baseUrl": {
+			"value": "https://sjp-carbon-vault.vault.azure.net/"
+		},
+		"Framework Databricks_properties_typeProperties_existingClusterId": {
+			"value": "0128-132544-vg0vau3q"
+		},
+		"Metadata Database_properties_typeProperties_server": {
+			"value": "framework-j1-sv.database.windows.net"
+		},
+		"Metadata Database_properties_typeProperties_database": {
+			"value": "framework-j1-db"
+		},
+		"Metadata Database_properties_typeProperties_userName": {
+			"value": "adminsjp"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

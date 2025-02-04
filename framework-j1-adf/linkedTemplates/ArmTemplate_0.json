@@ -1,0 +1,280 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "framework-j1-adf"
+		},
+		"Metadata Database_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Metadata Database'"
+		},
+		"Azure Key Vault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://sjp-carbon-vault.vault.azure.net/"
+		},
+		"Metadata Database_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "framework-j1-sv.database.windows.net"
+		},
+		"Metadata Database_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "framework-j1-db"
+		},
+		"Metadata Database_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adminsjp"
+		},
+		"Framework Databricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0128-132544-vg0vau3q"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Azure Key Vault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Establish connection to key vault.  Key vault contains access token for databricks workspace. ",
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('Azure Key Vault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Metadata Database')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('Metadata Database_properties_typeProperties_server')]",
+					"database": "[parameters('Metadata Database_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('Metadata Database_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Metadata Database_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MetaData_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Metadata Database",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "entityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "entityName",
+						"type": "varchar"
+					},
+					{
+						"name": "entityDescription",
+						"type": "varchar"
+					},
+					{
+						"name": "connectionSourceType",
+						"type": "varchar"
+					},
+					{
+						"name": "connectionRequestType",
+						"type": "varchar"
+					},
+					{
+						"name": "connectionString",
+						"type": "varchar"
+					},
+					{
+						"name": "fileName",
+						"type": "varchar"
+					},
+					{
+						"name": "fileFormat",
+						"type": "varchar"
+					},
+					{
+						"name": "delimiterColumn",
+						"type": "varchar"
+					},
+					{
+						"name": "delimiterRow",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "metaData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Metadata Database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Framework Databricks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-756543786050816.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "Azure Key Vault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "databricks-junior-token"
+					},
+					"existingClusterId": "[parameters('Framework Databricks_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Azure Key Vault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Main Orchestrator')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Set EntityName",
+						"description": "Start the pipeline by defining an entity name.  This way, the metadata can be accessed in the metadata database.",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "EntityName",
+							"value": {
+								"value": "@pipeline().parameters.entityName",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Get Metadata",
+						"description": "This activity will query the metadata database, to establish the ingestion source.",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Set EntityName",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT * \nFROM sourceSystem \nWHERE sourceEntityName = '@{pipeline().parameters.entityName}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "MetaData_Dataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "RAW",
+						"description": "Run the RAW Ingestion Notebook",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Get Metadata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW",
+							"baseParameters": {
+								"metaData": {
+									"value": "@string(activity('Get Metadata').output.firstRow)",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "Framework Databricks",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"entityName": {
+						"type": "String"
+					}
+				},
+				"variables": {
+					"EntityName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-02-03T14:40:35Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/MetaData_Dataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/Framework Databricks')]"
+			]
+		}
+	]
+}
