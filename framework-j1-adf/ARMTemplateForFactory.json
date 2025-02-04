@@ -108,10 +108,15 @@
 								]
 							}
 						],
-						"userProperties": [],
+						"userProperties": [
+							{
+								"name": "metaData",
+								"value": "\""
+							}
+						],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Lookup Entities to Ingest').output",
+								"value": "@activity('Lookup Entities to Ingest').output.value",
 								"type": "Expression"
 							},
 							"activities": [
@@ -128,7 +133,13 @@
 									},
 									"userProperties": [],
 									"typeProperties": {
-										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW"
+										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW",
+										"baseParameters": {
+											"metaData": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
 									},
 									"linkedServiceName": {
 										"referenceName": "Framework Databricks",
@@ -156,7 +167,9 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
+						"userProperties": [
+							{}
+						],
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
