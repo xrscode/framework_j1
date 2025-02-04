@@ -48,7 +48,9 @@ for contract in json_files:
     # # # Execute the query:
     try:
         print(f'Uploading entity: {entityName}')
-        ddl(query)
+        rowCount = ddl(query)
+        if rowCount == -1:
+            print(f'Entity: {entityName} upload successful.')
     except Exception as e:
         print(f'Error message: {e}')
     

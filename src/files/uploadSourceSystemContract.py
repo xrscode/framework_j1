@@ -30,8 +30,9 @@ VALUES ('{sourceEntityName}', '{sourceEntityDescription}');
 
 # Execute the query:
 try:
-    ddl(query)
-    print('Contract upload successful.')
+    rowCount = ddl(query)
+    if rowCount == -1:
+        print(f'Source System: {sourceEntityName} upload successful.')
 except Exception as e:
     print(f'Error message: {e}')
     

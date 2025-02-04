@@ -36,4 +36,4 @@ def ddl(query):
     cursor.close()
     conn.close()
 
-    return 'Query executed successfully.'
+    return cursor.rowcount
