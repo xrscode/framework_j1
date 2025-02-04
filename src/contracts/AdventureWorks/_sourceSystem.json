@@ -1,0 +1,8 @@
+{
+    "$schema": "../../../../framework/contracts/schemas/sourceSystem.json",
+    "name": "AdventureWorks",
+    "description": "AdventureWorks is a practice data source.",
+    "sourceQueryTemplate": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs"
+  }
+
+  

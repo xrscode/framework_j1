@@ -1,0 +1,37 @@
+{
+    "name": "Name of the entity",
+    "description": "Description of the entity",
+    "isEnabled": true,
+    "sourceSystemCode": "Link this to the source system name in the source system template",
+    "connectionDetails": {
+      "sourceType": "Define the source type; e.g. HTTP, FTP, etc.",
+      "requestType": "Define the request type",
+      "connectionString": "Define the connection string",
+      "fileName": "Name of file",
+      "fileFormat": "File format",
+      "delimiterColumn": ",",
+      "delimiterRow": "\n"
+    },
+    "curationStages": [
+      {
+        "isEnabled": true,
+        "processScript": {
+          "type": "Databricks Notebook",
+          "path": "/src/notebooks/RAW", 
+          "name": "RAW"
+        }
+      }
+    ],
+    "columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "ProductID",
+        "dataType": {
+          "name": "int",
+          "isNullable": false
+        },
+        "isPrimaryKey": true,
+        "isNaturalKey": true
+      }
+      ]
+    }

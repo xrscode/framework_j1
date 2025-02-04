@@ -1,21 +1,25 @@
 {
     "$schema": "../../../../framework/contracts/schemas/entity.json",
-    "code": "bamboo_employees",
-    "name": "Employees",
-    "description": "Employees Bamboo API",
+    "code": "AdventureWorks",
+    "name": "products",
+    "description": "The products entity contains information about AdventureWorks products.",
     "isEnabled": true,
-    "type": "Ingestion",
-    "dataClassification": {
-      "classification": "General"
+    "sourceSystemCode": "AdventureWorks",
+    "connectionDetails": {
+      "sourceType": "HTTP",
+      "requestType": "GET",
+      "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv",
+      "fileName": "products.csv",
+      "fileFormat": "CSV",
+      "delimiterColumn": ",",
+      "delimiterRow": "\n"
     },
-    "gdprMatchingColumn": "Id",
     "curationStages": [
       {
-        "curationStage": "BASE",
         "isEnabled": true,
         "processScript": {
           "type": "Databricks Notebook",
-          "path": "/Data Platform/2 - RAW to BASE/",
+          "path": "/src/notebooks/RAW",
           "name": "RAW"
         }
       }
