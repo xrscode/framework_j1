@@ -231,12 +231,7 @@
 								]
 							}
 						],
-						"userProperties": [
-							{
-								"name": "metaData",
-								"value": "\""
-							}
-						],
+						"userProperties": [],
 						"typeProperties": {
 							"items": {
 								"value": "@activity('Lookup Entities to Ingest').output.value",
