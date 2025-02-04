@@ -44,7 +44,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT * \nFROM metadata \nWHERE entityName = '@{pipeline().parameters.entityName}'",
+							"value": "SELECT * \nFROM sourceSystem \nWHERE entityName = '@{pipeline().parameters.entityName}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
