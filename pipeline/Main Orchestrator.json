@@ -90,7 +90,7 @@
 								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW",
 								"baseParameters": {
 									"metaData": {
-										"value": "@item()",
+										"value": "@string(item())",
 										"type": "Expression"
 									}
 								}
@@ -121,6 +121,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
