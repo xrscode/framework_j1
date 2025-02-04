@@ -6,7 +6,7 @@ import pyodbc
 import requests
 
 
-def create_tables(query):
+def ddl(query):
     """
     Arguments: query (str).
     Returns: result of query. 
@@ -37,19 +37,3 @@ def create_tables(query):
     conn.close()
 
     return 'Query executed successfully.'
-
-
-my_query = """-- Purpose: Create the sourceSystem table.
-
--- Remove the existing table if it exists
-DROP TABLE IF EXISTS sourceSystem;
-
--- Create the sourceSystem table
-CREATE TABLE sourceSystem (
-    entityID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
-    entityName VARCHAR(255) NOT NULL UNIQUE, -- Unique entity name
-    entityDescription VARCHAR(255), -- Description of the entity
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-);"""
-
-create_tables(my_query)

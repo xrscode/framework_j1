@@ -1,5 +1,4 @@
 {
-    "$schema": "../../../../framework/contracts/schemas/entity.json",
     "code": "AdventureWorks",
     "name": "products",
     "description": "The products entity contains information about AdventureWorks products.",
@@ -14,21 +13,11 @@
       "delimiterColumn": ",",
       "delimiterRow": "\n"
     },
-    "curationStages": [
-      {
-        "isEnabled": true,
-        "processScript": {
-          "type": "Databricks Notebook",
-          "path": "/src/notebooks/RAW",
-          "name": "RAW"
-        }
-      }
-    ],
     "ingestionDetails": {
-      "ingestionMethod": "Incremental",
-      "sourceQueryTemplate": "SELECT Id, IsDeleted, MasterRecordId FROM table",
-      "ingestionFileType": "parquet"
-    },
+      "ingest": "/src/notebooks/RAW",
+      "transform": "/src/notebooks/TRANSFORM",
+      "curate": "/src/notebooks/CURATE"
+    },    
     "columns": [
       {
         "sortOrder": 1,
