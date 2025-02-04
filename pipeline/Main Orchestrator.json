@@ -21,8 +21,8 @@
 				}
 			},
 			{
-				"name": "Get Metadata",
-				"description": "This activity will query the metadata database, to establish the ingestion source.",
+				"name": "Get SourceSystem data",
+				"description": "This activity will query the sourceSystem table.",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -57,12 +57,52 @@
 				}
 			},
 			{
-				"name": "RAW",
-				"description": "Run the RAW Ingestion Notebook",
-				"type": "DatabricksNotebook",
+				"name": "Ingest Entities",
+				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Get Metadata",
+						"activity": "Lookup Entities to Ingest",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities to Ingest').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "RAW Ingestion",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW"
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup Entities to Ingest",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Get SourceSystem data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -77,17 +117,20 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW",
-					"baseParameters": {
-						"metaData": {
-							"value": "@string(activity('Get Metadata').output.firstRow)",
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "--First create varaiable to store sourceEntityID:\nDECLARE @sourceEntityID INT;\n\n-- Save the sourceEntityID to variable:\nSELECT @sourceEntityID = sourceEntityID\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.entityName}';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE @sourceEntityID = @sourceEntityID",
 							"type": "Expression"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "Framework Databricks",
-					"type": "LinkedServiceReference"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MetaData_Dataset",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
