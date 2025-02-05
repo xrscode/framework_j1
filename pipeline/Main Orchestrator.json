@@ -210,7 +210,7 @@
 										"type": "Expression"
 									},
 									"entityColumns": {
-										"value": "@string(item()['entityColumns'])",
+										"value": "@item()['entityColumns']",
 										"type": "Expression"
 									},
 									"fileLocation": {
