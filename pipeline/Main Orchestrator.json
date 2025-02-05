@@ -138,6 +138,47 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Transform Entities",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Ingest Entities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities to Ingest').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "TRANSFORM",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/TRANSFORM"
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
