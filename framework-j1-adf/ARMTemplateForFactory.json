@@ -231,7 +231,7 @@
 												"type": "Expression"
 											},
 											"fileLocation": {
-												"value": "@string(activity('RAW').output.runOutput)",
+												"value": "@string(activity('RAW').output)",
 												"type": "Expression"
 											}
 										}
