@@ -144,6 +144,31 @@
 										"referenceName": "Framework Databricks",
 										"type": "LinkedServiceReference"
 									}
+								},
+								{
+									"name": "Set File Path",
+									"description": "Set the location of the ingested file as a parameter.",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "RAW",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "fileLocation",
+										"value": {
+											"value": "@activity('RAW').output.runOutput",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
@@ -227,11 +252,11 @@
 												"type": "Expression"
 											},
 											"entityColumns": {
-												"value": "@string(item()['entityColumns'])",
+												"value": "@item()['entityColumns']",
 												"type": "Expression"
 											},
 											"fileLocation": {
-												"value": "@string(activity('RAW').output)",
+												"value": "@string(variables('fileLocation'))",
 												"type": "Expression"
 											}
 										}
@@ -255,6 +280,9 @@
 				},
 				"variables": {
 					"EntityName": {
+						"type": "String"
+					},
+					"fileLocation": {
 						"type": "String"
 					}
 				},
