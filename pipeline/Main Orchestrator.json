@@ -94,19 +94,19 @@
 										"type": "Expression"
 									},
 									"entityName": {
-										"value": "@item()['entityName']",
+										"value": "@string(item()['entityName'])",
 										"type": "Expression"
 									},
 									"entityID": {
-										"value": "@item()['entityID']",
+										"value": "@string(item()['entityID'])",
 										"type": "Expression"
 									},
 									"entityInestionNotebook": {
-										"value": "@item()['entityIngestionNotebook']",
+										"value": "@string(item()['entityIngestionNotebook'])",
 										"type": "Expression"
 									},
 									" entitySourceQuery": {
-										"value": "@item()['entitySourceQuery']",
+										"value": "@string(item()['entitySourceQuery'])",
 										"type": "Expression"
 									}
 								}
