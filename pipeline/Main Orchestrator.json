@@ -155,10 +155,6 @@
 										"value": "@string(item()['entityName'])",
 										"type": "Expression"
 									},
-									"entitySourceQuery": {
-										"value": "@string(item()['entitySourceQuery'])",
-										"type": "Expression"
-									},
 									"entityColumns": {
 										"value": "@item()['entityColumns']",
 										"type": "Expression"
