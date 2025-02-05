@@ -12,12 +12,7 @@
       "fileFormat": "CSV",
       "delimiterColumn": ",",
       "delimiterRow": "\n"
-    },
-    "ingestionDetails": {
-      "ingest": "/src/notebooks/RAW",
-      "transform": "/src/notebooks/TRANSFORM",
-      "curate": "/src/notebooks/CURATE"
-    },    
+    }, 
     "columns": [
       {
         "sortOrder": 1,

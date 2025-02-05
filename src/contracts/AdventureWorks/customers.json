@@ -2,79 +2,74 @@
     "code": "AdventureWorks",
     "name": "customers",
     "description": "The customers entity contains information about AdventureWorks customers.",
-    "isEnabled": true,
     "sourceSystemCode": "AdventureWorks",
     "connectionDetails": {
-      "sourceType": "HTTP",
-      "requestType": "GET",
-      "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv",
-      "fileName": "customers.csv",
-      "fileFormat": "CSV",
-      "delimiterColumn": ",",
-      "delimiterRow": "\n"
+      "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv"
     },
-    "ingestionDetails": {
-      "ingest": "/src/notebooks/RAW",
-      "transform": "/src/notebooks/TRANSFORM",
-      "curate": "/src/notebooks/CURATE"
-    },    
+      
     "columns": [
       {
         "sortOrder": 1,
-        "columnName": "ProductID",
+        "columnName": "SalesOrderNumber",
         "dataType": {
-          "name": "int",
+          "name": "varchar",
           "isNullable": false
-        },
-        "isPrimaryKey": true,
-        "isNaturalKey": true,
-        "dataClassification": {
-          "classification": "General"
         }
       },
       {
         "sortOrder": 2,
-        "columnName": "ProductName",
+        "columnName": "SalesOrderLineNumber",
         "dataType": {
-          "name": "varchar",
-          "length": 100,
-          "isNullable": true
-        },
-        "isPrimaryKey": false,
-        "isNaturalKey": false,
-        "dataClassification": {
-          "classification": "General",
-          "isPII": true,
-          "pIIReplacementValue": "DefaultStringMasking"
-        }
+          "name": "int"}
       },
       {
         "sortOrder": 3,
-        "columnName": "Category",
+        "columnName": "OrderDate",
         "dataType": {
-          "name": "varchar",
-          "length": 100,
-          "isNullable": true
-        },
-        "isPrimaryKey": false,
-        "isNaturalKey": false,
-        "dataClassification": {
-          "classification": "General"
+          "name": "date"
         }
       },
       {
         "sortOrder": 4,
-        "columnName": "ListPrice",
+        "columnName": "CustomerName",
         "dataType": {
-          "name": "double",
-          "length": 100,
-          "isNullable": true
-        },
-        "isPrimaryKey": false,
-        "isNaturalKey": false,
-        "dataClassification": {
-          "classification": "General"
-         }
+          "name": "varchar"
         }
+        },
+        {
+          "sortOrder": 5,
+          "columnName": "EmailAddress",
+          "dataType": {
+            "name": "varchar"
+          }
+          },
+          {
+            "sortOrder": 6,
+            "columnName": "Item",
+            "dataType": {
+              "name": "varchar"
+            }
+            },
+            {
+              "sortOrder": 7,
+              "columnName": "Quantity",
+              "dataType": {
+                "name": "int"
+              }
+              },
+              {
+                "sortOrder": 8,
+                "columnName": "UnitPrice",
+                "dataType": {
+                  "name": "double"
+                }
+                },
+                {
+                  "sortOrder": 9,
+                  "columnName": "TaxAmount",
+                  "dataType": {
+                    "name": "varchar"
+                  }
+                  }
     ]
 }

@@ -21,11 +21,8 @@ for contract in json_files:
     with open(file, 'r') as c:
         d = json.load(c)
     entityName = d['name']
-    entityDescirption = d['description']
+    entityDescription = d['description']
     entitySourceQuery = d['connectionDetails']['connectionString']
-    entityIngestNotebook = d['ingestionDetails']['ingest']
-    entityTransformNotebook = d['ingestionDetails']['transform']
-    entityCurationNotebook = d['ingestionDetails']['curate']
     entityColumns = str(d['columns']).replace("'", '"')
 
     query = f"""
@@ -42,8 +39,8 @@ for contract in json_files:
     WHERE entityName = '{sourceSystemName}';
 
     --Insert data into sourceEntity table:
-    INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityIngestionNotebook, entityTransformNotebook, entityCurationNotebook, entityColumns)
-    VALUES (@sourceEntityID, '{entityName}', '{entityDescirption}', '{entitySourceQuery}', '{entityIngestNotebook}', '{entityIngestNotebook}', '{entityCurationNotebook}', '{entityColumns}');"""
+    INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns)
+    VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
     
     print('\n', query, '\n')
 
