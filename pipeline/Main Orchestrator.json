@@ -187,6 +187,10 @@
 									"entityColumns": {
 										"value": "@string(item()['entityColumns'])",
 										"type": "Expression"
+									},
+									"fileLocation": {
+										"value": "@string(activity('RAW').output.runOutput)",
+										"type": "Expression"
 									}
 								}
 							},
