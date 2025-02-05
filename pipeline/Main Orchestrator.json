@@ -176,8 +176,12 @@
 							"typeProperties": {
 								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/TRANSFORM",
 								"baseParameters": {
-									"metaData": {
-										"value": "@string(item())",
+									"entityName": {
+										"value": "@string(item()['entityName'])",
+										"type": "Expression"
+									},
+									"entitySourceQuery": {
+										"value": "@string(item()['entitySourceQuery'])",
 										"type": "Expression"
 									}
 								}
