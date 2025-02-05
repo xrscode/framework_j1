@@ -105,7 +105,8 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "Set File Path",
+							"description": "Set the location of the ingested file as a parameter.",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -122,7 +123,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "fileLocation",
-								"value": "@activity('RAW').output"
+								"value": {
+									"value": "@activity('RAW').output.runOutput",
+									"type": "Expression"
+								}
 							}
 						}
 					]
