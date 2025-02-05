@@ -239,7 +239,7 @@
 							},
 							"activities": [
 								{
-									"name": "RAW Ingestion",
+									"name": "RAW",
 									"type": "DatabricksNotebook",
 									"dependsOn": [],
 									"policy": {
@@ -255,6 +255,22 @@
 										"baseParameters": {
 											"metaData": {
 												"value": "@string(item())",
+												"type": "Expression"
+											},
+											"entityName": {
+												"value": "@item()['entityName']",
+												"type": "Expression"
+											},
+											"entityID": {
+												"value": "@item()['entityID']",
+												"type": "Expression"
+											},
+											"entityInestionNotebook": {
+												"value": "@item()['entityIngestionNotebook']",
+												"type": "Expression"
+											},
+											" entitySourceQuery": {
+												"value": "@item()['entitySourceQuery']",
 												"type": "Expression"
 											}
 										}
@@ -302,6 +318,53 @@
 								"parameters": {}
 							},
 							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Transform Entities",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Ingest Entities",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup Entities to Ingest').output",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "TRANSFORM",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/TRANSFORM",
+										"baseParameters": {
+											"metaData": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Framework Databricks",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
 						}
 					}
 				],
