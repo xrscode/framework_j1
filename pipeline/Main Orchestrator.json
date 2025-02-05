@@ -104,6 +104,10 @@
 									"entityInestionNotebook": {
 										"value": "@item()['entityIngestionNotebook']",
 										"type": "Expression"
+									},
+									" entitySourceQuery": {
+										"value": "@item()['entitySourceQuery']",
+										"type": "Expression"
 									}
 								}
 							},
