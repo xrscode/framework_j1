@@ -253,24 +253,12 @@
 									"typeProperties": {
 										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/RAW",
 										"baseParameters": {
-											"metaData": {
-												"value": "@string(item())",
-												"type": "Expression"
-											},
 											"entityName": {
-												"value": "@item()['entityName']",
+												"value": "@string(item()['entityName'])",
 												"type": "Expression"
 											},
-											"entityID": {
-												"value": "@item()['entityID']",
-												"type": "Expression"
-											},
-											"entityInestionNotebook": {
-												"value": "@item()['entityIngestionNotebook']",
-												"type": "Expression"
-											},
-											" entitySourceQuery": {
-												"value": "@item()['entitySourceQuery']",
+											"entitySourceQuery": {
+												"value": "@string(item()['entitySourceQuery'])",
 												"type": "Expression"
 											}
 										}
@@ -353,8 +341,12 @@
 									"typeProperties": {
 										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/TRANSFORM",
 										"baseParameters": {
-											"metaData": {
-												"value": "@item()",
+											"entityName": {
+												"value": "@string(item()['entityName'])",
+												"type": "Expression"
+											},
+											"entitySourceQuery": {
+												"value": "@string(item()['entitySourceQuery'])",
 												"type": "Expression"
 											}
 										}
