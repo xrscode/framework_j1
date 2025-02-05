@@ -92,6 +92,18 @@
 									"metaData": {
 										"value": "@string(item())",
 										"type": "Expression"
+									},
+									"entityName": {
+										"value": "@item()['entityName']",
+										"type": "Expression"
+									},
+									"entityID": {
+										"value": "@item()['entityID']",
+										"type": "Expression"
+									},
+									"entityInestionNotebook": {
+										"value": "@item()['entityIngestionNotebook']",
+										"type": "Expression"
 									}
 								}
 							},
