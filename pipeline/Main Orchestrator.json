@@ -182,7 +182,13 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/TRANSFORM"
+								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/TRANSFORM",
+								"baseParameters": {
+									"metaData": {
+										"value": "@item()",
+										"type": "Expression"
+									}
+								}
 							},
 							"linkedServiceName": {
 								"referenceName": "Framework Databricks",
