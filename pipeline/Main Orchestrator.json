@@ -75,7 +75,7 @@
 					},
 					"activities": [
 						{
-							"name": "RAW Ingestion",
+							"name": "RAW",
 							"type": "DatabricksNotebook",
 							"dependsOn": [],
 							"policy": {
