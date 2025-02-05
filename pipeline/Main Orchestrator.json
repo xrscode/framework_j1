@@ -121,17 +121,8 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "pipelineReturnValue",
-								"value": [
-									{
-										"key": "fileLocation",
-										"value": {
-											"type": "String",
-											"content": "@activity('RAW').output"
-										}
-									}
-								],
-								"setSystemVariable": true
+								"variableName": "fileLocation",
+								"value": "@activity('RAW').output"
 							}
 						}
 					]
@@ -240,6 +231,9 @@
 		},
 		"variables": {
 			"EntityName": {
+				"type": "String"
+			},
+			"fileLocation": {
 				"type": "String"
 			}
 		},
