@@ -26,7 +26,7 @@ for contract in json_files:
     entityIngestNotebook = d['ingestionDetails']['ingest']
     entityTransformNotebook = d['ingestionDetails']['transform']
     entityCurationNotebook = d['ingestionDetails']['curate']
-    entityColumns = str(d['columns']).replace('\'', '')
+    entityColumns = str(d['columns']).replace("'", '"')
 
     query = f"""
     --First create varaiable to store sourceEntityID:
@@ -44,6 +44,8 @@ for contract in json_files:
     --Insert data into sourceEntity table:
     INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityIngestionNotebook, entityTransformNotebook, entityCurationNotebook, entityColumns)
     VALUES (@sourceEntityID, '{entityName}', '{entityDescirption}', '{entitySourceQuery}', '{entityIngestNotebook}', '{entityIngestNotebook}', '{entityCurationNotebook}', '{entityColumns}');"""
+    
+    print('\n', query, '\n')
 
     # # # Execute the query:
     try:
