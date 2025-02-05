@@ -122,6 +122,15 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "pipelineReturnValue",
+								"value": [
+									{
+										"key": "fileLocation",
+										"value": {
+											"type": "String",
+											"content": "@activity('RAW').output"
+										}
+									}
+								],
 								"setSystemVariable": true
 							}
 						}
