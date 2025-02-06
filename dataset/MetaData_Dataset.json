@@ -52,7 +52,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "sourceEntity"
+			"table": "sourceSystem"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
