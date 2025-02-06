@@ -105,36 +105,11 @@
 							}
 						},
 						{
-							"name": "Set RAW Path",
-							"description": "Set the location of the ingested file as a parameter.",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "RAW",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "fileLocation",
-								"value": {
-									"value": "@activity('RAW').output.runOutput",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "TRANSFORM",
 							"type": "DatabricksNotebook",
 							"dependsOn": [
 								{
-									"activity": "Set RAW Path",
+									"activity": "RAW",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -158,10 +133,6 @@
 									"entityColumns": {
 										"value": "@item()['entityColumns']",
 										"type": "Expression"
-									},
-									"fileLocation": {
-										"value": "@string(variables('fileLocation'))",
-										"type": "Expression"
 									}
 								}
 							},
@@ -171,35 +142,11 @@
 							}
 						},
 						{
-							"name": "Set TRANSFORM path",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "TRANSFORM",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "transformPath",
-								"value": {
-									"value": "@activity('TRANSFORM').output.runOutput",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "CURATE",
 							"type": "DatabricksNotebook",
 							"dependsOn": [
 								{
-									"activity": "Set TRANSFORM path",
+									"activity": "TRANSFORM",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -216,15 +163,14 @@
 							"typeProperties": {
 								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/CURATED",
 								"baseParameters": {
-									"transformPath": {
-										"value": "@variables('transformPath')",
-										"type": "Expression"
-									},
 									"entityName": {
 										"value": "@pipeline().parameters.entityName",
 										"type": "Expression"
 									},
-									"entityColumns": "@item()['entityColumns']"
+									"entityColumns": {
+										"value": "@item()['entityColumns']",
+										"type": "Expression"
+									}
 								}
 							},
 							"linkedServiceName": {
