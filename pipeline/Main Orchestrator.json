@@ -105,7 +105,7 @@
 							}
 						},
 						{
-							"name": "Set File Path",
+							"name": "Set RAW Path",
 							"description": "Set the location of the ingested file as a parameter.",
 							"type": "SetVariable",
 							"dependsOn": [
@@ -134,7 +134,7 @@
 							"type": "DatabricksNotebook",
 							"dependsOn": [
 								{
-									"activity": "Set File Path",
+									"activity": "Set RAW Path",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -163,6 +163,68 @@
 										"value": "@string(variables('fileLocation'))",
 										"type": "Expression"
 									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Set TRANSFORM path",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "TRANSFORM",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "transformPath",
+								"value": {
+									"value": "@activity('TRANSFORM').output.runOutput",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "CURATE",
+							"type": "DatabricksNotebook",
+							"dependsOn": [
+								{
+									"activity": "Set TRANSFORM path",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/CURATED",
+								"baseParameters": {
+									"transformPath": {
+										"value": "@variables('transformPath')",
+										"type": "Expression"
+									},
+									"entityName": {
+										"value": "@pipeline().parameters.entityName",
+										"type": "Expression"
+									},
+									"entityColumns": "@item()['entityColumns']"
 								}
 							},
 							"linkedServiceName": {
@@ -220,6 +282,9 @@
 				"type": "String"
 			},
 			"fileLocation": {
+				"type": "String"
+			},
+			"transformPath": {
 				"type": "String"
 			}
 		},
