@@ -78,7 +78,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@--First create varaiable to store sourceEntityID:\nDECLARE sourceEntityID INT;\n\n-- Save the sourceEntityID to variable:\nSELECT sourceEntityID = sourceEntityID\nFROM sourceSystem\nWHERE sourceEntityName = 'pipeline().parameters.sourceSystem';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE sourceEntityID = sourceEntityID",
+							"value": "--First create varaiable to store sourceEntityID:\nDECLARE @sourceEntityID INT;\n\n-- Save the sourceEntityID to variable:\nSELECT @sourceEntityID = sourceEntityID\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE @sourceEntityID = @sourceEntityID",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
