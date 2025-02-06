@@ -1,5 +1,5 @@
 {
-    "name": "dim_date",
+    "name": "date",
     "description": "Description of the dim_date entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",

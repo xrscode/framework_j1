@@ -1,5 +1,5 @@
 {
-    "name": "dim_transaction",
+    "name": "transaction",
     "description": "Description of the dim_transaction entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",

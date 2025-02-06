@@ -1,5 +1,5 @@
 {
-    "name": "dim_location",
+    "name": "location",
     "description": "Description of the dim_location entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",

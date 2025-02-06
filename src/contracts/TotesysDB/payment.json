@@ -1,5 +1,5 @@
 {
-    "name": "fact_payment",
+    "name": "payment",
     "description": "Description of the fact_payment entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",

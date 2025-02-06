@@ -1,5 +1,5 @@
 {
-    "name": "dim_design",
+    "name": "design",
     "description": "Description of the dim_design entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",

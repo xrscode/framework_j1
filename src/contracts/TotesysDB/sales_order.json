@@ -1,5 +1,5 @@
 {
-    "name": "fact_sales_order",
+    "name": "sales_order",
     "description": "Description of the fact_sales_order entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
