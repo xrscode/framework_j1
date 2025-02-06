@@ -56,7 +56,8 @@
 				}
 			},
 			{
-				"name": "Lookup Entities to Ingest",
+				"name": "Lookup Entities",
+				"description": "Lookup all entities associated with sourceSystem",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -96,7 +97,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Entities to Ingest",
+						"activity": "Lookup Entities",
 						"dependencyConditions": [
 							"Succeeded"
 						]
