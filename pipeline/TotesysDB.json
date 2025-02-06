@@ -133,7 +133,7 @@
 										"type": "Expression"
 									},
 									"entityColumns": {
-										"value": "@item['entityColumns']",
+										"value": "@item()['entityColumns']",
 										"type": "Expression"
 									}
 								}
