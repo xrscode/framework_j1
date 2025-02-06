@@ -106,7 +106,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup Entities to Ingest').output.value",
+						"value": "@activity('Lookup Entities').output",
 						"type": "Expression"
 					},
 					"activities": [
@@ -135,6 +135,10 @@
 									},
 									"entityColumns": {
 										"value": "@item()['entityColumns']",
+										"type": "Expression"
+									},
+									"sourceSystem": {
+										"value": "@pipeline().parameters.sourceSystem",
 										"type": "Expression"
 									}
 								}
