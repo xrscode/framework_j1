@@ -490,7 +490,7 @@
 							},
 							"activities": [
 								{
-									"name": "BRONZE",
+									"name": "Notebook1",
 									"type": "DatabricksNotebook",
 									"dependsOn": [],
 									"policy": {
