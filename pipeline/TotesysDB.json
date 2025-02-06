@@ -59,9 +59,20 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup Entities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "BRONZE",
@@ -75,6 +86,9 @@
 								"secureInput": false
 							},
 							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE"
+							},
 							"linkedServiceName": {
 								"referenceName": "Framework Databricks",
 								"type": "LinkedServiceReference"
