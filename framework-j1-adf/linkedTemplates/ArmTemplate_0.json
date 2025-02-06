@@ -434,49 +434,12 @@
 						}
 					},
 					{
-						"name": "Get SourceSystem data",
-						"description": "This activity will query the sourceSystem table.",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "Set _sourceSystem",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "SELECT * \nFROM sourceSystem \nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}'",
-									"type": "Expression"
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "MetaData_Dataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
 						"name": "Lookup Entities",
 						"description": "Lookup all entities associated with sourceSystem",
 						"type": "Lookup",
 						"dependsOn": [
 							{
-								"activity": "Get SourceSystem data",
+								"activity": "Set _sourceSystem",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -509,7 +472,7 @@
 						}
 					},
 					{
-						"name": "Ingest Entities",
+						"name": "ForEach1",
 						"type": "ForEach",
 						"dependsOn": [
 							{
@@ -539,21 +502,7 @@
 									},
 									"userProperties": [],
 									"typeProperties": {
-										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE",
-										"baseParameters": {
-											"entityName": {
-												"value": "@string(item()['entityName'])",
-												"type": "Expression"
-											},
-											"entitySourceQuery": {
-												"value": "@item()['entitySourceQuery']",
-												"type": "Expression"
-											},
-											"entityColumns": {
-												"value": "@item()['entityColumns']",
-												"type": "Expression"
-											}
-										}
+										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE"
 									},
 									"linkedServiceName": {
 										"referenceName": "Framework Databricks",
