@@ -429,10 +429,6 @@
 											"entityColumns": {
 												"value": "@item()['entityColumns']",
 												"type": "Expression"
-											},
-											"sourceSystem": {
-												"value": "@pipeline().parameters.sourceSystem",
-												"type": "Expression"
 											}
 										}
 									},
