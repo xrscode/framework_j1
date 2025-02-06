@@ -1,9 +1,9 @@
 {
-	"name": "Main Orchestrator",
+	"name": "AdventureWorks",
 	"properties": {
 		"activities": [
 			{
-				"name": "Set EntityName",
+				"name": "Set SourceSystemName",
 				"description": "Start the pipeline by defining an entity name.  This way, the metadata can be accessed in the metadata database.",
 				"type": "SetVariable",
 				"dependsOn": [],
@@ -26,7 +26,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Set EntityName",
+						"activity": "Set SourceSystemName",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -164,7 +164,7 @@
 								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/CURATED",
 								"baseParameters": {
 									"entityName": {
-										"value": "@pipeline().parameters.entityName",
+										"value": "@string(item()['entityName'])",
 										"type": "Expression"
 									},
 									"entityColumns": {
