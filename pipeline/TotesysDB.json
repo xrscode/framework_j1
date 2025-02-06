@@ -20,48 +20,12 @@
 				}
 			},
 			{
-				"name": "Get SourceSystem data",
-				"description": "This activity will query the sourceSystem table.",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set _sourceSystem",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "SELECT * \nFROM sourceSystem \nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}'",
-							"type": "Expression"
-						},
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "MetaData_Dataset",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
 				"name": "Lookup Entities",
 				"description": "Lookup all entities associated with sourceSystem",
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Get SourceSystem data",
+						"activity": "Set _sourceSystem",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -90,47 +54,6 @@
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Ingest Entities",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Lookup Entities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup Entities').output",
-						"type": "Expression"
-					},
-					"activities": [
-						{
-							"name": "BRONZE",
-							"type": "DatabricksNotebook",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE"
-							},
-							"linkedServiceName": {
-								"referenceName": "Framework Databricks",
-								"type": "LinkedServiceReference"
-							}
-						}
-					]
 				}
 			}
 		],
