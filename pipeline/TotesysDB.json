@@ -123,25 +123,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE",
-								"baseParameters": {
-									"entityName": {
-										"value": "@string(item()['entityName'])",
-										"type": "Expression"
-									},
-									"entitySourceQuery": {
-										"value": "@item()['entitySourceQuery']",
-										"type": "Expression"
-									},
-									"entityColumns": {
-										"value": "@item()['entityColumns']",
-										"type": "Expression"
-									},
-									"systemName": {
-										"value": "@pipeline().parameters.sourceSystem",
-										"type": "Expression"
-									}
-								}
+								"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE"
 							},
 							"linkedServiceName": {
 								"referenceName": "Framework Databricks",
