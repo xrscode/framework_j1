@@ -1,0 +1,61 @@
+{
+    "name": "counterparty",
+    "description": "Description of the entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "SELECT * FROM counterparty"},
+    "curationStages": [
+      {
+          "bronze": "src/notebooks/BRONZE", 
+          "silver": "src/notebooks/SILVER",
+          "gold":   "src/notebooks/GOLD"
+        }
+    ],
+    "columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "counterparty_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "counterparty_legal_name",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "counterparty_legal_address_line_1",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "counterparty_legal_address_line_2",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "counterparty_legal_district",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 7,
+        "columnName": "counterparty_legal_city",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 8,
+        "columnName": "counterparty_legal_postal_code",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 9,
+        "columnName": "counterparty_legal_country",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 10,
+        "columnName": "counterparty_legal_phone",
+        "dataType": "string"
+      }
+      ]
+    }

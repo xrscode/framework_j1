@@ -1,0 +1,5 @@
+{
+    "name": "TotesysDB",
+    "description": "Totesys is a retail database.",
+    "keyVaultQuery": "connectionStringTotesys"
+}

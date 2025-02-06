@@ -1,0 +1,27 @@
+{
+    "name": "dim_payment_type",
+    "description": "Description of the dim_payment_type entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "SELECT * FROM dim_payment_type"
+    },
+    "curationStages": [
+      {
+        "bronze": "src/notebooks/BRONZE",
+        "silver": "src/notebooks/SILVER",
+        "gold": "src/notebooks/GOLD"
+      }
+    ],
+    "columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "payment_type_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "payment_type_name",
+        "dataType": "string"
+      }
+    ]
+  }

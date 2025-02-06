@@ -11,5 +11,5 @@ CREATE TABLE sourceEntity (
     entityDescription VARCHAR(255), -- Description of the entity
     entitySourceQuery VARCHAR(255), -- Data to retrieve information from source
     entityColumns NVARCHAR(MAX), --Columns in the entity
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP --Timestamp of when entity was created
+    curationStages NVARCHAR(255)
 );

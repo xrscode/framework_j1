@@ -1,0 +1,93 @@
+{
+    "name": "fact_sales_order",
+    "description": "Description of the fact_sales_order entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "SELECT * FROM fact_sales_order"
+    },
+    "curationStages": [
+      {
+        "bronze": "src/notebooks/BRONZE",
+        "silver": "src/notebooks/SILVER",
+        "gold": "src/notebooks/GOLD"
+      }
+    ],
+    "columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "sales_record_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "sales_order_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "created_date",
+        "dataType": "date"
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "created_time",
+        "dataType": "time"
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "last_updated_date",
+        "dataType": "date"
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "last_updated_time",
+        "dataType": "time"
+      },
+      {
+        "sortOrder": 7,
+        "columnName": "sales_staff_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 8,
+        "columnName": "counterparty_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 9,
+        "columnName": "units_sold",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 10,
+        "columnName": "unit_price",
+        "dataType": "numeric"
+      },
+      {
+        "sortOrder": 11,
+        "columnName": "currency_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 12,
+        "columnName": "design_id",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 13,
+        "columnName": "agreed_payment_date",
+        "dataType": "date"
+      },
+      {
+        "sortOrder": 14,
+        "columnName": "agreed_delivery_date",
+        "dataType": "date"
+      },
+      {
+        "sortOrder": 15,
+        "columnName": "agreed_delivery_location_id",
+        "dataType": "int"
+      }
+    ]
+  }
+  

@@ -37,3 +37,35 @@ def ddl(query):
     conn.close()
 
     return cursor.rowcount
+
+def ddl_totesys(query):
+    """
+    Arguments: query (str).
+    Returns: result of query. 
+    Description: This function queries the database and returns the result. 
+    """
+    # Load dotenv:
+    load_dotenv()
+
+    # Establish Connection Details:
+    connectionString = os.getenv('connectionStringTotesys')
+
+    # Open the Connection:
+    conn = pyodbc.connect(connectionString)
+
+    # Create Cursor:
+    cursor = conn.cursor()
+    # Enable autocommit:
+    conn.autocommit = True
+
+    # Execute the query:
+    try:
+        cursor.execute(query)
+    except Exception as e:
+        print(f'Error: {e}')
+
+    # Close the connection:
+    cursor.close()
+    conn.close()
+
+    return cursor.rowcount

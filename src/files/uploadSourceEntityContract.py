@@ -20,11 +20,16 @@ for contract in json_files:
     # Open contract:
     with open(file, 'r') as c:
         d = json.load(c)
+    
+    # Save variables:
     entityName = d['name']
     entityDescription = d['description']
-    entitySourceQuery = d['connectionDetails']['connectionString']
+    entitySourceQuery = str(d['connectionDetails']).replace("'", '"')
     entityColumns = str(d['columns']).replace("'", '"')
+    curationStages = str(d['curationStages']).replace("'", '"')
+    
 
+    # Build up query
     query = f"""
     --First create varaiable to store sourceEntityID:
     DECLARE @sourceEntityID INT;
@@ -39,12 +44,12 @@ for contract in json_files:
     WHERE entityName = '{sourceSystemName}';
 
     --Insert data into sourceEntity table:
-    INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns)
-    VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
+    INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns, curationStages)
+    VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}', '{curationStages}');"""
     
-    print('\n', query, '\n')
 
-    # # # Execute the query:
+   
+    # Execute the query:
     try:
         print(f'Uploading entity: {entityName}')
         rowCount = ddl(query)
