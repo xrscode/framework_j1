@@ -127,7 +127,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greater(int(activity('BRONZE').output.runOutput), 0)",
+									"value": "@not(equals(activity('BRONZE').output.runOutput, 'None'))",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
