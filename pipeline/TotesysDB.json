@@ -164,14 +164,7 @@
 									{
 										"name": "Update Bronze Location",
 										"type": "Lookup",
-										"dependsOn": [
-											{
-												"activity": "Create UPDATE query",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -184,7 +177,7 @@
 											"source": {
 												"type": "AzureSqlSource",
 												"sqlReaderQuery": {
-													"value": "@variables('updateBronzeLocation')",
+													"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   activity('BRONZE').output.runOutput,\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   activity('BRONZE').output.runOutput,\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
 													"type": "Expression"
 												},
 												"queryTimeout": "02:00:00",
@@ -193,23 +186,6 @@
 											"dataset": {
 												"referenceName": "MetaData_Dataset",
 												"type": "DatasetReference"
-											}
-										}
-									},
-									{
-										"name": "Create UPDATE query",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "updateBronzeLocation",
-											"value": {
-												"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   activity('BRONZE').output.runOutput,\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   activity('BRONZE').output.runOutput,\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
-												"type": "Expression"
 											}
 										}
 									}
