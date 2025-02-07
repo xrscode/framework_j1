@@ -162,7 +162,7 @@
 								],
 								"ifTrueActivities": [
 									{
-										"name": "Lookup1",
+										"name": "Update Bronze Location",
 										"type": "Lookup",
 										"dependsOn": [
 											{
