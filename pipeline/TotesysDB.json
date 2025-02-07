@@ -164,7 +164,14 @@
 									{
 										"name": "Lookup1",
 										"type": "Lookup",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Create UPDATE query",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 0,
@@ -188,6 +195,23 @@
 												"type": "DatasetReference"
 											}
 										}
+									},
+									{
+										"name": "Create UPDATE query",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "updateBronzeLocation",
+											"value": {
+												"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   activity('BRONZE').output,\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   activity('BRONZE').output,\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+												"type": "Expression"
+											}
+										}
 									}
 								]
 							}
@@ -203,6 +227,9 @@
 		},
 		"variables": {
 			"sourceSystem": {
+				"type": "String"
+			},
+			"updateBronzeLocation": {
 				"type": "String"
 			}
 		},
