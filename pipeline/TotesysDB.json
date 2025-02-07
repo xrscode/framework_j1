@@ -177,7 +177,7 @@
 											"source": {
 												"type": "AzureSqlSource",
 												"sqlReaderQuery": {
-													"value": "UPDATE sourceEntity\nSET bronzeLocation = @{activity('BRONZE').output}\nWHERE entityName = @{item().entityName};\n\nSELECT * FROM sourceEntity\nWHERE bronzeLocation = @{activity('BRONZE').output} AND\nWHERE entityName = @{item().entityName};\n",
+													"value": "UPDATE sourceEntity\nSET bronzeLocation = '@{activity('BRONZE').output}'\nWHERE entityName = '@{item().entityName}';\n\nSELECT * FROM sourceEntity\nWHERE bronzeLocation = '@{activity('BRONZE').output}' AND\nWHERE entityName = '@{item().entityName}';\n",
 													"type": "Expression"
 												},
 												"queryTimeout": "02:00:00",
