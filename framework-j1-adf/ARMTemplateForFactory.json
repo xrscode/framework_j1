@@ -362,12 +362,13 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Lookup Entities').output",
+								"value": "@activity('Lookup Entities').output.value",
 								"type": "Expression"
 							},
 							"activities": [
 								{
-									"name": "Notebook1",
+									"name": "BRONZE",
+									"description": "Activate bronze ingestion layer.",
 									"type": "DatabricksNotebook",
 									"dependsOn": [],
 									"policy": {
@@ -379,7 +380,25 @@
 									},
 									"userProperties": [],
 									"typeProperties": {
-										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE"
+										"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE",
+										"baseParameters": {
+											"entityName": {
+												"value": "@string(item()['entityName'])",
+												"type": "Expression"
+											},
+											"sourceSystem": {
+												"value": "@string(pipeline().parameters.sourceSystem)",
+												"type": "Expression"
+											},
+											"entityColumns": {
+												"value": "@item()['entityColumns']",
+												"type": "Expression"
+											},
+											"entitySourceQuery": {
+												"value": "@item()['entitySourceQuery']",
+												"type": "Expression"
+											}
+										}
 									},
 									"linkedServiceName": {
 										"referenceName": "Framework Databricks",
