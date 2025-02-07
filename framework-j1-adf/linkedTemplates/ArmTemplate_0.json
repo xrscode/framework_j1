@@ -578,7 +578,7 @@
 										],
 										"ifTrueActivities": [
 											{
-												"name": "Lookup1",
+												"name": "Update Bronze Location",
 												"type": "Lookup",
 												"dependsOn": [],
 												"policy": {
@@ -593,7 +593,7 @@
 													"source": {
 														"type": "AzureSqlSource",
 														"sqlReaderQuery": {
-															"value": "UPDATE sourceEntity\nSET bronzeLocation = '@{activity('BRONZE').output}'\nWHERE entityName = '@{item().entityName}';\n\nSELECT * FROM sourceEntity\nWHERE bronzeLocation = '@{activity('BRONZE').output}';\n\n\n--UPDATE sourceEntity\n--SET bronzeLocation = '@{activity('BRONZE').output}'\n--WHERE entityName = @{item().entityName};\n",
+															"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   activity('BRONZE').output.runOutput,\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   activity('BRONZE').output.runOutput,\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
 															"type": "Expression"
 														},
 														"queryTimeout": "02:00:00",
@@ -623,6 +623,9 @@
 				},
 				"variables": {
 					"sourceSystem": {
+						"type": "String"
+					},
+					"updateBronzeLocation": {
 						"type": "String"
 					}
 				},
