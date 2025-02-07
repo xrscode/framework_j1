@@ -472,7 +472,7 @@
 						}
 					},
 					{
-						"name": "Ingestion",
+						"name": "Bronze Layer",
 						"type": "ForEach",
 						"dependsOn": [
 							{
@@ -552,6 +552,105 @@
 											"type": "AzureSqlSource",
 											"sqlReaderQuery": {
 												"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "MetaData_Dataset",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Silver Layer",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Bronze Layer",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup Entities').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "SILVER",
+									"description": "Activate bronze ingestion layer.",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": {
+											"value": "@if(equals(variables('sourceSystem'), 'TotesysDB'), '/Users/sjp@data-ai.uk/framework_j1/src/notebooks/SILVER_TotesysDB', '/Users/sjp@data-ai.uk/framework_j1/src/notebooks/SILVER')\n",
+											"type": "Expression"
+										},
+										"baseParameters": {
+											"entityName": {
+												"value": "@string(item()['entityName'])",
+												"type": "Expression"
+											},
+											"sourceSystem": {
+												"value": "@string(pipeline().parameters.sourceSystem)",
+												"type": "Expression"
+											},
+											"entityColumns": {
+												"value": "@item()['entityColumns']",
+												"type": "Expression"
+											},
+											"entitySourceQuery": {
+												"value": "@item()['entitySourceQuery']",
+												"type": "Expression"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Framework Databricks",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Update Silver",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "SILVER",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "@concat(\n   'UPDATE sourceEntity SET silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00",
