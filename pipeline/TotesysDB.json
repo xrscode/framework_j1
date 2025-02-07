@@ -114,48 +114,6 @@
 							}
 						},
 						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@not(equals(activity('BRONZE').output.runOutput, 'None'))",
-									"type": "Expression"
-								},
-								"ifFalseActivities": [
-									{
-										"name": "Update NULL",
-										"type": "Lookup",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"source": {
-												"type": "AzureSqlSource",
-												"sqlReaderQuery": {
-													"value": "UPDATE sourceEntity\nSET bronzeLocation = 'None'\nWHERE entityName = '@{item().entityName}';\n\nSELECT * FROM sourceEntity\nWHERE bronzeLocation = '@{activity('BRONZE').output}';",
-													"type": "Expression"
-												},
-												"queryTimeout": "02:00:00",
-												"partitionOption": "None"
-											},
-											"dataset": {
-												"referenceName": "MetaData_Dataset",
-												"type": "DatasetReference"
-											}
-										}
-									}
-								]
-							}
-						},
-						{
 							"name": "Update Bronze Location",
 							"type": "Lookup",
 							"dependsOn": [
