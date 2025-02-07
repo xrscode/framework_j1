@@ -11,5 +11,8 @@ CREATE TABLE sourceEntity (
     entityDescription VARCHAR(255), -- Description of the entity
     entitySourceQuery VARCHAR(255), -- Data to retrieve information from source
     entityColumns NVARCHAR(MAX), --Columns in the entity
-    curationStages NVARCHAR(255)
+    curationStages NVARCHAR(255),
+    bronzeLocation VARCHAR(255),
+    silverLocation VARCHAR(255),
+    goldLocation VARCHAR(255)
 );

@@ -1,9 +1,9 @@
 {
-    "name": "design",
-    "description": "Description of the dim_design entity",
+    "name": "department",
+    "description": "Description of the department entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
-      "sourceQuery": "SELECT * FROM design"
+      "sourceQuery": "SELECT * FROM department"
     },
     "curationStages": [
       {
@@ -15,22 +15,32 @@
     "columns": [
       {
         "sortOrder": 1,
-        "columnName": "design_id",
+        "columnName": "department_id",
         "dataType": "int"
       },
       {
         "sortOrder": 2,
-        "columnName": "design_name",
+        "columnName": "department_name",
         "dataType": "string"
       },
       {
         "sortOrder": 3,
-        "columnName": "file_location",
+        "columnName": "department_location",
         "dataType": "string"
       },
       {
         "sortOrder": 4,
-        "columnName": "file_name",
+        "columnName": "department_manager",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "created_at",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "last_updated_at",
         "dataType": "string"
       }
     ]

@@ -3,7 +3,7 @@
     "description": "Description of the fact_sales_order entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
-      "sourceQuery": "SELECT * FROM fact_sales_order"
+      "sourceQuery": "SELECT * FROM sales_order"
     },
     "curationStages": [
       {

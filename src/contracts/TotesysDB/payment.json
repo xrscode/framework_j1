@@ -3,7 +3,7 @@
     "description": "Description of the fact_payment entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
-      "sourceQuery": "SELECT * FROM fact_payment"
+      "sourceQuery": "SELECT * FROM payment"
     },
     "curationStages": [
       {

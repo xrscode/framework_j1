@@ -3,7 +3,7 @@
     "description": "Description of the dim_staff entity",
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
-      "sourceQuery": "SELECT * FROM dim_staff"
+      "sourceQuery": "SELECT * FROM staff"
     },
     "curationStages": [
       {
