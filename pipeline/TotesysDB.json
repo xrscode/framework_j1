@@ -57,7 +57,7 @@
 				}
 			},
 			{
-				"name": "Bronze Layer",
+				"name": "Ingestion",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -152,11 +152,11 @@
 				}
 			},
 			{
-				"name": "Silver Layer",
+				"name": "Transformation",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Bronze Layer",
+						"activity": "Ingestion",
 						"dependencyConditions": [
 							"Succeeded"
 						]
