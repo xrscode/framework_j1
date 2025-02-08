@@ -20,13 +20,14 @@ with open(sourceSystemPath, 'r') as file:
 sourceEntityName = sourceSystemContract['name']
 sourceEntityDescription = sourceSystemContract['description']
 keyVaultQuery = sourceSystemContract['keyVaultQuery']
+entityNames = str(sourceSystemContract['entityNames']).replace("'", '"')
 
 # Define the query:
 query = f"""
 DELETE FROM sourceSystem
 WHERE sourceEntityName = '{sourceEntityName}';
-INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, keyVaultQuery)
-VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{keyVaultQuery}');
+INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, keyVaultQuery, entityNames)
+VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{keyVaultQuery}', '{entityNames}');
 """
 
 # Execute the query:

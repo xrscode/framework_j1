@@ -61,7 +61,7 @@
       {
         "sortOrder": 10,
         "columnName": "unit_price",
-        "dataType": "numeric"
+        "dataType": "decimal(10,2)"
       },
       {
         "sortOrder": 11,

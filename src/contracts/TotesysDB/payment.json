@@ -56,7 +56,7 @@
       {
         "sortOrder": 9,
         "columnName": "payment_amount",
-        "dataType": "numeric"
+        "dataType": "decimal(10,2)"
       },
       {
         "sortOrder": 10,

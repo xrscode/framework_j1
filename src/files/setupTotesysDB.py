@@ -1,6 +1,15 @@
 import json
 from utility_functions import ddl_totesys
 
+# Setup the toteSys tables:
+with open('./src/sql/create_totesys.sql', 'r') as file:
+    query = file.read()
+    try:
+        ddl_totesys(query)
+        print('ToteSys tables successfully created.')
+    except Exception as e:
+        print(f'Error: {e}')
+
 # Load DB JSON
 with open('./src/files/totesysDB.json') as file:
     data = json.loads(file.read())

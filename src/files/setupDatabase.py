@@ -17,12 +17,3 @@ with open('./src/sql/setupSourceEntity.sql', 'r') as file:
         print('sourceEntity table successfully created.')
     except Exception as e:
         print(f'Error: {e}')
-
-# # Setup the toteSys tables:
-# with open('./src/sql/create_totesys.sql', 'r') as file:
-#     query = file.read()
-#     try:
-#         ddl_totesys(query)
-#         print('ToteSys tables successfully created.')
-#     except Exception as e:
-#         print(f'Error: {e}')
