@@ -505,7 +505,7 @@
 									}
 								},
 								{
-									"name": "Update Silver",
+									"name": "Update SILVER",
 									"type": "Lookup",
 									"dependsOn": [
 										{
