@@ -73,7 +73,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MetaData_Dataset')]",
+			"name": "[concat(parameters('factoryName'), '/sourceEntity_table')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -256,7 +256,7 @@
 								"partitionOption": "None"
 							},
 							"dataset": {
-								"referenceName": "MetaData_Dataset",
+								"referenceName": "sourceEntity_table",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
@@ -353,7 +353,7 @@
 											"partitionOption": "None"
 										},
 										"dataset": {
-											"referenceName": "MetaData_Dataset",
+											"referenceName": "sourceEntity_table",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -423,7 +423,7 @@
 									}
 								},
 								{
-									"name": "Update SILVER",
+									"name": "Update Silver",
 									"type": "Lookup",
 									"dependsOn": [
 										{
@@ -452,7 +452,7 @@
 											"partitionOption": "None"
 										},
 										"dataset": {
-											"referenceName": "MetaData_Dataset",
+											"referenceName": "sourceEntity_table",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -546,7 +546,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/MetaData_Dataset')]",
+				"[concat(variables('factoryId'), '/datasets/sourceEntity_table')]",
 				"[concat(variables('factoryId'), '/linkedServices/Framework Databricks')]",
 				"[concat(variables('factoryId'), '/datasets/sourceSystem_table')]"
 			]
