@@ -203,10 +203,6 @@
 									"entitySourceQuery": {
 										"value": "@item()['entitySourceQuery']",
 										"type": "Expression"
-									},
-									"entityPath": {
-										"value": "@activity('BRONZE').output",
-										"type": "Expression"
 									}
 								}
 							},
