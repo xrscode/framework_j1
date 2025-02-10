@@ -21,13 +21,14 @@ sourceEntityName = sourceSystemContract['name']
 sourceEntityDescription = sourceSystemContract['description']
 keyVaultQuery = sourceSystemContract['keyVaultQuery']
 entityNames = str(sourceSystemContract['entityNames']).replace("'", '"')
+notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
 
 # Define the query:
 query = f"""
 DELETE FROM sourceSystem
 WHERE sourceEntityName = '{sourceEntityName}';
-INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, keyVaultQuery, entityNames)
-VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{keyVaultQuery}', '{entityNames}');
+INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, entityNames, keyVaultQuery, notebooks)
+VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
 """
 
 # Execute the query:

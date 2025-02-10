@@ -8,6 +8,7 @@ CREATE TABLE sourceSystem (
     sourceEntityID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
     sourceEntityName VARCHAR(255) NOT NULL UNIQUE, -- Unique entity name
     sourceEntityDescription VARCHAR(255), -- Description of the entity
+    entityNames VARCHAR(255),
     keyVaultQuery VARCHAR(255), -- Keyvault secret Name
-    entityNames VARCHAR(255)
+    notebooks VARCHAR(255)
 );

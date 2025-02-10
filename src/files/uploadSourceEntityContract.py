@@ -26,9 +26,7 @@ for contract in json_files:
     entityDescription = d['description']
     entitySourceQuery = str(d['connectionDetails']).replace("'", '"')
     entityColumns = str(d['columns']).replace("'", '"')
-    curationStages = str(d['curationStages']).replace("'", '"')
-    
-
+   
     # Build up query
     query = f"""
     --First create varaiable to store sourceEntityID:
@@ -44,11 +42,9 @@ for contract in json_files:
     WHERE entityName = '{sourceSystemName}';
 
     --Insert data into sourceEntity table:
-    INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns, curationStages)
-    VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}', '{curationStages}');"""
+    INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns)
+    VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
     
-
-   
     # Execute the query:
     try:
         print(f'Uploading entity: {entityName}')

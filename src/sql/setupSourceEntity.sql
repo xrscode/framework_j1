@@ -10,8 +10,7 @@ CREATE TABLE sourceEntity (
     entityName VARCHAR(255) NOT NULL UNIQUE, -- Unique entity name
     entityDescription VARCHAR(255), -- Description of the entity
     entitySourceQuery VARCHAR(255), -- Data to retrieve information from source
-    entityColumns NVARCHAR(MAX), --Columns in the entity
-    curationStages NVARCHAR(255),
+    entityColumns NVARCHAR(MAX),
     bronzeLocation VARCHAR(255),
     silverLocation VARCHAR(255)
 );

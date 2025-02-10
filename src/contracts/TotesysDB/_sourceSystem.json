@@ -4,5 +4,12 @@
     "keyVaultQuery": "connectionStringTotesys",
     "entityNames": ["counterparty", "currency", "department",
 "design", "location", "payment", "payment_type", "purchase_order",
-"sales_order", "staff", "transaction"]
+"sales_order", "staff", "transaction"],
+"notebooks": 
+      {
+        "bronze": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE",
+        "silver": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/SILVER_TotesysDB",
+        "gold": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/GOLD_TotesysDB"
+      }
+    
 }

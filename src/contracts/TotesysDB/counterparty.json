@@ -4,13 +4,6 @@
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM counterparty"},
-    "curationStages": [
-      {
-          "bronze": "src/notebooks/BRONZE", 
-          "silver": "src/notebooks/SILVER",
-          "gold":   "src/notebooks/GOLD"
-        }
-    ],
     "columns": [
       {
         "sortOrder": 1,
