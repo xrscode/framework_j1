@@ -204,7 +204,7 @@
 										"value": "@item()['entitySourceQuery']",
 										"type": "Expression"
 									},
-									"bronzeOutput": {
+									"entityPath": {
 										"value": "@activity('BRONZE').output",
 										"type": "Expression"
 									}
