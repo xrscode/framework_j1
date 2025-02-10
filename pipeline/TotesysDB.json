@@ -61,7 +61,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Entities",
+						"activity": "Lookup Notebooks",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -78,14 +78,7 @@
 							"name": "BRONZE",
 							"description": "Activate bronze ingestion layer.",
 							"type": "DatabricksNotebook",
-							"dependsOn": [
-								{
-									"activity": "Lookup Notebook",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -96,7 +89,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebook').output.firstRow.notebooks).bronze",
+									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).bronze",
 									"type": "Expression"
 								},
 								"baseParameters": {
@@ -157,35 +150,6 @@
 									"type": "DatasetReference"
 								}
 							}
-						},
-						{
-							"name": "Lookup Notebook",
-							"description": "This activity will query the metadata database 'framework-j1-db'.  It will query the sourceEntity table, to determine the correct notebook to use.",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderQuery": {
-										"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}'",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "sourceSystem_table",
-									"type": "DatasetReference"
-								}
-							}
 						}
 					]
 				}
@@ -204,7 +168,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup Entities').output.value",
+						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
 						"type": "Expression"
 					},
 					"activities": [
@@ -309,11 +273,47 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/GOLD_TotesysDB"
+					"notebookPath": {
+						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
+						"type": "Expression"
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "Framework Databricks",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Lookup Notebooks",
+				"description": "This activity will query the metadata database, to determine which notebooks to run.",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup Entities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "sourceSystem_table",
+						"type": "DatasetReference"
+					}
 				}
 			}
 		],
