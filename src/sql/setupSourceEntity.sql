@@ -13,6 +13,5 @@ CREATE TABLE sourceEntity (
     entityColumns NVARCHAR(MAX), --Columns in the entity
     curationStages NVARCHAR(255),
     bronzeLocation VARCHAR(255),
-    silverLocation VARCHAR(255),
-    goldLocation VARCHAR(255)
+    silverLocation VARCHAR(255)
 );
