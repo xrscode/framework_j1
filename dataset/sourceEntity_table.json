@@ -1,5 +1,5 @@
 {
-	"name": "MetaData_Dataset",
+	"name": "sourceEntity_table",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Metadata Database",

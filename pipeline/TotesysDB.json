@@ -50,7 +50,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "MetaData_Dataset",
+						"referenceName": "sourceEntity_table",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
@@ -146,7 +146,7 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "MetaData_Dataset",
+									"referenceName": "sourceEntity_table",
 									"type": "DatasetReference"
 								}
 							}
@@ -215,7 +215,7 @@
 							}
 						},
 						{
-							"name": "Update SILVER",
+							"name": "Update Silver",
 							"type": "Lookup",
 							"dependsOn": [
 								{
@@ -244,7 +244,7 @@
 									"partitionOption": "None"
 								},
 								"dataset": {
-									"referenceName": "MetaData_Dataset",
+									"referenceName": "sourceEntity_table",
 									"type": "DatasetReference"
 								}
 							}
