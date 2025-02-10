@@ -96,7 +96,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebook').output.firstRow.notebook).bronze",
+									"value": "@json(activity('Lookup Notebook').output.firstRow.notebooks).bronze",
 									"type": "Expression"
 								},
 								"baseParameters": {
