@@ -376,7 +376,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
+								"value": "@activity('Lookup Entities').output.value",
 								"type": "Expression"
 							},
 							"activities": [
@@ -395,7 +395,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"notebookPath": {
-											"value": "@if(equals(variables('sourceSystem'), 'TotesysDB'), '/Users/sjp@data-ai.uk/framework_j1/src/notebooks/SILVER_TotesysDB', '/Users/sjp@data-ai.uk/framework_j1/src/notebooks/SILVER')\n",
+											"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
 											"type": "Expression"
 										},
 										"baseParameters": {
