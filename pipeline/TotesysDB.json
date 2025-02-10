@@ -203,6 +203,10 @@
 									"entitySourceQuery": {
 										"value": "@item()['entitySourceQuery']",
 										"type": "Expression"
+									},
+									"bronzeOutput": {
+										"value": "@activity('BRONZE').output.value",
+										"type": "Expression"
 									}
 								}
 							},
@@ -251,6 +255,7 @@
 			},
 			{
 				"name": "GOLD",
+				"description": "Perform analytics on ingested data.",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
