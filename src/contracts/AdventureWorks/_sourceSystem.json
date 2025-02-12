@@ -1,8 +1,15 @@
 {
-    "$schema": "../../../../framework/contracts/schemas/sourceSystem.json",
+    
     "name": "AdventureWorks",
     "description": "AdventureWorks is a practice data source.",
-    "sourceQueryTemplate": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs"
+    "keyVaultQuery": "None",
+    "entityNames": ["customers", "products"],
+    "notebooks": 
+      {
+        "bronze": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/BRONZE",
+        "silver": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/SILVER_AdventureWorks",
+        "gold": "/Users/sjp@data-ai.uk/framework_j1/src/notebooks/GOLD_AdventureWorks"
+      }
   }
+    
 
-  

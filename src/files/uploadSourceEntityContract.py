@@ -44,7 +44,8 @@ for contract in json_files:
     --Insert data into sourceEntity table:
     INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns)
     VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
-    
+
+
     # Execute the query:
     try:
         print(f'Uploading entity: {entityName}')
@@ -53,4 +54,3 @@ for contract in json_files:
             print(f'Entity: {entityName} upload successful.')
     except Exception as e:
         print(f'Error message: {e}')
-    
