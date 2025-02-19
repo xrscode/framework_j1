@@ -116,8 +116,9 @@ resource "azurerm_key_vault_secret" "store_totesys_connection_string" {
 # Store server name in keyvault:
 resource "azurerm_key_vault_secret" "store_server_name" {
   name = "serverName"
-  value = azurerm_mssql_server.fj1sqlserver.name
+  value = "${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net"
   key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [azurerm_mssql_server.fj1sqlserver]
 }
 
 # Store metadata database name in keyvault:
@@ -125,6 +126,7 @@ resource "azurerm_key_vault_secret" "store_metadata_name" {
   name = "metadataDatabaseName"
   value = azurerm_mssql_database.fj1_database_metadata.name
   key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [azurerm_mssql_database.fj1_database_metadata]
 }
 
 # Store totesys database name in keyvault:
@@ -132,4 +134,5 @@ resource "azurerm_key_vault_secret" "store_totesys_name" {
   name = "totesysDatabaseName"
   value = azurerm_mssql_database.fj1_database_totesys.name
   key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [azurerm_mssql_database.fj1_database_totesys]
 }
