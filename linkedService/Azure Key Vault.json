@@ -1,12 +1,12 @@
 {
 	"name": "Azure Key Vault",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
+		"description": "Establish connection to key vault.  Key vault contains access token for databricks workspace. ",
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
-			"baseUrl": "https://sjp-carbon-vault.vault.azure.net/"
-		},
-		"description": "Establish connection to key vault.  Key vault contains access token for databricks workspace. "
-	}
+			"baseUrl": "https://fj1-kv-dev-uks.vault.azure.net/"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
