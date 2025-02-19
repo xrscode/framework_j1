@@ -66,6 +66,7 @@ data "azuread_service_principal" "databricks" {
   depends_on = [ azurerm_databricks_workspace.dbs_workspace ]
 }
 
+# Keyvault policy to allow Databricks access:
 resource "azurerm_key_vault_access_policy" "db_access_policy" {
   key_vault_id = azurerm_key_vault.fj1kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
@@ -74,6 +75,7 @@ resource "azurerm_key_vault_access_policy" "db_access_policy" {
   depends_on = [ data.azuread_service_principal.databricks ]
 }
 
+# Keyvault policy to allow ADF access:
 resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
   key_vault_id = azurerm_key_vault.fj1kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
@@ -84,9 +86,50 @@ resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
 }
 
 # Store sql server password in keyvault
-
 resource "azurerm_key_vault_secret" "store_sql_password" {
   name = "sqlPassword"
   value = var.sql_password
+  key_vault_id = azurerm_key_vault.fj1kv.id
+}
+
+# Store sql user in keyvault
+resource "azurerm_key_vault_secret" "store_sql_user" {
+  name = "sqlUser"
+  value = var.sql_user
+  key_vault_id = azurerm_key_vault.fj1kv.id
+}
+
+# Store connection metadata string in keyvault:
+resource "azurerm_key_vault_secret" "store_metadata_connection_string" {
+  name = "metadataConnectionString"
+  value = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_metadata.name};Uid=${var.sql_user};Pwd=${var.sql_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+  key_vault_id = azurerm_key_vault.fj1kv.id
+}
+
+# Store connection totesys string in keyvault:
+resource "azurerm_key_vault_secret" "store_totesys_connection_string" {
+  name = "totesysConnectionString"
+  value = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_totesys.name};Uid=${var.sql_user};Pwd=${var.sql_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+  key_vault_id = azurerm_key_vault.fj1kv.id
+}
+
+# Store server name in keyvault:
+resource "azurerm_key_vault_secret" "store_server_name" {
+  name = "serverName"
+  value = azurerm_mssql_server.fj1sqlserver.name
+  key_vault_id = azurerm_key_vault.fj1kv.id
+}
+
+# Store metadata database name in keyvault:
+resource "azurerm_key_vault_secret" "store_metadata_name" {
+  name = "metadataDatabaseName"
+  value = azurerm_mssql_database.fj1_database_metadata.name
+  key_vault_id = azurerm_key_vault.fj1kv.id
+}
+
+# Store totesys database name in keyvault:
+resource "azurerm_key_vault_secret" "store_totesys_name" {
+  name = "totesysDatabaseName"
+  value = azurerm_mssql_database.fj1_database_totesys.name
   key_vault_id = azurerm_key_vault.fj1kv.id
 }
