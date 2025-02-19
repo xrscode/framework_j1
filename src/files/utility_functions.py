@@ -1,9 +1,22 @@
-import json
 from dotenv import load_dotenv
 import os
 from azure.core.exceptions import ResourceNotFoundError
 import pyodbc
-import requests
+
+def connection_string_metaData():
+    # Load password:
+    password = os.getenv('serverPassword')
+    connectionString = os.getenv('connectionStringMetaData')
+    connectionString = connectionString.replace("{your_password_here}", password)
+    return connectionString
+
+def connection_string_totesys():
+    # Load password:
+    password = os.getenv('serverPassword')
+    connectionString = os.getenv('connectionStringTotesys')
+    connectionString = connectionString.replace("{your_password_here}", password)
+    return connectionString
+
 
 
 def ddl(query):
@@ -15,8 +28,9 @@ def ddl(query):
     # Load dotenv:
     load_dotenv()
 
+
     # Establish Connection Details:
-    connectionString = os.getenv('connectionString')
+    connectionString = connection_string_metaData()
 
     # Open the Connection:
     conn = pyodbc.connect(connectionString)
@@ -38,6 +52,7 @@ def ddl(query):
 
     return cursor.rowcount
 
+
 def ddl_totesys(query):
     """
     Arguments: query (str).
@@ -48,7 +63,7 @@ def ddl_totesys(query):
     load_dotenv()
 
     # Establish Connection Details:
-    connectionString = os.getenv('connectionStringTotesys')
+    connectionString = connection_string_totesys()
 
     # Open the Connection:
     conn = pyodbc.connect(connectionString)

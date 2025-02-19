@@ -4,8 +4,10 @@ resource "azurerm_mssql_server" "fj1sqlserver" {
   resource_group_name          = azurerm_resource_group.framework_rg.name
   location                     = azurerm_resource_group.framework_rg.location
   version                      = "12.0"
-  administrator_login          = var.sql_user
-  administrator_login_password = var.sql_password
+  # Hard code user
+  administrator_login          = "dylan"
+  # Hard code password
+  administrator_login_password = "fjadl15v3CVAWEXx45asdfg"
   minimum_tls_version          = "1.2"
   public_network_access_enabled = true
   outbound_network_restriction_enabled = false

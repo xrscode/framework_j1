@@ -17,14 +17,24 @@ resource "azurerm_storage_container" "fj1_container" {
 }
 
 # Create SaS token:
-data "azurerm_storage_account_blob_container_sas" "j1SaS" {
+data "azurerm_storage_account_sas" "j1SaS" {
   connection_string = azurerm_storage_account.fj1_storage.primary_connection_string
-  container_name    = azurerm_storage_container.fj1_container.name
   https_only        = true
+  start             = formatdate("YYYY-MM-DD", timestamp())
+  expiry            = formatdate("YYYY-MM-DD", timeadd(timestamp(), "35040h"))  # 4 years
+  signed_version = "2022-11-02"
 
-
-  start  = formatdate("YYYY-MM-DD", timestamp())
-  expiry = "2050-01-01"
+  services {
+    blob  = true
+    queue = true
+    table = true
+    file  = true
+  }   # Allow Blob storage
+  resource_types {
+    service   = true
+    container = true
+    object    = true
+  }  # Allow access to Service, Container, Object
 
   permissions {
     read   = true
@@ -33,11 +43,9 @@ data "azurerm_storage_account_blob_container_sas" "j1SaS" {
     write  = true
     delete = true
     list   = true
+    update = true  # Added
+    process = true # Added
+    filter = true
+    tag = true
   }
-
-  cache_control       = "max-age=5"
-  content_disposition = "inline"
-  content_encoding    = "deflate"
-  content_language    = "en-UK"
-  content_type        = "application/json"
 }
