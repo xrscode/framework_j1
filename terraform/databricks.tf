@@ -42,3 +42,10 @@ resource "databricks_cluster" "low_cost_cluster" {
     "Purpose" = "Cost-Optimized Databricks Cluster"
   }
 }
+
+# Create a PAT token
+resource "databricks_token" "db_pat" {
+  comment = "Terraform Provision"
+  lifetime_seconds = 8640000
+  depends_on = [ azurerm_data_factory.adf ]
+}

@@ -52,6 +52,14 @@ resource "azurerm_key_vault_secret" "storeContainerName" {
   depends_on = [azurerm_key_vault.fj1kv]
 }
 
+# Store Databricks PAT in KeyVault
+resource "azurerm_key_vault_secret" "storePAT" {
+  name = "databricks-junior-token"
+  value = databricks_token.db_pat.token_value
+  key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [ databricks_token.db_pat ]
+}
+
 # Perform a service principal lookup:
 data "azuread_service_principal" "databricks" {
   display_name = "AzureDatabricks"
@@ -64,4 +72,21 @@ resource "azurerm_key_vault_access_policy" "db_access_policy" {
   object_id    = data.azuread_service_principal.databricks.object_id
   secret_permissions = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"]
   depends_on = [ data.azuread_service_principal.databricks ]
+}
+
+resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
+  key_vault_id = azurerm_key_vault.fj1kv.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_data_factory.adf.identity.0.principal_id
+
+  secret_permissions = ["Get", "List"]
+  depends_on = [ azurerm_data_factory.adf ]
+}
+
+# Store sql server password in keyvault
+
+resource "azurerm_key_vault_secret" "store_sql_password" {
+  name = "sqlPassword"
+  value = var.sql_password
+  key_vault_id = azurerm_key_vault.fj1kv.id
 }

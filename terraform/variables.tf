@@ -12,3 +12,18 @@ variable "object_id" {
     description = "The object_id"
     type = string
 }
+
+
+variable "sql_user" {
+    description = "The username for the SQL server"
+    type = string
+}
+
+variable "sql_password" {
+    description = "The password for the SQL server"
+    type = string
+}
+
+variable "connection_string_metadata" {
+    description = "Connection string for connecting to metadata database."
+}
