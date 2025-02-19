@@ -4,17 +4,16 @@
 		"annotations": [],
 		"type": "AzureDatabricks",
 		"typeProperties": {
-			"domain": "https://adb-1236410800826875.15.azuredatabricks.net",
+			"domain": "https://adb-2819111524249671.11.azuredatabricks.net",
 			"accessToken": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
 					"referenceName": "Azure Key Vault",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "databricks-junior-token",
-				"secretVersion": "1d82041db56d4cab840a396283681748"
+				"secretName": "databricks-junior-token"
 			},
-			"existingClusterId": "0219-084050-jl38cbji"
+			"existingClusterId": "0219-144527-ba4wl0l9"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"
