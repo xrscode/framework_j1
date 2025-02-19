@@ -20,9 +20,9 @@ resource "azurerm_storage_container" "fj1_container" {
 data "azurerm_storage_account_sas" "j1SaS" {
   connection_string = azurerm_storage_account.fj1_storage.primary_connection_string
   https_only        = true
-  start             = formatdate("YYYY-MM-DD", timestamp())
-  expiry            = formatdate("YYYY-MM-DD", timeadd(timestamp(), "35040h"))  # 4 years
-  signed_version = "2022-11-02"
+  start             = "2025-02-20T01:15:36Z"
+  expiry            = "2030-02-20T01:15:36Z" 
+  signed_version    = "2022-11-02"
 
   services {
     blob  = true
