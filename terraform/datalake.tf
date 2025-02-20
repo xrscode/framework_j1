@@ -1,13 +1,16 @@
 # Create Data Lake with Hierarchical Namespace:
 resource "azurerm_storage_account" "fj1_storage" {
-  name                     = "fj1adlsdevuks"
+  # Storage account should be GLOBALLY unique:
+  name                     = "fj1adls${formatdate("YYYYMMDDHHmm", timestamp())}"
   resource_group_name      = azurerm_resource_group.framework_rg.name
   location                 = azurerm_resource_group.framework_rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
-  is_hns_enabled           = "true"
+  is_hns_enabled           = true
 }
+
+
 
 # Create storage container for project:
 resource "azurerm_storage_container" "fj1_container" {
@@ -21,8 +24,11 @@ resource "azurerm_storage_container" "fj1_container" {
 data "azurerm_storage_account_sas" "j1SaS" {
   connection_string = azurerm_storage_account.fj1_storage.primary_connection_string
   https_only        = true
-  start             = "2025-02-20T01:15:36Z"
-  expiry            = "2030-02-20T01:15:36Z" 
+  # Set for time now:
+  start             = timestamp()
+  # Set for one year in future:
+  expiry            = timeadd(timestamp(), "8760h")
+
   
   # Use this signed version!!!!
   signed_version    = "2019-10-10"

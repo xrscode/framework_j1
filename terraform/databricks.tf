@@ -5,7 +5,7 @@ resource "azurerm_databricks_workspace" "dbs_workspace" {
   location                    = azurerm_resource_group.framework_rg.location
   sku                         = "standard"
   
-#   Ensure that SaS token has been stored first:
+  # Ensure that SaS token has been stored first:
   depends_on = [ azurerm_key_vault_secret.storeSaS ]
 }
 
