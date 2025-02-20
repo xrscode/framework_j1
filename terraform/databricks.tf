@@ -43,7 +43,7 @@ resource "databricks_cluster" "low_cost_cluster" {
   }
 }
 
-# Create a PAT token
+# Create a PAT token - allows access to databricks:
 resource "databricks_token" "db_pat" {
   comment = "Terraform Provision"
   lifetime_seconds = 8640000

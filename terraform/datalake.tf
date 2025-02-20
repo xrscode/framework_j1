@@ -12,8 +12,9 @@ resource "azurerm_storage_account" "fj1_storage" {
 # Create storage container for project:
 resource "azurerm_storage_container" "fj1_container" {
   name                  = "vivaldi"
-  storage_account_name    = azurerm_storage_account.fj1_storage.name
+  storage_account_name   = azurerm_storage_account.fj1_storage.name
   container_access_type = "private"
+  depends_on = [ azurerm_storage_account.fj1_storage ]
 }
 
 # Create SaS token:
@@ -22,7 +23,10 @@ data "azurerm_storage_account_sas" "j1SaS" {
   https_only        = true
   start             = "2025-02-20T01:15:36Z"
   expiry            = "2030-02-20T01:15:36Z" 
-  signed_version    = "2022-11-02"
+  
+  # Use this signed version!!!!
+  signed_version    = "2019-10-10"
+  # Latest signed version not working.
 
   services {
     blob  = true
@@ -48,4 +52,5 @@ data "azurerm_storage_account_sas" "j1SaS" {
     filter = true
     tag = true
   }
+  depends_on = [azurerm_storage_container.fj1_container  ]
 }

@@ -33,6 +33,7 @@ resource "azurerm_key_vault_access_policy" "sas_token_policy" {
   object_id    = var.object_id  # Use dynamic object_id
 
   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+  depends_on = [ azurerm_key_vault.fj1kv ]
 }
 
 # Access Policy Databricks:
@@ -40,8 +41,8 @@ resource "azurerm_key_vault_access_policy" "db_access_policy" {
   key_vault_id = azurerm_key_vault.fj1kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = data.azuread_service_principal.databricks.object_id
-  secret_permissions = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"]
-  depends_on = [ data.azuread_service_principal.databricks ]
+  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+  depends_on = [ azurerm_key_vault.fj1kv, data.azuread_service_principal.databricks ]
 }
 
 # Access Policy ADF:
@@ -50,11 +51,9 @@ resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azurerm_data_factory.adf.identity.0.principal_id
 
-  secret_permissions = ["Get", "List"]
-  depends_on = [ azurerm_data_factory.adf ]
+  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_data_factory.adf ]
 }
-
-
 
 
 
@@ -70,6 +69,7 @@ resource "azurerm_key_vault_secret" "store_sql_password" {
   name = "sqlPassword"
   value = azurerm_mssql_server.fj1sqlserver.administrator_login_password
   key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
 }
 
 # Store sql user in keyvault
@@ -77,7 +77,7 @@ resource "azurerm_key_vault_secret" "store_sql_user" {
   name = "sqlUser"
   value = azurerm_mssql_server.fj1sqlserver.administrator_login
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
 }
 
 # Store connection metadata string in keyvault:
@@ -85,7 +85,7 @@ resource "azurerm_key_vault_secret" "store_metadata_connection_string" {
   name = "metadataConnectionString"
   value = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_metadata.name};Uid=${azurerm_mssql_server.fj1sqlserver.administrator_login};Pwd=${azurerm_mssql_server.fj1sqlserver.administrator_login_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
 }
 
 # Store connection totesys string in keyvault:
@@ -93,7 +93,7 @@ resource "azurerm_key_vault_secret" "store_totesys_connection_string" {
   name = "totesysConnectionString"
   value = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_totesys.name};Uid=${azurerm_mssql_server.fj1sqlserver.administrator_login};Pwd=${azurerm_mssql_server.fj1sqlserver.administrator_login_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
 }
 
 # Store server name in keyvault:
@@ -101,7 +101,7 @@ resource "azurerm_key_vault_secret" "store_server_name" {
   name = "serverName"
   value = "${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net"
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
 }
 
 # Store metadata database name in keyvault:
@@ -109,7 +109,7 @@ resource "azurerm_key_vault_secret" "store_metadata_name" {
   name = "metadataDatabaseName"
   value = azurerm_mssql_database.fj1_database_metadata.name
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_mssql_database.fj1_database_metadata]
+  depends_on = [azurerm_mssql_database.fj1_database_metadata, azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
 }
 
 
@@ -118,16 +118,16 @@ resource "azurerm_key_vault_secret" "store_totesys_name" {
   name = "totesysDatabaseName"
   value = azurerm_mssql_database.fj1_database_totesys.name
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_mssql_database.fj1_database_totesys]
+  depends_on = [azurerm_mssql_database.fj1_database_totesys, azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
 }
 
 # Store SaS token in KeyVault
 resource "azurerm_key_vault_secret" "storeSaS" {
-  name         = "fj1-kv-adls"
+  name         = "sastoken"
   value        = data.azurerm_storage_account_sas.j1SaS.sas
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
 }
 
 # Store storage account name in KeyVault:
@@ -136,7 +136,7 @@ resource "azurerm_key_vault_secret" "storeStorageName" {
   value        = azurerm_storage_account.fj1_storage.name
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
 }
 
 # Store container name in KeyVault:
@@ -145,7 +145,7 @@ resource "azurerm_key_vault_secret" "storeContainerName" {
   value        = azurerm_storage_container.fj1_container.name
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
-  depends_on = [azurerm_key_vault.fj1kv]
+  depends_on = [azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
 }
 
 # Store Databricks PAT in KeyVault

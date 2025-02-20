@@ -1,3 +1,5 @@
+# Github configuration for databricks:
+
 # Configure GitHub Git credentials
 resource "databricks_git_credential" "git_auth" {
     git_provider = "github"
