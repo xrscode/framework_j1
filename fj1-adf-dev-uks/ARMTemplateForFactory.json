@@ -13,7 +13,7 @@
 		},
 		"Framework Databricks_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "0219-084050-jl38cbji"
+			"defaultValue": "0219-164056-p9oq3ph4"
 		},
 		"Metadata Database_properties_typeProperties_server": {
 			"type": "string",
@@ -512,15 +512,14 @@
 				"annotations": [],
 				"type": "AzureDatabricks",
 				"typeProperties": {
-					"domain": "https://adb-1236410800826875.15.azuredatabricks.net",
+					"domain": "https://adb-558567231356476.16.azuredatabricks.net",
 					"accessToken": {
 						"type": "AzureKeyVaultSecret",
 						"store": {
 							"referenceName": "Azure Key Vault",
 							"type": "LinkedServiceReference"
 						},
-						"secretName": "databricks-junior-token",
-						"secretVersion": "1d82041db56d4cab840a396283681748"
+						"secretName": "databricks-junior-token"
 					},
 					"existingClusterId": "[parameters('Framework Databricks_properties_typeProperties_existingClusterId')]"
 				}

@@ -13,7 +13,7 @@
 		},
 		"Framework Databricks_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "0219-084050-jl38cbji"
+			"defaultValue": "0219-164056-p9oq3ph4"
 		},
 		"Metadata Database_properties_typeProperties_server": {
 			"type": "string",
