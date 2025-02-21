@@ -15,46 +15,67 @@ resource "azurerm_key_vault" "fj1kv" {
     create = "30m"
   }
   depends_on = [ data.azurerm_storage_account_sas.j1SaS ]
+
+  # Enable RBAC:
+  enable_rbac_authorization  = true
 }
 
 
-# Perform a service principal lookup:
+
+# RBAC:
+
+# RBAC Databricks:
 data "azuread_service_principal" "databricks" {
   display_name = "AzureDatabricks"
   depends_on = [ azurerm_databricks_workspace.dbs_workspace ]
 }
-
-# ACCESS POLICIES:
-
-# # Access policy to store SaS token:
-resource "azurerm_key_vault_access_policy" "sas_token_policy" {
-  key_vault_id = azurerm_key_vault.fj1kv.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.external.account_info.result.object_id 
-
-  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-  depends_on = [ azurerm_key_vault.fj1kv ]
+resource "azurerm_role_assignment" "databricks_kv_admin" {
+  scope                = azurerm_key_vault.fj1kv.id
+  role_definition_name = "Key Vault Administrator"  # Grants full control
+  principal_id         = data.azuread_service_principal.databricks.object_id
 }
 
-# Access Policy Databricks:
-resource "azurerm_key_vault_access_policy" "db_access_policy" {
-  key_vault_id = azurerm_key_vault.fj1kv.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azuread_service_principal.databricks.object_id
-  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-  depends_on = [ azurerm_key_vault.fj1kv, data.azuread_service_principal.databricks ]
+# RBAC ADF:
+resource "azurerm_role_assignment" "adf_kv_admin" {
+  scope                = azurerm_key_vault.fj1kv.id
+  role_definition_name = "Key Vault Administrator"  # Grants full access to secrets, keys, and certificates
+  principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }
 
-# Access Policy ADF:
-resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
-  key_vault_id = azurerm_key_vault.fj1kv.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_data_factory.adf.identity.0.principal_id
-
-  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-  depends_on = [ azurerm_key_vault.fj1kv, azurerm_data_factory.adf ]
+# RBAC User:
+resource "azurerm_role_assignment" "user_kv_admin" {
+  scope                = azurerm_key_vault.fj1kv.id
+  role_definition_name = "Key Vault Administrator"  # Full access to secrets, keys, and certificates
+  principal_id         = data.external.account_info.result.object_id
 }
 
+# # Access Policy ADF:
+# resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
+#   key_vault_id = azurerm_key_vault.fj1kv.id
+#   tenant_id    = data.azurerm_client_config.current.tenant_id
+#   object_id    = azurerm_data_factory.adf.identity.0.principal_id
+
+#   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+#   depends_on = [ azurerm_key_vault.fj1kv, azurerm_data_factory.adf ]
+# }
+
+# # # Access policy for user::
+# resource "azurerm_key_vault_access_policy" "user_access_policy" {
+#   key_vault_id = azurerm_key_vault.fj1kv.id
+#   tenant_id    = data.azurerm_client_config.current.tenant_id
+#   object_id    = data.external.account_info.result.object_id 
+
+#   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+#   depends_on = [ azurerm_key_vault.fj1kv ]
+# }
+
+# resource "azurerm_key_vault_access_policy" "db_access_policy" {
+#   key_vault_id = azurerm_key_vault.fj1kv.id
+#   tenant_id    = data.azurerm_client_config.current.tenant_id
+#   object_id    = data.azuread_service_principal.databricks.object_id
+#   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
+#   depends_on = [ azurerm_key_vault.fj1kv, data.azuread_service_principal.databricks ]
+# }
 
 
 
@@ -69,7 +90,7 @@ resource "azurerm_key_vault_secret" "store_sql_password" {
   name = "sqlPassword"
   value = azurerm_mssql_server.fj1sqlserver.administrator_login_password
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
 }
 
 # Store sql user in keyvault
@@ -77,7 +98,7 @@ resource "azurerm_key_vault_secret" "store_sql_user" {
   name = "sqlUser"
   value = azurerm_mssql_server.fj1sqlserver.administrator_login
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
 }
 
 # Store connection metadata string in keyvault:
@@ -85,7 +106,7 @@ resource "azurerm_key_vault_secret" "store_metadata_connection_string" {
   name = "metadataConnectionString"
   value = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_metadata.name};Uid=${azurerm_mssql_server.fj1sqlserver.administrator_login};Pwd=${azurerm_mssql_server.fj1sqlserver.administrator_login_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
 }
 
 # Store connection totesys string in keyvault:
@@ -93,7 +114,7 @@ resource "azurerm_key_vault_secret" "store_totesys_connection_string" {
   name = "totesysConnectionString"
   value = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_totesys.name};Uid=${azurerm_mssql_server.fj1sqlserver.administrator_login};Pwd=${azurerm_mssql_server.fj1sqlserver.administrator_login_password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
 }
 
 # Store server name in keyvault:
@@ -101,7 +122,7 @@ resource "azurerm_key_vault_secret" "store_server_name" {
   name = "serverName"
   value = "${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net"
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [ azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy ]
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
 }
 
 # Store metadata database name in keyvault:
@@ -109,7 +130,7 @@ resource "azurerm_key_vault_secret" "store_metadata_name" {
   name = "metadataDatabaseName"
   value = azurerm_mssql_database.fj1_database_metadata.name
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_mssql_database.fj1_database_metadata, azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
+  depends_on = [azurerm_mssql_database.fj1_database_metadata, azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin]
 }
 
 
@@ -118,7 +139,7 @@ resource "azurerm_key_vault_secret" "store_totesys_name" {
   name = "totesysDatabaseName"
   value = azurerm_mssql_database.fj1_database_totesys.name
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [azurerm_mssql_database.fj1_database_totesys, azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
+  depends_on = [azurerm_mssql_database.fj1_database_totesys, azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin]
 }
 
 # Store SaS token in KeyVault
@@ -127,7 +148,7 @@ resource "azurerm_key_vault_secret" "storeSaS" {
   value        = data.azurerm_storage_account_sas.j1SaS.sas
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
-  depends_on = [azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
+  depends_on = [azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin]
 }
 
 # Store storage account name in KeyVault:
@@ -136,7 +157,7 @@ resource "azurerm_key_vault_secret" "storeStorageName" {
   value        = azurerm_storage_account.fj1_storage.name
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
-  depends_on = [azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
+  depends_on = [azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin]
 }
 
 # Store container name in KeyVault:
@@ -145,7 +166,7 @@ resource "azurerm_key_vault_secret" "storeContainerName" {
   value        = azurerm_storage_container.fj1_container.name
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
-  depends_on = [azurerm_key_vault.fj1kv, azurerm_key_vault_access_policy.sas_token_policy]
+  depends_on = [azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin]
 }
 
 # Store Databricks PAT in KeyVault
@@ -153,5 +174,5 @@ resource "azurerm_key_vault_secret" "storePAT" {
   name = "databricks-junior-token"
   value = databricks_token.db_pat.token_value
   key_vault_id = azurerm_key_vault.fj1kv.id
-  depends_on = [ databricks_token.db_pat, azurerm_key_vault_access_policy.db_access_policy ]
+  depends_on = [ databricks_token.db_pat, azurerm_role_assignment.databricks_kv_admin ]
 }

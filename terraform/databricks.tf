@@ -10,17 +10,20 @@ resource "azurerm_databricks_workspace" "dbs_workspace" {
 }
 
 # Create secret scope to allow access to keyvault:
-resource "databricks_secret_scope" "sas_scope" {
-  name = "sasscope"
+resource "databricks_secret_scope" "dbs_secret_scope" {
+  name = "dbscope"
   initial_manage_principal = "users"
 
   keyvault_metadata {
     resource_id = azurerm_key_vault.fj1kv.id
     dns_name    = azurerm_key_vault.fj1kv.vault_uri
   }
-# Ensure that the keyvault has been setup first:
-  depends_on = [ azurerm_key_vault.fj1kv ]
+# Ensure that the keyvault has been setup and access policy in place:
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.databricks_kv_admin ]
+
 }
+
+
 
 # Create a cluster:
 resource "databricks_cluster" "low_cost_cluster" {
