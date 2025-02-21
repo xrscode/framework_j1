@@ -30,7 +30,7 @@ data "azuread_service_principal" "databricks" {
 resource "azurerm_key_vault_access_policy" "sas_token_policy" {
   key_vault_id = azurerm_key_vault.fj1kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = var.object_id  # Use dynamic object_id
+  object_id    = data.external.account_info.result.object_id 
 
   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
   depends_on = [ azurerm_key_vault.fj1kv ]

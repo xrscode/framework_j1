@@ -29,16 +29,14 @@ provider "databricks" {
 # Retrieve information about the currently authenticated Azure client:
 data "azurerm_client_config" "current" {}
 
-output "tenant_id" {
-  value = data.azurerm_client_config.current.tenant_id
-}
-
-output "object_id" {
-  value = data.azurerm_client_config.current.object_id
-}
-
 # Create a resource group:
 resource "azurerm_resource_group" "framework_rg" {
   name     = "framework-j1"
   location = "uksouth"
 }
+
+# Work around to get object_id:
+data external account_info {
+  program  = ["az", "ad", "signed-in-user", "show", "--query", "{object_id:id}", "-o", "json"]
+}
+

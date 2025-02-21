@@ -8,7 +8,7 @@ variable "git_pat" {
     type = string
 }
 
-variable "object_id" {
-    description = "The object_id"
+variable "git_url" {
+    description = "The url to the git repository"
     type = string
 }

@@ -9,7 +9,7 @@ resource "databricks_git_credential" "git_auth" {
 
 # Link Git Repository to Databricks Workspace
 resource "databricks_repo" "j1_repo" {
-    url = "https://github.com/xrscode/framework_j1.git"
+    url = var.git_url
     provider = databricks
     path = "/Repos/Git/jf1"
     git_provider = "github"
