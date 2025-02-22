@@ -40,3 +40,10 @@ data external account_info {
   program  = ["az", "ad", "signed-in-user", "show", "--query", "{object_id:id}", "-o", "json"]
 }
 
+# Random String:
+resource "random_string" "random_storage_account" {
+  length = 7
+  special = false
+  lower = true
+  upper = false
+}

@@ -1,7 +1,7 @@
 # Create Data Lake with Hierarchical Namespace:
 resource "azurerm_storage_account" "fj1_storage" {
   # Storage account should be GLOBALLY unique:
-  name                     = "fj1adls${formatdate("YYYYMMDDHHmm", timestamp())}"
+  name                     = "fj1adls${random_string.random_storage_account.result}"
   resource_group_name      = azurerm_resource_group.framework_rg.name
   location                 = azurerm_resource_group.framework_rg.location
   account_tier             = "Standard"
