@@ -5,7 +5,7 @@
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
-			"baseUrl": "https://fj1-kv-dev-uks.vault.azure.net/"
+			"baseUrl": "https://fj1-kv-dev-uks-spqdymn.vault.azure.net/"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"
