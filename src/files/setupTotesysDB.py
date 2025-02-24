@@ -4,12 +4,11 @@ from pprint import pprint
 
 # Setup the toteSys tables:
 with open('./src/sql/create_totesys.sql', 'r') as file:
-    query = file.read()
-    try:
-        ddl_totesys(query)
-        print('ToteSys tables successfully created.')
-    except Exception as e:
-        print(f'Error: {e}')
+    q = file.read()
+    
+    # Execute query:
+    ddl_totesys(q)
+        
 
 # Load data in json:
 with open('./src/files/totesysDB.json') as file:
