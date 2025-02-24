@@ -1,9 +1,9 @@
 {
 	"name": "fj1-adf-dev-uks",
-	"location": "uksouth",
+	"location": "northeurope",
 	"identity": {
 		"type": "SystemAssigned",
-		"principalId": "561f8204-5026-4a61-b253-c04a042277cb",
+		"principalId": "236f0c09-7d30-43be-9455-bd7e97f5df3a",
 		"tenantId": "6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46"
 	}
 }
