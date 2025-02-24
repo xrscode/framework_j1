@@ -33,16 +33,15 @@ def ddl(query):
     connectionString = connection_string_metaData()
 
     # Open the Connection:
-    conn = pyodbc.connect(connectionString)
+    conn = pyodbc.connect(connectionString, autocommit = True)
 
     # Create Cursor:
     cursor = conn.cursor()
-    # Enable autocommit:
-    conn.autocommit = True
 
     # Execute the query:
     try:
         cursor.execute(query)
+        
     except Exception as e:
         print(f'Error: {e}')
 

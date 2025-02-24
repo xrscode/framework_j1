@@ -18,6 +18,7 @@ provider "azurerm" {
         purge_soft_delete_on_destroy    = true
         recover_soft_deleted_key_vaults = false
         }
+    resource_group {prevent_deletion_if_contains_resources = false}    
     }
     
 }
@@ -31,8 +32,11 @@ data "azurerm_client_config" "current" {}
 
 # Create a resource group:
 resource "azurerm_resource_group" "framework_rg" {
-  name     = "framework-j1"
+  name     = "fj1-rg-uks-${random_string.random_storage_account.result}"
   location = "uksouth"
+  # Possible locations:
+  # uksouth
+  # northeurope
 }
 
 # Work around to get object_id:

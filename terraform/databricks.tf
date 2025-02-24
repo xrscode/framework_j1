@@ -1,6 +1,6 @@
 # Create databricks resource group:
 resource "azurerm_databricks_workspace" "dbs_workspace" {
-  name                        = "fj1-dbs-dev-uks"
+  name                        = "fj1-dbs-dev-uks-${random_string.random_storage_account.result}"
   resource_group_name         = azurerm_resource_group.framework_rg.name
   location                    = azurerm_resource_group.framework_rg.location
   sku                         = "standard"

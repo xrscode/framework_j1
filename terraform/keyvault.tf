@@ -1,6 +1,7 @@
 # Create a KeyVault with access policies:
 resource "azurerm_key_vault" "fj1kv" {
-  name                        = "fj1-kv-dev-uks"
+  # Name random to ensure uniqueness:
+  name                        = "fj1-kv-dev-uks-${random_string.random_storage_account.result}"
   location                    = azurerm_resource_group.framework_rg.location
   resource_group_name         = azurerm_resource_group.framework_rg.name
   enabled_for_disk_encryption = true
@@ -33,6 +34,7 @@ resource "azurerm_role_assignment" "databricks_kv_admin" {
   scope                = azurerm_key_vault.fj1kv.id
   role_definition_name = "Key Vault Administrator"  # Grants full control
   principal_id         = data.azuread_service_principal.databricks.object_id
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_databricks_workspace.dbs_workspace]
 }
 
 # RBAC ADF:
@@ -40,6 +42,7 @@ resource "azurerm_role_assignment" "adf_kv_admin" {
   scope                = azurerm_key_vault.fj1kv.id
   role_definition_name = "Key Vault Administrator"  # Grants full access to secrets, keys, and certificates
   principal_id         = azurerm_data_factory.adf.identity.0.principal_id
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_data_factory.adf]
 }
 
 # RBAC User:
@@ -47,6 +50,7 @@ resource "azurerm_role_assignment" "user_kv_admin" {
   scope                = azurerm_key_vault.fj1kv.id
   role_definition_name = "Key Vault Administrator"  # Full access to secrets, keys, and certificates
   principal_id         = data.external.account_info.result.object_id
+  depends_on = [ azurerm_key_vault.fj1kv]
 }
 
 # # Access Policy ADF:
