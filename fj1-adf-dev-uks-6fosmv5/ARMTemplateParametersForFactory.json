@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "fj1-adf-dev-uks-6fosmv5"
+		},
+		"Azure Key Vault_properties_typeProperties_baseUrl": {
+			"value": "https://fj1-kv-dev-uks-6fosmv5.vault.azure.net/"
+		},
+		"Framework Databricks_properties_typeProperties_existingClusterId": {
+			"value": "0224-135916-x3kvbvjg"
+		},
+		"Metadata Database_properties_typeProperties_server": {
+			"value": "fj1sqlserver.database.windows.net"
+		},
+		"Metadata Database_properties_typeProperties_database": {
+			"value": "fj1-metadata-uks"
+		},
+		"Metadata Database_properties_typeProperties_userName": {
+			"value": "dylan"
+		}
+	}
+}
