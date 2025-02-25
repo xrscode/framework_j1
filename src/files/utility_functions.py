@@ -7,19 +7,27 @@ from azure.keyvault.secrets import SecretClient
 
 # Load dotenv:
 load_dotenv()
+# Get the keyvault name:
 kv = os.getenv('k-v_name')
 
 
 def connection_strings(keyvault_name: str) -> dict:
+    # Define secret name for metadata:
     metadata_string = "metadataConnectionString"
+    # Define seccret name for totesys:
     totesys_string = "totesysConnectionString"
+    # Compose keyvault url:
     kv_url = f"https://{keyvault_name}.vault.azure.net/"
+    # Define credential:
     credential = DefaultAzureCredential()
+    # Define client:
     client = SecretClient(vault_url=kv_url, credential=credential)
+    # Try to get secrets:
     try:
         strings = {'metadata': client.get_secret(metadata_string).value, 'totesys': client.get_secret(totesys_string).value}
     except Exception as e:
         return e
+    # Return connection string dictionary:
     return strings
 
 
