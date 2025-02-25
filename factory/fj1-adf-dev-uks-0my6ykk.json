@@ -1,0 +1,9 @@
+{
+	"name": "fj1-adf-dev-uks-0my6ykk",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "55619b8c-4c39-4d3e-9e08-6ce8a9bc240e",
+		"tenantId": "6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46"
+	}
+}
