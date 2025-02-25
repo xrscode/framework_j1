@@ -1,10 +1,10 @@
-from utility_functions import ddl, ddl_totesys
+from utility_functions import ddl_metadata, ddl_totesys
 
 # Setup the sourceSystem table:
 with open('./src/sql/setupSourceSystem.sql', 'r') as file:
     query = file.read()
     try:
-        ddl(query)
+        ddl_metadata(query)
         print('sourceSystem table successfully created.')
     except Exception as e:
         print(f'Error: {e}')
@@ -13,7 +13,7 @@ with open('./src/sql/setupSourceSystem.sql', 'r') as file:
 with open('./src/sql/setupSourceEntity.sql', 'r') as file:
     query = file.read()
     try:
-        ddl(query)
+        ddl_metadata(query)
         print('sourceEntity table successfully created.')
     except Exception as e:
         print(f'Error: {e}')

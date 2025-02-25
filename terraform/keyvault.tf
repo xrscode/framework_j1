@@ -53,40 +53,6 @@ resource "azurerm_role_assignment" "user_kv_admin" {
   depends_on = [ azurerm_key_vault.fj1kv]
 }
 
-# # Access Policy ADF:
-# resource "azurerm_key_vault_access_policy" "adf_keyvault_policy" {
-#   key_vault_id = azurerm_key_vault.fj1kv.id
-#   tenant_id    = data.azurerm_client_config.current.tenant_id
-#   object_id    = azurerm_data_factory.adf.identity.0.principal_id
-
-#   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-#   depends_on = [ azurerm_key_vault.fj1kv, azurerm_data_factory.adf ]
-# }
-
-# # # Access policy for user::
-# resource "azurerm_key_vault_access_policy" "user_access_policy" {
-#   key_vault_id = azurerm_key_vault.fj1kv.id
-#   tenant_id    = data.azurerm_client_config.current.tenant_id
-#   object_id    = data.external.account_info.result.object_id 
-
-#   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-#   depends_on = [ azurerm_key_vault.fj1kv ]
-# }
-
-# resource "azurerm_key_vault_access_policy" "db_access_policy" {
-#   key_vault_id = azurerm_key_vault.fj1kv.id
-#   tenant_id    = data.azurerm_client_config.current.tenant_id
-#   object_id    = data.azuread_service_principal.databricks.object_id
-#   secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
-#   depends_on = [ azurerm_key_vault.fj1kv, data.azuread_service_principal.databricks ]
-# }
-
-
-
-
-
-
-
 
 # STORE:
 # Store sql server password in keyvault

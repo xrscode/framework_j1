@@ -2,35 +2,37 @@ from dotenv import load_dotenv
 import os
 from azure.core.exceptions import ResourceNotFoundError
 import pyodbc
+from azure.identity import DefaultAzureCredential   # Required for Azure Key Vault
+from azure.keyvault.secrets import SecretClient
 
-def connection_string_metaData():
-    # Load password:
-    password = os.getenv('serverPassword')
-    connectionString = os.getenv('connectionStringMetaData')
-    connectionString = connectionString.replace("{your_password_here}", password)
-    return connectionString
-
-def connection_string_totesys():
-    # Load password:
-    password = os.getenv('serverPassword')
-    connectionString = os.getenv('connectionStringTotesys')
-    connectionString = connectionString.replace("{your_password_here}", password)
-    return connectionString
+# Load dotenv:
+load_dotenv()
+kv = os.getenv('k-v_name')
 
 
+def connection_strings(keyvault_name: str) -> dict:
+    metadata_string = "metadataConnectionString"
+    totesys_string = "totesysConnectionString"
+    kv_url = f"https://{keyvault_name}.vault.azure.net/"
+    credential = DefaultAzureCredential()
+    client = SecretClient(vault_url=kv_url, credential=credential)
+    try:
+        strings = {'metadata': client.get_secret(metadata_string).value, 'totesys': client.get_secret(totesys_string).value}
+    except Exception as e:
+        return e
+    return strings
 
-def ddl(query):
+
+def ddl_metadata(query):
     """
     Arguments: query (str).
     Returns: result of query. 
     Description: This function queries the database and returns the result. 
     """
-    # Load dotenv:
-    load_dotenv()
-
+    
 
     # Establish Connection Details:
-    connectionString = connection_string_metaData()
+    connectionString = connection_strings(kv)['metadata']
 
     # Open the Connection:
     conn = pyodbc.connect(connectionString, autocommit = True)
@@ -58,11 +60,9 @@ def ddl_totesys(query):
     Returns: result of query. 
     Description: This function queries the database and returns the result. 
     """
-    # Load dotenv:
-    load_dotenv()
-
+    
     # Establish Connection Details:
-    connectionString = connection_string_totesys()
+    connectionString = connection_strings(kv)['totesys']
 
     # Open the Connection:
     conn = pyodbc.connect(connectionString)

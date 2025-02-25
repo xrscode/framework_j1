@@ -1,5 +1,5 @@
 import json
-from utility_functions import ddl
+from utility_functions import ddl_metadata
 
 """
 This python file will take a sourceSystemContract.json and upload it into the database. 
@@ -33,7 +33,7 @@ VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{entityNames}', '{ke
 
 # Execute the query:
 try:
-    rowCount = ddl(query)
+    rowCount = ddl_metadata(query)
     if rowCount == -1:
         print(f'Source System: {sourceEntityName} upload successful.')
 except Exception as e:

@@ -1,6 +1,6 @@
 # Setup SQL server:
 resource "azurerm_mssql_server" "fj1sqlserver" {
-  name                         = "fj1sqlserver"
+  name                         = "fj1sqlserver-${random_string.random_storage_account.result}"
   resource_group_name          = azurerm_resource_group.framework_rg.name
   location                     = azurerm_resource_group.framework_rg.location
   version                      = "12.0"

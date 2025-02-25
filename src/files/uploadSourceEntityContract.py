@@ -1,5 +1,5 @@
 import json
-from utility_functions import ddl
+from utility_functions import ddl_metadata
 import os
 
 """
@@ -49,7 +49,7 @@ for contract in json_files:
     # Execute the query:
     try:
         print(f'Uploading entity: {entityName}')
-        rowCount = ddl(query)
+        rowCount = ddl_metadata(query)
         if rowCount == -1:
             print(f'Entity: {entityName} upload successful.')
     except Exception as e:
