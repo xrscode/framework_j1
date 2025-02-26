@@ -61,6 +61,9 @@ function Install-Terraform {
     }
 }
 
+# Add the az login command to authenticate to Azure
+az login
+
 # Call functions:
 # Install Chocolatey
 Install-Chocolatey
