@@ -10,7 +10,6 @@ load_dotenv()
 # Get the keyvault name:
 kv = os.getenv('k-v_name')
 
-
 def connection_strings(keyvault_name: str) -> dict:
     # Define secret name for metadata:
     metadata_string = "metadataConnectionString"

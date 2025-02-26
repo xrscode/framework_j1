@@ -73,19 +73,74 @@ $terraformDir = ".\terraform"
 
 # Run Terraform deployment
 if (Test-Path $terraformDir) {
-    # Write-Host "Navigating to Terraform directory..." -ForegroundColor Cyan
-    # Set-Location $terraformDir
+    Write-Host "Navigating to Terraform directory..." -ForegroundColor Cyan
+    Set-Location $terraformDir
 
-    # Write-Host "Initializing Terraform..." -ForegroundColor Yellow
-    # terraform init
+    Write-Host "Initializing Terraform..." -ForegroundColor Yellow
+    terraform init
 
-    # Write-Host "Planning Terraform deployment..." -ForegroundColor Yellow
-    # terraform plan
+    Write-Host "Planning Terraform deployment..." -ForegroundColor Yellow
+    terraform plan
 
-    # Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
-    # terraform apply -auto-approve
+    Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
+    terraform apply -auto-approve
 
-    # Write-Host "Terraform deployment completed!" -ForegroundColor Green
+    Write-Host "Terraform deployment completed!" -ForegroundColor Green
 } else {
     Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
+}
+
+Write-Host "Navigating out of the 'terraform' directory..." -ForegroundColor Cyan
+Set-Location ..
+
+# Prompt the user for the Key Vault name
+$KeyVaultName = Read-Host "Please enter your Key Vault name"
+
+# Define the .env file path (assuming it's in the root directory)
+$envFilePath = ".\.env"
+
+# Check if the .env file exists, create it if not
+if (-not (Test-Path $envFilePath)) {
+    Write-Host "Creating .env file..." -ForegroundColor Yellow
+    New-Item -Path $envFilePath -ItemType File | Out-Null
+}
+
+# Read the current content of the .env file
+$envContent = Get-Content $envFilePath -Raw
+
+# Define the Key Vault entry
+$envEntry = "k-v_name=$KeyVaultName"
+
+# Check if a k-v_name entry already exists, update it, otherwise append
+if ($envContent -match "k-v_name=") {
+    # Replace existing line correctly
+    $envContent = $envContent -replace "k-v_name=.*", $envEntry
+} else {
+    # Append new line (ensuring proper format)
+    $envContent += "`n" + $envEntry
+}
+
+# Write the updated content back to the .env file
+$envContent | Set-Content $envFilePath
+
+Write-Host "Updated .env file with Key Vault name: $KeyVaultName" -ForegroundColor Green
+
+# Setup the metadata database:
+$pythonScript = ".\src\files\1_setup_metadata_database.py"
+if (Test-Path $pythonScript) {
+    Write-Host "Running Python script: $pythonScript" -ForegroundColor Cyan
+    python $pythonScript
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
+}
+
+# Setup the totesys database:
+$pythonScript = ".\src\files\2_setup_totesys_database.py"
+if (Test-Path $pythonScript) {
+    Write-Host "Running Python script: $pythonScript" -ForegroundColor Cyan
+    python $pythonScript
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
 }
