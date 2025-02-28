@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"server": "fj1sqlserver-zo4hxte.database.windows.net",
+			"server": "fj1sqlserver-60p9ddh.database.windows.net",
 			"database": "fj1-metadata-uks",
 			"encrypt": "mandatory",
 			"trustServerCertificate": false,
