@@ -25,7 +25,7 @@ resource "azurerm_key_vault" "fj1kv" {
 resource "local_file" "env_file" {
   filename = "../.env"
   content  = <<EOT
-kv_="${azurerm_key_vault.fj1kv.name}"
+k-v_name="${azurerm_key_vault.fj1kv.name}"
 EOT
 }
 
