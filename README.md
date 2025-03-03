@@ -36,3 +36,15 @@ In order to deploy the project, in the terminal run the following command:
 '.\install.ps1'
 
 Follow the prompts within the terminal. 
+
+# 4. ADF: open.
+From your resource group open ADF.
+Make sure that repository is set up via Github. 
+
+# 5. ADF: linked services.
+Make sure linked services are set up:
+Use 'from subscription', to make sure; 
+1. Keyvault setup. 
+2. Databricks set up. 
+3. Metadata database setup. 
+
