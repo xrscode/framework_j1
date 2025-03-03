@@ -1,4 +1,6 @@
 import os
+import requests
+import json
 
 """
 In order for terraform to deploy correctly, terraform.tfvars will need to be created.
@@ -7,6 +9,26 @@ It needs to be populated with GIT credentials.
 
 # Define path to terraform .tfvars:
 path = './terraform/terraform.tfvars'
+
+# Function to check valid git credentials:
+def check_git_url(url: str) -> bool:
+    # Check inputs are strings:
+    if isinstance(url, str):
+        print('Credential format is valid, checking if credentials are valid...')
+
+        # Check if url is valid:
+        response = requests.get(url)
+        # Check url correct:
+        if response.status_code == 200:
+            print(f'Credentials are valid.  Status code: {response.status_code}')
+        else:
+            print('Credentials are invalid.')
+            raise Exception('Invalid credentials.')
+    else:
+        raise Exception('Credential is invalid format.  Must be string.')
+
+
+
 
 # Check if terraform.tfvars exists:
 if os.path.exists(path):
@@ -23,5 +45,20 @@ if os.path.exists(path):
             f.write(f'git_pat = "{git_pat}"\n')
             f.write(f'git_url = "{git_url}"\n')
             print('terraform.tfvars has been overwritten.')
+        
+        # Check url valid:
+        check_git_url(git_url)
+
     else:
-        print('terraform.tfvars has not been overwritten.')
+        print('terraform.tfvars has not been overwritten.\nChecking existing credentials...')
+        # Extract and read url from terraform.tfvars
+        with open(path, 'r') as f:
+            data = f.read()
+            data = data.split('\n')[2]
+            git_url = data[11:-1]
+            # Check url valid:
+            check_git_url(git_url)
+
+            
+           
+
