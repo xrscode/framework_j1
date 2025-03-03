@@ -3,34 +3,10 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set _sourceSystem",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "sourceSystem",
-					"value": {
-						"value": "@pipeline().parameters.sourceSystem",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Lookup Entities",
 				"description": "Lookup all entities associated with sourceSystem",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set _sourceSystem",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
