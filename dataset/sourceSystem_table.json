@@ -1,6 +1,10 @@
 {
 	"name": "sourceSystem_table",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Metadata Database",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
