@@ -7,12 +7,13 @@ resource "azurerm_data_factory" "adf" {
     type = "SystemAssigned"
   }
 
-  # Not working: sets up ENTERPRISE instead of normal:
-  # github_configuration {
-  #   account_name = var.git_user
-  #   branch_name = "main"
-  #   repository_name = "framework_j1"
-  #   root_folder = "/"
-  #   git_url = "https://github.com/${var.git_user}"
-  # }
+  
+  github_configuration {
+    account_name = var.git_user
+    branch_name = "main"
+    repository_name = "framework_j1"
+    root_folder = "/"
+    # Use github.com for open source repositories:
+    git_url = "https://github.com"
+  }
 }
