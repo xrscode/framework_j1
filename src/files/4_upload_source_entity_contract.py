@@ -25,6 +25,8 @@ while True:
         print('Exiting...')
         break
     else:
+        print('HERE!')
+
         sourceEntityPath = f'./src/contracts/{sourceSystemName}/'
 
         # List all files in the folder
