@@ -1,6 +1,10 @@
 {
 	"name": "sourceEntity_table",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Metadata Database",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
@@ -45,11 +49,7 @@
 				"name": "delimiterRow",
 				"type": "varchar"
 			}
-		],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": "sourceEntity"
-		}
+		]
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }
