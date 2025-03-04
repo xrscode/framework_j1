@@ -20,10 +20,10 @@ resource "azurerm_data_factory" "adf" {
 
 # ADF linked services:
 
-# Azure Key Vault linked service:
-resource "azurerm_data_factory_linked_service_key_vault" "example" {
-  name            = "AzureKeyVaultLinkedService"
-  data_factory_id = azurerm_data_factory.adf.id
-  key_vault_id    = azurerm_key_vault.fj1kv.id
-  depends_on = [ azurerm_data_factory.adf, azurerm_key_vault.fj1kv ]
-}
+# # Azure Key Vault linked service:
+# resource "azurerm_data_factory_linked_service_key_vault" "example" {
+#   name            = "AzureKeyVaultLinkedService"
+#   data_factory_id = azurerm_data_factory.adf.id
+#   key_vault_id    = azurerm_key_vault.fj1kv.id
+#   depends_on = [ azurerm_data_factory.adf, azurerm_key_vault.fj1kv ]
+# }
