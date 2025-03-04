@@ -1,0 +1,535 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "fj1-adf-dev-uks-yo4mp6p"
+		},
+		"Azure Key Vault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://fj1-kv-dev-uks-yo4mp6p.vault.azure.net/"
+		},
+		"Framework Databricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0304-101756-sfh2c0dm"
+		},
+		"Metadata Database_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "fj1sqlserver-yo4mp6p.database.windows.net"
+		},
+		"Metadata Database_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "fj1-metadata-uks"
+		},
+		"Metadata Database_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "dylan"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Azure Key Vault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('Azure Key Vault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Framework Databricks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-1106882430710764.4.azuredatabricks.net",
+					"accessToken": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "Azure Key Vault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "databricks-junior-token"
+					},
+					"existingClusterId": "[parameters('Framework Databricks_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Azure Key Vault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Metadata Database')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('Metadata Database_properties_typeProperties_server')]",
+					"database": "[parameters('Metadata Database_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('Metadata Database_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "Azure Key Vault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "sqlPassword"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Azure Key Vault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sourceEntity_table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Metadata Database",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "entityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "entityName",
+						"type": "varchar"
+					},
+					{
+						"name": "entityDescription",
+						"type": "varchar"
+					},
+					{
+						"name": "connectionSourceType",
+						"type": "varchar"
+					},
+					{
+						"name": "connectionRequestType",
+						"type": "varchar"
+					},
+					{
+						"name": "connectionString",
+						"type": "varchar"
+					},
+					{
+						"name": "fileName",
+						"type": "varchar"
+					},
+					{
+						"name": "fileFormat",
+						"type": "varchar"
+					},
+					{
+						"name": "delimiterColumn",
+						"type": "varchar"
+					},
+					{
+						"name": "delimiterRow",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "sourceEntity"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Metadata Database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sourceSystem_table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Metadata Database",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "sourceEntityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "sourceEntityName",
+						"type": "varchar"
+					},
+					{
+						"name": "sourceEntityDescription",
+						"type": "varchar"
+					},
+					{
+						"name": "keyVaultQuery",
+						"type": "varchar"
+					},
+					{
+						"name": "notebooks",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "sourceSystem"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Metadata Database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Main')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup Entities",
+						"description": "Lookup all entities associated with sourceSystem",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "--First create varaiable to store sourceEntityID:\nDECLARE @sourceEntityID INT;\n\n-- Save the sourceEntityID to variable:\nSELECT @sourceEntityID = sourceEntityID\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE sourceEntityID = @sourceEntityID",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "sourceEntity_table",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Ingestion",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup Notebooks",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup Entities').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "BRONZE",
+									"description": "Activate bronze ingestion layer.",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": {
+											"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).bronze",
+											"type": "Expression"
+										},
+										"baseParameters": {
+											"entityName": {
+												"value": "@string(item()['entityName'])",
+												"type": "Expression"
+											},
+											"sourceSystem": {
+												"value": "@string(pipeline().parameters.sourceSystem)",
+												"type": "Expression"
+											},
+											"entityColumns": {
+												"value": "@item()['entityColumns']",
+												"type": "Expression"
+											},
+											"entitySourceQuery": {
+												"value": "@item()['entitySourceQuery']",
+												"type": "Expression"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Framework Databricks",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Update Bronze Location",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "BRONZE",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "sourceEntity_table",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Transformation",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Ingestion",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup Entities').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "SILVER",
+									"description": "Activate bronze ingestion layer.",
+									"type": "DatabricksNotebook",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"notebookPath": {
+											"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
+											"type": "Expression"
+										},
+										"baseParameters": {
+											"entityName": {
+												"value": "@string(item()['entityName'])",
+												"type": "Expression"
+											},
+											"sourceSystem": {
+												"value": "@string(pipeline().parameters.sourceSystem)",
+												"type": "Expression"
+											},
+											"entityColumns": {
+												"value": "@item()['entityColumns']",
+												"type": "Expression"
+											},
+											"entitySourceQuery": {
+												"value": "@item()['entitySourceQuery']",
+												"type": "Expression"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Framework Databricks",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Update Silver",
+									"type": "Lookup",
+									"dependsOn": [
+										{
+											"activity": "SILVER",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "@concat(\n   'UPDATE sourceEntity SET silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "sourceEntity_table",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "GOLD",
+						"description": "Perform analytics on ingested data.",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Transformation",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": {
+								"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
+								"type": "Expression"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "Framework Databricks",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Lookup Notebooks",
+						"description": "This activity will query the metadata database, to determine which notebooks to run.",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Lookup Entities",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}'",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "sourceSystem_table",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"sourceSystem": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"sourceSystem": {
+						"type": "String"
+					},
+					"updateBronzeLocation": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sourceEntity_table')]",
+				"[concat(variables('factoryId'), '/linkedServices/Framework Databricks')]",
+				"[concat(variables('factoryId'), '/datasets/sourceSystem_table')]"
+			]
+		}
+	]
+}
