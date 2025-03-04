@@ -253,6 +253,10 @@
 						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
 						"type": "Expression"
 					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Framework Databricks",
+					"type": "LinkedServiceReference"
 				}
 			},
 			{
