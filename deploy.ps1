@@ -55,6 +55,13 @@ if (Test-Path $venvActivate) {
     Write-Host "Failed to activate virtual environment. Please check your Python installation." -ForegroundColor Red
 }
 
+# Set PYTHONPATH to the current directory
+$env:PYTHONPATH = Get-Location
+
+# Optionally, print it to verify it's set correctly
+Write-Host "PYTHONPATH is set to: $env:PYTHONPATH"
+
+
 # Install requirements if requirements.txt exists
 $requirementsFile = ".\requirements.txt"
 if (Test-Path $requirementsFile) {

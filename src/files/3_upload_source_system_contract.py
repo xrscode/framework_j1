@@ -1,5 +1,7 @@
-import json
+import os
 from utility_functions import ddl_metadata
+import inquirer
+import json
 
 """
 This python file will take a sourceSystemContract.json and upload it into the database. 
@@ -8,34 +10,54 @@ source system name/folder name.  For example, 'AdventureWorks' is a folder that 
 the _sourceSystem.json for the AdventureWorks source System.
 """
 
-# Set the source system name to be uploaded:
-sourceSystemName = input('Enter the source system name:')
-sourceSystemPath = f'./src/contracts/{sourceSystemName}/_sourceSystem.json'
+# First get list of folders/sourcesystems:
+sourceSystems = [folder for folder in os.listdir('./src/contracts')]
+sourceSystems.append('Exit')
 
-# Load the source system contract JSON:
-with open(sourceSystemPath, 'r') as file:
-    sourceSystemContract = json.load(file)
+while True:
+    questions = [
+        inquirer.List('choice',
+                      message="Which source system would you like to upload?",
+                      choices=sourceSystems,
+                      )
+    ]
+
+    sourceSystemName = inquirer.prompt(questions)['choice']
+
+    if sourceSystemName == 'Exit':
+        print('Exiting...')
+        break
     
-# Begin to build up query:
-sourceEntityName = sourceSystemContract['name']
-sourceEntityDescription = sourceSystemContract['description']
-keyVaultQuery = sourceSystemContract['keyVaultQuery']
-entityNames = str(sourceSystemContract['entityNames']).replace("'", '"')
-notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
+    else:
+        print(f'Uploading source system: {sourceSystemName}...')
+        # Set the source system name to be uploaded:
+        sourceSystemPath = f'./src/contracts/{sourceSystemName}/_sourceSystem.json'
 
-# Define the query:
-query = f"""
-DELETE FROM sourceSystem
-WHERE sourceEntityName = '{sourceEntityName}';
-INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, entityNames, keyVaultQuery, notebooks)
-VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
-"""
+        # Load the source system contract JSON:
+        with open(sourceSystemPath, 'r') as file:
+            sourceSystemContract = json.load(file)
 
-# Execute the query:
-try:
-    rowCount = ddl_metadata(query)
-    if rowCount == -1:
-        print(f'Source System: {sourceEntityName} upload successful.')
-except Exception as e:
-    print(f'Error message: {e}')
+        # Begin to build up query:
+        sourceEntityName = sourceSystemContract['name']
+        sourceEntityDescription = sourceSystemContract['description']
+        keyVaultQuery = sourceSystemContract['keyVaultQuery']
+        entityNames = str(sourceSystemContract['entityNames']).replace("'", '"')
+        notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
+
+        # Define the query:
+        query = f"""
+        DELETE FROM sourceSystem
+        WHERE sourceEntityName = '{sourceEntityName}';
+        INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, entityNames, keyVaultQuery, notebooks)
+        VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
+        """
+
+        # Execute the query:
+        try:
+            rowCount = ddl_metadata(query)
+            if rowCount == -1:
+                print(f'Source System: {sourceEntityName} upload successful.')
+        except Exception as e:
+            print(f'Error message: {e}')
+        break
     

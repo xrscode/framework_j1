@@ -3,3 +3,4 @@ pyodbc
 azure-identity
 azure-keyvault-secrets
 python-dotenv
+inquirer
