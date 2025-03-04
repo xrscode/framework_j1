@@ -21,14 +21,6 @@ resource "azurerm_key_vault" "fj1kv" {
   enable_rbac_authorization  = true
 }
 
-# Write name of keyvault to .env file:
-resource "local_file" "env_file" {
-  filename = "../.env"
-  content  = <<EOT
-k-v_name="${azurerm_key_vault.fj1kv.name}"
-EOT
-}
-
 
 # RBAC:
 
