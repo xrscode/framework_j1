@@ -153,3 +153,11 @@ resource "azurerm_key_vault_secret" "storePAT" {
   key_vault_id = azurerm_key_vault.fj1kv.id
   depends_on = [ databricks_token.db_pat, azurerm_role_assignment.databricks_kv_admin ]
 }
+
+# Store Databricks workspace url in KeyVault
+resource "azurerm_key_vault_secret" "workspaceURL" {
+  name = "databricks-workspace-url"
+  value = azurerm_databricks_workspace.dbs_workspace.workspace_url
+  key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [ databricks_token.db_pat, azurerm_role_assignment.databricks_kv_admin ]
+}

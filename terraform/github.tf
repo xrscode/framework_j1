@@ -1,5 +1,4 @@
 # Github configuration for databricks:
-
 # Configure GitHub Git credentials
 resource "databricks_git_credential" "git_auth" {
     git_provider = "github"
@@ -16,3 +15,5 @@ resource "databricks_repo" "j1_repo" {
     # Ensure GitHub credentials are set first:
     depends_on = [ databricks_git_credential.git_auth ]
 }
+
+# Github configuration for ADF
