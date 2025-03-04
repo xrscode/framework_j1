@@ -2,6 +2,11 @@
 	"name": "Azure Key Vault",
 	"properties": {
 		"description": "Establish connection to key vault.  Key vault contains access token for databricks workspace. ",
+		"parameters": {
+			"workspace_url": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
