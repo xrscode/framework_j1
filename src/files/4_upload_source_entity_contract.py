@@ -67,7 +67,6 @@ while True:
             INSERT INTO sourceEntity (sourceSystemID, entityName, entityDescription, entitySourceQuery, entityColumns)
             VALUES (@sourceSystemID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
 
-    
             
             # Execute the query:
             try:
