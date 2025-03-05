@@ -19,7 +19,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "--First create varaiable to store sourceEntityID:\nDECLARE @sourceEntityID INT;\n\n-- Save the sourceEntityID to variable:\nSELECT @sourceEntityID = sourceEntityID\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE sourceEntityID = @sourceEntityID",
+							"value": "--First create varaiable to store sourceEntityID:\nDECLARE @sourceSystemID INT;\n\n-- Query sourceSystem to match sourceSystemName and get ID:\nSELECT @sourceSystemID = sourceSystemID\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE sourceSystemID = @sourceSystemID",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -283,7 +283,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceEntityName = '@{pipeline().parameters.sourceSystem}'",
+							"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
