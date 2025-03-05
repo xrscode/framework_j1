@@ -25,8 +25,8 @@ while True:
         print('Exiting...')
         break
     else:
-        print('HERE!')
-
+        
+        # Define the path to the source entity contract:
         sourceEntityPath = f'./src/contracts/{sourceSystemName}/'
 
         # List all files in the folder
@@ -48,29 +48,23 @@ while True:
         
             # Build up query
             query = f"""
-            --First create varaiable to store sourceEntityID:
-            DECLARE @sourceEntityID INT;
+            --First create varaiable to store sourceSystemID:
+            DECLARE @sourceSystemID INT;
 
-            -- Save the sourceEntityID to variable:
-            SELECT @sourceEntityID = sourceEntityID
+            -- Save the sourceSystemID to variable:
+            SELECT @sourceSystemID = sourceSystemID
             FROM sourceSystem
-            WHERE sourceEntityName = '{sourceSystemName}';
-
-            --Delete from sourceEntity If exists:
-            DELETE FROM sourceEntity
-            WHERE entityName = '{sourceSystemName}';
-
+            WHERE sourceSystemName = '{sourceSystemName}';
+;
             --Insert data into sourceEntity table:
-            INSERT INTO sourceEntity (sourceEntityID, entityName, entityDescription, entitySourceQuery, entityColumns)
-            VALUES (@sourceEntityID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
+            INSERT INTO sourceEntity (sourceSystemID, entityName, entityDescription, entitySourceQuery, entityColumns)
+            VALUES (@sourceSystemID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
 
 
             # Execute the query:
             try:
                 print(f'Uploading entity: {entityName}')
-                rowCount = ddl_metadata(query)
-                if rowCount == -1:
-                    print(f'Entity: {entityName} upload successful.')
+                ddl_metadata(query)
             except Exception as e:
                 print(f'Error message: {e}')
 

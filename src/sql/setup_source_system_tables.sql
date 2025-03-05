@@ -5,9 +5,9 @@ DROP TABLE IF EXISTS sourceSystem;
 
 -- Create the sourceSystem table
 CREATE TABLE sourceSystem (
-    sourceEntityID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
-    sourceEntityName VARCHAR(255) NOT NULL UNIQUE, -- Unique entity name
-    sourceEntityDescription VARCHAR(255), -- Description of the entity
+    sourceSystemID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
+    sourceSystemName VARCHAR(255) NOT NULL UNIQUE, -- Unique source name
+    sourceSystemDescription VARCHAR(255), -- Description of the source
     entityNames VARCHAR(255),
     keyVaultQuery VARCHAR(255), -- Keyvault secret Name
     notebooks VARCHAR(255)

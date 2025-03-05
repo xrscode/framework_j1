@@ -38,25 +38,32 @@ while True:
             sourceSystemContract = json.load(file)
 
         # Begin to build up query:
-        sourceEntityName = sourceSystemContract['name']
-        sourceEntityDescription = sourceSystemContract['description']
+        sourceSystemName = sourceSystemContract['name']
+        sourceSystemDescription = sourceSystemContract['description']
         keyVaultQuery = sourceSystemContract['keyVaultQuery']
         entityNames = str(sourceSystemContract['entityNames']).replace("'", '"')
         notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
 
-        # Define the query:
+      
+        # Merge prevents sourceSystemID from incrementing on match:
         query = f"""
-        DELETE FROM sourceSystem
-        WHERE sourceEntityName = '{sourceEntityName}';
-        INSERT INTO sourceSystem (sourceEntityName, sourceEntityDescription, entityNames, keyVaultQuery, notebooks)
-        VALUES ('{sourceEntityName}', '{sourceEntityDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
-        """
+        MERGE INTO dbo.sourceSystem AS target
+        USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}')) AS source (sourceSystemName, sourceSystemDescription, entityNames, keyVaultQuery, notebooks)
+        ON target.sourceSystemName = source.sourceSystemName
+        WHEN MATCHED THEN
+            UPDATE SET 
+                target.sourceSystemDescription = source.sourceSystemDescription,
+                target.entityNames = source.entityNames,
+                target.keyVaultQuery = source.keyVaultQuery,
+                target.notebooks = source.notebooks
+        WHEN NOT MATCHED THEN
+            INSERT (sourceSystemName, sourceSystemDescription, entityNames, keyVaultQuery, notebooks)
+            VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
+    """
 
         # Execute the query:
         try:
-            rowCount = ddl_metadata(query)
-            if rowCount == -1:
-                print(f'Source System: {sourceEntityName} upload successful.')
+            ddl_metadata(query) 
         except Exception as e:
             print(f'Error message: {e}')
         break

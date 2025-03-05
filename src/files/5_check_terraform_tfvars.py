@@ -29,7 +29,6 @@ def check_git_url(url: str) -> bool:
 
 
 
-
 # Check if terraform.tfvars exists:
 if os.path.exists(path):
     print('terraform.tfvars already exists.')
@@ -58,6 +57,22 @@ if os.path.exists(path):
             git_url = data[11:-1]
             # Check url valid:
             check_git_url(git_url)
+
+
+# Create terraform.tfvars:
+else:
+    # Prompt for git credentials:
+    git_user = input('Please enter your git user name:')
+    git_pat = input('Please enter your git personal access token:')
+    git_url = input('Please enter the git repository url:')
+
+    # Create the file
+    with open(path, 'w') as f:
+        # Write the user credentials to the file:
+        f.write(f'git_user = "{git_user}"\n')
+        f.write(f'git_pat = "{git_pat}"\n')
+        f.write(f'git_url = "{git_url}"\n')
+        print('terraform.tfvars been created.')
 
             
            
