@@ -55,12 +55,20 @@ while True:
             SELECT @sourceSystemID = sourceSystemID
             FROM sourceSystem
             WHERE sourceSystemName = '{sourceSystemName}';
+
+            -- Check if sourceSystemID was found
+            IF @sourceSystemID IS NULL
+            BEGIN
+                PRINT 'Error: sourceSystemName ''TotesysDB'' does not exist.';
+                RETURN; -- Exit the script
+            END
 ;
             --Insert data into sourceEntity table:
             INSERT INTO sourceEntity (sourceSystemID, entityName, entityDescription, entitySourceQuery, entityColumns)
             VALUES (@sourceSystemID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityColumns}');"""
 
-
+    
+            
             # Execute the query:
             try:
                 print(f'Uploading entity: {entityName}')
