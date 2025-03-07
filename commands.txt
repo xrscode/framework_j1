@@ -1,0 +1,11 @@
+Activate venv:
+.\venv\Scripts\activate
+
+Setup metadata database:
+python .\src\files\1_setup_metadata_database.py
+
+Upload source system contract:
+python .\src\files\3_upload_source_system_contract.py
+
+Upload source entity contract:
+python .\src\files\4_upload_source_entity_contract.py
