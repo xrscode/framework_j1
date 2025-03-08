@@ -1,5 +1,5 @@
 {
-	"name": "Main",
+	"name": "1_Pipeline",
 	"properties": {
 		"activities": [
 			{
@@ -229,37 +229,6 @@
 				}
 			},
 			{
-				"name": "GOLD",
-				"description": "Perform analytics on ingested data.",
-				"type": "DatabricksNotebook",
-				"dependsOn": [
-					{
-						"activity": "Transformation",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"notebookPath": {
-						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
-						"type": "Expression"
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "Framework Databricks",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "Lookup Notebooks",
 				"description": "This activity will query the metadata database, to determine which notebooks to run.",
 				"type": "Lookup",
@@ -293,6 +262,78 @@
 						"referenceName": "sourceSystem_table",
 						"type": "DatasetReference"
 					}
+				}
+			},
+			{
+				"name": "Load",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Transformation",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "GOLD",
+							"description": "Perform analytics on ingested data.",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": {
+									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Notebook1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Load",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Git/jf1/src/notebooks/TotesysDB/Analysis_TotesysDB"
+				},
+				"linkedServiceName": {
+					"referenceName": "Framework Databricks",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
