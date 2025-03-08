@@ -77,10 +77,6 @@
 										"value": "@string(pipeline().parameters.sourceSystem)",
 										"type": "Expression"
 									},
-									"entityColumns": {
-										"value": "@item()['entityColumns']",
-										"type": "Expression"
-									},
 									"entitySourceQuery": {
 										"value": "@item()['entitySourceQuery']",
 										"type": "Expression"
