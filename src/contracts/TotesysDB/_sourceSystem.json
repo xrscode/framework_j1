@@ -9,7 +9,8 @@
       {
         "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/BRONZE_TotesysDB",
         "silver": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/SILVER_TotesysDB",
-        "gold": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/GOLD_TotesysDB"
+        "gold": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/GOLD_TotesysDB",
+        "analysis": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/Analysis_TotesysDB"
       }
     
 }

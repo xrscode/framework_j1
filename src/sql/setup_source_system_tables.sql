@@ -10,5 +10,5 @@ CREATE TABLE sourceSystem (
     sourceSystemDescription VARCHAR(255), -- Description of the source
     entityNames VARCHAR(255),
     keyVaultQuery VARCHAR(255), -- Keyvault secret Name
-    notebooks VARCHAR(255)
+    notebooks VARCHAR(MAX)
 );
