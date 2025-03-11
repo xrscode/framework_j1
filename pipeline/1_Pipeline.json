@@ -297,7 +297,8 @@
 									"type": "Expression"
 								},
 								"baseParameters": {
-									"entityName": "@string(item()['entityName'])"
+									"entityName": "@string(item()['entityName'])",
+									"sourceSystem": "@string(pipeline().parameters.sourceSystem)"
 								}
 							},
 							"linkedServiceName": {
