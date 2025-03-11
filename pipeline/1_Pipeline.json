@@ -345,7 +345,7 @@
 				}
 			},
 			{
-				"name": "Notebook1",
+				"name": "Analysis",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -364,7 +364,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Repos/Git/jf1/src/notebooks/TotesysDB/Analysis_TotesysDB"
+					"notebookPath": {
+						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).analysis",
+						"type": "Expression"
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "Framework Databricks",
