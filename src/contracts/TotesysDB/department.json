@@ -38,14 +38,14 @@
         "sortOrder": 5,
         "columnName": "created_At",
         "dataType": "date",
-        "required": false,
+        "required": true,
         "primary_key": false
       },
       {
         "sortOrder": 6,
         "columnName": "last_updated",
         "dataType": "date",
-        "required": false,
+        "required": true,
         "primary_key": false
       }
     ]

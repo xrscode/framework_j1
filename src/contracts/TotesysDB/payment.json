@@ -24,7 +24,7 @@
         "sortOrder": 3,
         "columnName": "last_updated",
         "dataType": "date",
-        "required": false,
+        "required": true,
         "primary_key": false
       },
       {
