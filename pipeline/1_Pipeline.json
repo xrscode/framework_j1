@@ -295,6 +295,9 @@
 								"notebookPath": {
 									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
 									"type": "Expression"
+								},
+								"baseParameters": {
+									"entityName": "@string(item()['entityName'])"
 								}
 							},
 							"linkedServiceName": {
