@@ -9,12 +9,32 @@
       {
         "sortOrder": 1,
         "columnName": "payment_type_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
         "columnName": "payment_type_name",
-        "dataType": "string"
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      }
+      ,
+      {
+        "sortOrder": 3,
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      }
+      ,
+      {
+        "sortOrder": 4,
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       }
     ]
   }

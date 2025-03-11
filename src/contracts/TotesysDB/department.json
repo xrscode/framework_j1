@@ -9,32 +9,44 @@
       {
         "sortOrder": 1,
         "columnName": "department_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
         "columnName": "department_name",
-        "dataType": "string"
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
-        "columnName": "department_location",
-        "dataType": "string"
+        "columnName": "location",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 4,
-        "columnName": "department_manager",
-        "dataType": "string"
+        "columnName": "manager",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 5,
-        "columnName": "created_at",
-        "dataType": "string"
+        "columnName": "created_At",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       },
       {
         "sortOrder": 6,
-        "columnName": "last_updated_at",
-        "dataType": "string"
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       }
     ]
   }

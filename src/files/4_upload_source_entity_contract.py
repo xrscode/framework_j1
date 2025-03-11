@@ -32,7 +32,6 @@ while True:
         # List all files in the folder
         json_files = [f for f in os.listdir(sourceEntityPath) if f.endswith(".json") and f != "_sourceSystem.json"]
         
-        json_files = ['payment.json']
         # Iterate through the contracts and upload them to the database:
         for contract in json_files:
             # Reconstruct full file path:
@@ -46,7 +45,7 @@ while True:
             entityDescription = d['description']
             entitySourceQuery = str(d['connectionDetails']).replace("'", '"')
             # Convert to string and lower case so that json is valid:
-            entityIngestionColumns = str(d['ingestion_columns']).replace("'", '"')
+            entityIngestionColumns = str(d['ingestion_columns']).replace("'", '"').replace("True", "true").replace("False", "false")
 
         
             # Build up query

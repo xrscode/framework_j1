@@ -8,78 +8,88 @@
     "ingestion_columns": [
       {
         "sortOrder": 1,
-        "columnName": "sales_record_id",
-        "dataType": "int"
+        "columnName": "sales_order_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
-        "columnName": "sales_order_id",
-        "dataType": "int"
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
-        "columnName": "created_date",
-        "dataType": "date"
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 4,
-        "columnName": "created_time",
-        "dataType": "time"
+        "columnName": "design_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 5,
-        "columnName": "last_updated_date",
-        "dataType": "date"
+        "columnName": "staff_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 6,
-        "columnName": "last_updated_time",
-        "dataType": "time"
+        "columnName": "counterparty_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 7,
-        "columnName": "sales_staff_id",
-        "dataType": "int"
+        "columnName": "units_sold",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 8,
-        "columnName": "counterparty_id",
-        "dataType": "int"
+        "columnName": "unit_price",
+        "dataType": "decimal(10,2)",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 9,
-        "columnName": "units_sold",
-        "dataType": "int"
+        "columnName": "currency_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 10,
-        "columnName": "unit_price",
-        "dataType": "decimal(10,2)"
-      },
+        "columnName": "agreed_delivery_date",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
+      }
+      ,
       {
         "sortOrder": 11,
-        "columnName": "currency_id",
-        "dataType": "int"
+        "columnName": "agreed_payment_date",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 12,
-        "columnName": "design_id",
-        "dataType": "int"
-      },
-      {
-        "sortOrder": 13,
-        "columnName": "agreed_payment_date",
-        "dataType": "date"
-      },
-      {
-        "sortOrder": 14,
-        "columnName": "agreed_delivery_date",
-        "dataType": "date"
-      },
-      {
-        "sortOrder": 15,
         "columnName": "agreed_delivery_location_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       }
     ]
   }

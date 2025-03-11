@@ -9,22 +9,44 @@
       {
         "sortOrder": 1,
         "columnName": "transaction_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
         "columnName": "transaction_type",
-        "dataType": "string"
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
         "columnName": "sales_order_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 4,
         "columnName": "purchase_order_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       }
     ]
   }

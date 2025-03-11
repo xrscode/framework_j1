@@ -9,22 +9,43 @@
       {
         "sortOrder": 1,
         "columnName": "design_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
-        "columnName": "design_name",
-        "dataType": "string"
+        "columnName": "created_at",
+        "dataType": "string",
+        "required": false,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
-        "columnName": "file_location",
-        "dataType": "string"
+        "columnName": "design_name",
+        "dataType": "string",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 4,
+        "columnName": "file_location",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 5,
         "columnName": "file_name",
-        "dataType": "string"
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },{
+        "sortOrder": 6,
+        "columnName": "last_updated",
+        "dataType": "string",
+        "required": false,
+        "primary_key": false
       }
     ]
   }

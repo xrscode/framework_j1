@@ -9,17 +9,30 @@
       {
         "sortOrder": 1,
         "columnName": "currency_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
         "columnName": "currency_code",
-        "dataType": "string"
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
-        "columnName": "currency_name",
-        "dataType": "string"
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       }
     ]
   }

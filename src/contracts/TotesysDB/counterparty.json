@@ -8,47 +8,51 @@
       {
         "sortOrder": 1,
         "columnName": "counterparty_id",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
         "columnName": "counterparty_legal_name",
-        "dataType": "string"
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
-        "columnName": "counterparty_legal_address_line_1",
-        "dataType": "string"
+        "columnName": "legal_address_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 4,
-        "columnName": "counterparty_legal_address_line_2",
-        "dataType": "string"
+        "columnName": "commercial_contact",
+        "dataType": "string",
+        "required": false,
+        "primary_key": false
       },
       {
         "sortOrder": 6,
-        "columnName": "counterparty_legal_district",
-        "dataType": "string"
+        "columnName": "delivery_contact",
+        "dataType": "string",
+        "required": false,
+        "primary_key": false
       },
       {
         "sortOrder": 7,
-        "columnName": "counterparty_legal_city",
-        "dataType": "string"
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       },
       {
         "sortOrder": 8,
-        "columnName": "counterparty_legal_postal_code",
-        "dataType": "string"
-      },
-      {
-        "sortOrder": 9,
-        "columnName": "counterparty_legal_country",
-        "dataType": "string"
-      },
-      {
-        "sortOrder": 10,
-        "columnName": "counterparty_legal_phone",
-        "dataType": "string"
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
       }
       ]
     }
