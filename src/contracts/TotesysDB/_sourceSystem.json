@@ -7,9 +7,9 @@
 "sales_order", "staff", "transaction"],
 "notebooks": 
       {
-        "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/BRONZE",
-        "silver": "/Workspace/Repos/Git/jf1/src/notebooks/SILVER_TotesysDB",
-        "gold": "/Workspace/Repos/Git/jf1/src/notebooks/GOLD_TotesysDB"
+        "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/BRONZE_TotesysDB",
+        "silver": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/SILVER_TotesysDB",
+        "gold": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/GOLD_TotesysDB"
       }
     
 }

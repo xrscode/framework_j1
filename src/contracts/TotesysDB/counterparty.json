@@ -4,7 +4,7 @@
     "connectionDetails": {
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM counterparty"},
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
         "columnName": "counterparty_id",

@@ -5,7 +5,7 @@
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM design"
     },
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
         "columnName": "design_id",

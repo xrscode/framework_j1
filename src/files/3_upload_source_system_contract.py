@@ -59,7 +59,7 @@ while True:
         WHEN NOT MATCHED THEN
             INSERT (sourceSystemName, sourceSystemDescription, entityNames, keyVaultQuery, notebooks)
             VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
-    """
+        """
 
         # Execute the query:
         try:

@@ -6,8 +6,8 @@
     "entityNames": ["customers", "products"],
     "notebooks": 
       {
-        "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/BRONZE",
-        "silver": "/Workspace/Repos/Git/jf1/src/notebooks/SILVER_AdventureWorks",
-        "gold": "/Workspace/Repos/Git/jf1/src/notebooks/GOLD_AdventureWorks"
+        "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/BRONZE_AdventureWorks",
+        "silver": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/SILVER_AdventureWorks",
+        "gold": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/GOLD_AdventureWorks"
       }
   }

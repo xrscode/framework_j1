@@ -5,7 +5,7 @@
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM department"
     },
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
         "columnName": "department_id",

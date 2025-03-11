@@ -5,7 +5,7 @@
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM sales_order"
     },
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
         "columnName": "sales_record_id",

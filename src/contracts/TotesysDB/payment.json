@@ -5,71 +5,78 @@
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM payment"
     },
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
-        "columnName": "payment_record_id",
-        "dataType": "int"
+        "columnName": "payment_id",
+        "dataType": "int",
+        "required": true
       },
       {
         "sortOrder": 2,
-        "columnName": "payment_id",
-        "dataType": "int"
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": true
       },
       {
         "sortOrder": 3,
-        "columnName": "created_date",
-        "dataType": "date"
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false
       },
       {
         "sortOrder": 4,
-        "columnName": "created_time",
-        "dataType": "time"
+        "columnName": "transaction_id",
+        "dataType": "int",
+        "required": true
       },
       {
         "sortOrder": 5,
-        "columnName": "last_updated_date",
-        "dataType": "date"
+        "columnName": "counterparty_id",
+        "dataType": "int",
+        "required": true
       },
       {
         "sortOrder": 6,
-        "columnName": "last_updated_time",
-        "dataType": "time"
+        "columnName": "payment_amount",
+        "dataType": "decimal(10,2)",
+        "required": true
       },
       {
         "sortOrder": 7,
-        "columnName": "transaction_id",
-        "dataType": "int"
+        "columnName": "currency_id",
+        "dataType": "int",
+        "required": true
       },
       {
         "sortOrder": 8,
-        "columnName": "counterparty_id",
-        "dataType": "int"
+        "columnName": "payment_type_id",
+        "dataType": "int",
+        "required": true
       },
       {
         "sortOrder": 9,
-        "columnName": "payment_amount",
-        "dataType": "decimal(10,2)"
+        "columnName": "paid",
+        "dataType": "bool",
+        "required": true
       },
       {
         "sortOrder": 10,
-        "columnName": "currency_id",
-        "dataType": "int"
+        "columnName": "payment_date",
+        "dataType": "datetime",
+        "required": true
       },
       {
         "sortOrder": 11,
-        "columnName": "payment_type_id",
-        "dataType": "int"
+        "columnName": "company_ac_number",
+        "dataType": "int",
+        "required": false
       },
       {
         "sortOrder": 12,
-        "columnName": "paid",
-        "dataType": "boolean"
-      },
-      {
-        "sortOrder": 13,
-        "columnName": "payment_date",
-        "dataType": "date"
+        "columnName": "counterparty_ac_number",
+        "dataType": "int",
+        "required": false
       }
     ]
   }

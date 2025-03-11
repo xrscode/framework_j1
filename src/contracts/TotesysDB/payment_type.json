@@ -5,7 +5,7 @@
       "connectionString": "connectionStringTotesys",
       "sourceQuery": "SELECT * FROM payment_type"
     },
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
         "columnName": "payment_type_id",

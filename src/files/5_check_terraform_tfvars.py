@@ -20,19 +20,19 @@ def check_git_url(url: str) -> bool:
         response = requests.get(url)
         # Check url correct:
         if response.status_code == 200:
-            print(f'Credentials are valid.  Status code: {response.status_code}')
+            print(f'URL is valid.  Status code: {response.status_code}')
         else:
-            print('Credentials are invalid.')
+            print('Git URL is invalid.')
             raise Exception('Invalid credentials.')
     else:
-        raise Exception('Credential is invalid format.  Must be string.')
+        raise Exception(f'Invalid input. Expected string, got {type(url)}.')
 
 
 
 # Check if terraform.tfvars exists:
 if os.path.exists(path):
-    print('terraform.tfvars already exists.')
-    print('Do you want to overwrite it? (y/n)')
+    print('terraform.tfvars already exists. If you wish to update your git credentials, please enter y.')
+    print('If your git credentials are correct, please enter n - so the file will not be overwritten.')
     overwrite = input()
     if overwrite == 'y':
         git_user = input('Please enter your git user name:')
@@ -62,9 +62,9 @@ if os.path.exists(path):
 # Create terraform.tfvars:
 else:
     # Prompt for git credentials:
-    git_user = input('Please enter your git user name:')
-    git_pat = input('Please enter your git personal access token:')
-    git_url = input('Please enter the git repository url:')
+    git_user = input('Enter git username:')
+    git_pat = input('Enter git personal access token:')
+    git_url = input('Enter git repository url:')
 
     # Create the file
     with open(path, 'w') as f:
