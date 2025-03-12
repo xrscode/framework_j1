@@ -216,7 +216,7 @@ def read_terraform_tfvars(path):
         String path to file.
 
     Returns: 
-        list[git url, git pat token]
+        list: [git url, git pat token]
 
     Raises:
         TypeError: if path is not a valid string.
