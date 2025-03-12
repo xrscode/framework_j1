@@ -114,6 +114,7 @@ def update_terraform_tfvars(path: str):
     This function reads from terraform tfvars.
     It looks for a git_url, git_pat and git_user.
     If they do not exist, it will prompt the user for them.
+    If they do exist, it will prompt user to replace if necessary.
     """
 
     # Check path is string:
@@ -207,10 +208,33 @@ def update_terraform_tfvars(path: str):
 
 
 def read_terraform_tfvars(path):
+    """
+    This function reads form terraform.tfvars.
+    It aims to extract the data.
+
+    Args: 
+        String path to file.
+
+    Returns: 
+        list[git url, git pat token]
+
+    Raises:
+        TypeError: if path is not a valid string.
+        RuntimeError: if there is no data in terraform.tfvars.
+    """
+    if not isinstance(path, str):
+        raise TypeError('Path should be a string.')
+    
     with open(path, 'r') as f:
+        # Open and read:
         data = f.read()
+        # If no data error:
+        if not data:
+            raise RuntimeError('No data to read.')
+        
         git_url = data.split('\n')[2][11:-1]
         git_pat = data.split('\n')[1][11:-1]
+        
     return [git_url, git_pat]
 
 
@@ -220,5 +244,5 @@ create_terraform_tfvars(path)
 update_terraform_tfvars(path)
 # Read data from terraform tfvars:
 git_url, git_pat = read_terraform_tfvars(path)
-# # Check credentials valid:
+# Check credentials valid:
 validate_git_credentials(git_url, git_pat)
