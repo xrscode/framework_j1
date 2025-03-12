@@ -51,10 +51,10 @@ def validate_git_credentials(url: str, pat: str) -> bool:
         )
         # If invalid pat raise exception:
         if not "HTTP/1.1 200 OK" in result.stdout and not "HTTP/2 200" in result.stdout:
-            raise Exception('Invalid PAT')
+            raise RuntimeError('Invalid PAT')
 
     except Exception as e:
-        return False, e
+        raise RuntimeError('Invalid PAT')
 
     # Check URL:
     try:
@@ -68,9 +68,9 @@ def validate_git_credentials(url: str, pat: str) -> bool:
 
         # If invalid url raise exception:
         if not repo_check.returncode == 0:
-            raise Exception('Invalid url.')
+            raise RuntimeError('Invalid url.')
     except Exception as e:
-        return False, e
+        raise RuntimeError('Invalid url.')
     
     return True, "Valid URL and PAT token."
 
@@ -197,6 +197,28 @@ def update_terraform_tfvars(path: str):
     except Exception as e:
         print('Error: ', e)
     
+
+def read_terraform_tfvars(path):
+    with open(path, 'r') as f:
+        data = f.read()
+        git_url = data.split('\n')[2][11:-1]
+        git_pat = data.split('\n')[1][11:-1]
+    return [git_url, git_pat]
+
+    
+
+# Create terraform tfvars if does not exist:
+create_terraform_tfvars(path)
+# Update terraform tfvars with user cred:
+update_terraform_tfvars(path)
+# Read data from terraform tfvars:
+git_url, git_pat = read_terraform_tfvars(path)
+# # Check credentials valid:
+validate_git_credentials(git_url, git_pat)
+
+
+
+
 
 
 
