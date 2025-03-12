@@ -2,10 +2,11 @@ from utility_functions import ddl_metadata
 
 """
 This python file will setup the metadata datasbse.
-First it will read the setup_source_system_tables.sql file and create the sourceSystem table.
-Next it will read the setup_source_entity_tables.sql file and create the sourceEntity table.
+First it will read the setup_source_system_tables.sql file and
+create the sourceSystem table.
+Next it will read the setup_source_entity_tables.sql file and
+create the sourceEntity table.
 """
-
 print('Please make sure keyvault name is in the .env file!')
 
 # Setup the sourceSystem table:

@@ -73,7 +73,17 @@ $requirementsFile = ".\requirements.txt"
 if (Test-Path $requirementsFile) {
     Write-Host "Installing dependencies from requirements.txt..." -ForegroundColor Yellow
     python -m pip install --upgrade pip
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Failed to upgrade pip. Exiting." -ForegroundColor Red
+        exit 1
+    }
+
     python -m pip install -r $requirementsFile
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Dependency installation failed. Exiting." -ForegroundColor Red
+        exit 1
+    }
     Write-Host "All dependencies installed successfully!" -ForegroundColor Green
 } else {
     Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
@@ -110,7 +120,7 @@ Set-Location ..
 # Setup the metadata database:
 $pythonScript = ".\src\files\1_setup_metadata_database.py"
 if (Test-Path $pythonScript) {
-    Write-Host "Running Python script: $pythonScript" -ForegroundColor Cyan
+    Write-Host "Running Python script: $pythonScript.  Creating metadata database..." -ForegroundColor Cyan
     python $pythonScript
     Write-Host "Python script execution completed!" -ForegroundColor Green
 } else {
@@ -120,9 +130,10 @@ if (Test-Path $pythonScript) {
 # Setup the totesys database:
 $pythonScript = ".\src\files\2_setup_totesys_database.py"
 if (Test-Path $pythonScript) {
-    Write-Host "Running Python script: $pythonScript" -ForegroundColor Cyan
+    Write-Host "Running Python script: $pythonScript.  Populating TotesysDB database..." -ForegroundColor Cyan
     python $pythonScript
     Write-Host "Python script execution completed!" -ForegroundColor Green
 } else {
     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
 }
+

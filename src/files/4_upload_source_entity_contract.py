@@ -4,7 +4,7 @@ import os
 import inquirer
 
 """
-This python file will take a sourceEntityContract.json and upload it into the database. 
+This python file will take a sourceEntityContract.json and upload it into the database.
 """
 
 # First get list of folders/sourcesystems:
@@ -25,13 +25,14 @@ while True:
         print('Exiting...')
         break
     else:
-        
+
         # Define the path to the source entity contract:
         sourceEntityPath = f'./src/contracts/{sourceSystemName}/'
 
         # List all files in the folder
-        json_files = [f for f in os.listdir(sourceEntityPath) if f.endswith(".json") and f != "_sourceSystem.json"]
-        
+        json_files = [f for f in os.listdir(sourceEntityPath) if f.endswith(
+            ".json") and f != "_sourceSystem.json"]
+
         # Iterate through the contracts and upload them to the database:
         for contract in json_files:
             # Reconstruct full file path:
@@ -39,15 +40,21 @@ while True:
             # Open contract:
             with open(file, 'r') as c:
                 d = json.load(c)
-            
+
             # Save variables:
             entityName = d['name']
             entityDescription = d['description']
             entitySourceQuery = str(d['connectionDetails']).replace("'", '"')
             # Convert to string and lower case so that json is valid:
-            entityIngestionColumns = str(d['ingestion_columns']).replace("'", '"').replace("True", "true").replace("False", "false")
+            entityIngestionColumns = str(
+                d['ingestion_columns']).replace(
+                "'",
+                '"').replace(
+                "True",
+                "true").replace(
+                "False",
+                "false")
 
-        
             # Build up query
             query = f"""
             DECLARE @sourceSystemID INT;
@@ -68,17 +75,15 @@ while True:
             MERGE INTO sourceEntity AS target
             USING (SELECT @sourceSystemID AS sourceSystemID, '{entityName}' AS entityName) AS source
             ON target.sourceSystemID = source.sourceSystemID AND target.entityName = source.entityName
-            WHEN MATCHED THEN 
-                UPDATE SET 
-                    entityDescription = '{entityDescription}', 
-                    entitySourceQuery = '{entitySourceQuery}', 
+            WHEN MATCHED THEN
+                UPDATE SET
+                    entityDescription = '{entityDescription}',
+                    entitySourceQuery = '{entitySourceQuery}',
                     entityIngestionColumns = '{entityIngestionColumns}'
             WHEN NOT MATCHED THEN
                 INSERT (sourceSystemID, entityName, entityDescription, entitySourceQuery, entityIngestionColumns)
                 VALUES (@sourceSystemID, '{entityName}', '{entityDescription}', '{entitySourceQuery}', '{entityIngestionColumns}');
             """
-
-            
 
             # Execute the query:
             try:

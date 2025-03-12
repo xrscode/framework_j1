@@ -5,3 +5,4 @@ azure-keyvault-secrets
 python-dotenv
 inquirer
 autopep8
+flake8

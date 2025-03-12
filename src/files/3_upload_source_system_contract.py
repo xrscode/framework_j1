@@ -4,10 +4,12 @@ import inquirer
 import json
 
 """
-This python file will take a sourceSystemContract.json and upload it into the database. 
-Note that in order to get the correct sourceSystemContract, when prompted enter the
-source system name/folder name.  For example, 'AdventureWorks' is a folder that contains
-the _sourceSystem.json for the AdventureWorks source System.
+This python file will take a sourceSystemContract.json and upload
+it into the database.Note that in order to get the correct
+sourceSystemContract, when prompted enter the source system
+name/folder name.  For example, 'AdventureWorks' is a folder
+that contains the _sourceSystem.json for the AdventureWorks
+source System.
 """
 
 # First get list of folders/sourcesystems:
@@ -27,7 +29,7 @@ while True:
     if sourceSystemName == 'Exit':
         print('Exiting...')
         break
-    
+
     else:
         print(f'Uploading source system: {sourceSystemName}...')
         # Set the source system name to be uploaded:
@@ -41,30 +43,33 @@ while True:
         sourceSystemName = sourceSystemContract['name']
         sourceSystemDescription = sourceSystemContract['description']
         keyVaultQuery = sourceSystemContract['keyVaultQuery']
-        entityNames = str(sourceSystemContract['entityNames']).replace("'", '"')
+        entityNames = str(
+            sourceSystemContract['entityNames']).replace(
+            "'", '"')
         notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
 
-      
         # Merge prevents sourceSystemID from incrementing on match:
         query = f"""
         MERGE INTO dbo.sourceSystem AS target
-        USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}')) AS source (sourceSystemName, sourceSystemDescription, entityNames, keyVaultQuery, notebooks)
+        USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}',
+        '{keyVaultQuery}', '{notebooks}')) AS source (sourceSystemName, sourceSystemDescription,
+        entityNames, keyVaultQuery, notebooks)
         ON target.sourceSystemName = source.sourceSystemName
         WHEN MATCHED THEN
-            UPDATE SET 
+            UPDATE SET
                 target.sourceSystemDescription = source.sourceSystemDescription,
                 target.entityNames = source.entityNames,
                 target.keyVaultQuery = source.keyVaultQuery,
                 target.notebooks = source.notebooks
         WHEN NOT MATCHED THEN
             INSERT (sourceSystemName, sourceSystemDescription, entityNames, keyVaultQuery, notebooks)
-            VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}', '{keyVaultQuery}', '{notebooks}');
+            VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}',
+            '{keyVaultQuery}', '{notebooks}');
         """
 
         # Execute the query:
         try:
-            ddl_metadata(query) 
+            ddl_metadata(query)
         except Exception as e:
             print(f'Error message: {e}')
         break
-    
