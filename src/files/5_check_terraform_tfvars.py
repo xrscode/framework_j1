@@ -238,10 +238,10 @@ def read_terraform_tfvars(path):
     return [git_url, git_pat]
 
 
-# 1. Check if terraform.tfvars exists:
+# 1. Check if terraform.tfvars exist.  If not create:
 create_terraform_tfvars(path)
 
-# 2. Now it has been created, update credentials:
+# 2. Update credentials in terraform.tfvars:
 update_terraform_tfvars(path)
 
 # 3. Read from terraform.tfvars to extract git credentials:

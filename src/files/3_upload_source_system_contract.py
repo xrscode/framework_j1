@@ -33,10 +33,10 @@ while True:
     else:
         print(f'Uploading source system: {sourceSystemName}...')
         # Set the source system name to be uploaded:
-        sourceSystemPath = f'./src/contracts/{sourceSystemName}/_sourceSystem.json'
+        sysPath = f'./src/contracts/{sourceSystemName}/_sourceSystem.json'
 
         # Load the source system contract JSON:
-        with open(sourceSystemPath, 'r') as file:
+        with open(sysPath, 'r') as file:
             sourceSystemContract = json.load(file)
 
         # Begin to build up query:
@@ -51,8 +51,9 @@ while True:
         # Merge prevents sourceSystemID from incrementing on match:
         query = f"""
         MERGE INTO dbo.sourceSystem AS target
-        USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}',
-        '{keyVaultQuery}', '{notebooks}')) AS source (sourceSystemName, sourceSystemDescription,
+        USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}',
+        '{entityNames}','{keyVaultQuery}', '{notebooks}')) 
+            AS source (sourceSystemName, sourceSystemDescription,
         entityNames, keyVaultQuery, notebooks)
         ON target.sourceSystemName = source.sourceSystemName
         WHEN MATCHED THEN
@@ -62,9 +63,10 @@ while True:
                 target.keyVaultQuery = source.keyVaultQuery,
                 target.notebooks = source.notebooks
         WHEN NOT MATCHED THEN
-            INSERT (sourceSystemName, sourceSystemDescription, entityNames, keyVaultQuery, notebooks)
-            VALUES ('{sourceSystemName}', '{sourceSystemDescription}', '{entityNames}',
-            '{keyVaultQuery}', '{notebooks}');
+            INSERT (sourceSystemName, sourceSystemDescription, entityNames,
+            keyVaultQuery, notebooks)
+                VALUES ('{sourceSystemName}', '{sourceSystemDescription}',
+                '{entityNames}', '{keyVaultQuery}', '{notebooks}');
         """
 
         # Execute the query:

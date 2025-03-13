@@ -9,3 +9,9 @@ python .\src\files\3_upload_source_system_contract.py
 
 Upload source entity contract:
 python .\src\files\4_upload_source_entity_contract.py
+
+Autopep8:
+autopep8 --in-place --aggressive --aggressive .\src\files\4_upload_source_entity_contract.py
+
+Flake8:
+flake8 .\src\files\4_upload_source_entity_contract.py
