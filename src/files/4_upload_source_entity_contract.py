@@ -1,5 +1,5 @@
 import json
-from utility_functions import ddl_metadata
+from utility_functions import list_folders, query_database
 import os
 import inquirer
 
@@ -8,43 +8,8 @@ This python file will take a sourceEntityContract.json and upload it into
 the metadata database.
 """
 
+
 path = './src/contracts'
-
-
-def list_folders(path: str) -> list:
-    """
-    Description: This function aims to list the folders/directories
-    in the given path.  It can be used to help identify the individual source
-    systems.  This function will return a list of all the directories/source
-    systems at the specified location.
-
-    Args:
-        Str: Path to check for folders.
-
-    Returns:
-        List: A list of folders located in the path.
-
-    Raises:
-        TypeError: If path is not string format.
-        FileNotFoundError: If path does not exist.
-        FileNotFoundError: If path is not a directory.
-    """
-    # Check path is string:
-    if not isinstance(path, str):
-        raise TypeError('Path must be a string')
-
-    # Check path is valid:
-    if not os.path.exists(path):
-        raise FileNotFoundError(f'Path: {path} does not exist.')
-
-    # Check path is valid directory:
-    if not os.path.isdir(path):
-        raise FileNotFoundError(f'Path: {path} is not a directory.')
-
-    # Assimilate list of folders to return:
-    list_of_folders = [folder for folder in os.listdir(path)]
-
-    return list_of_folders
 
 
 def choose_entity_contract(sourceSystems: list) -> str:
@@ -179,7 +144,7 @@ def upload_source_entity_contract(path: str, sourceSystemName: str):
         # Execute the query:
         try:
             print(f'Uploading entity: {entityName}')
-            ddl_metadata(query)
+            query_database('metadata', query)
         except Exception as e:
             print(f'Error message: {e}')
 

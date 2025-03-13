@@ -3,8 +3,9 @@ import subprocess
 import inquirer
 
 """
-In order for terraform to deploy correctly, terraform.tfvars will need to be created.
+For terraform to deploy correctly, terraform.tfvars will need to be created.
 It needs to be populated with GIT credentials.
+This python file will create terraform.tfvars with correct credentials.
 """
 
 # Define path to terraform .tfvars:

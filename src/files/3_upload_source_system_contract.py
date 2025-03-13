@@ -1,5 +1,5 @@
 import os
-from utility_functions import ddl_metadata
+from utility_functions import query_database
 import inquirer
 import json
 
@@ -71,7 +71,7 @@ while True:
 
         # Execute the query:
         try:
-            ddl_metadata(query)
+            query_database('metadata', query)
         except Exception as e:
             print(f'Error message: {e}')
         break

@@ -1,4 +1,4 @@
-from utility_functions import ddl_metadata
+from utility_functions import query_database
 
 """
 This python file will setup the metadata datasbse.
@@ -13,7 +13,7 @@ print('Please make sure keyvault name is in the .env file!')
 with open('./src/sql/setup_source_system_tables.sql', 'r') as file:
     query = file.read()
     try:
-        ddl_metadata(query)
+        query_database('metadata', query)
         print('sourceSystem table successfully created.')
     except Exception as e:
         print(f'Error: {e}')
@@ -22,7 +22,7 @@ with open('./src/sql/setup_source_system_tables.sql', 'r') as file:
 with open('./src/sql/setup_source_entity_tables.sql', 'r') as file:
     query = file.read()
     try:
-        ddl_metadata(query)
+        query_database('metadata', query)
         print('sourceEntity table successfully created.')
     except Exception as e:
         print(f'Error: {e}')

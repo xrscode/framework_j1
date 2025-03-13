@@ -5,7 +5,7 @@
       "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv",
       "sourceQuery": "None"
     }, 
-    "columns": [
+    "ingestion_columns": [
       {
         "sortOrder": 1,
         "columnName": "ProductID",

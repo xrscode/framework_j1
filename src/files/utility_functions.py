@@ -2,11 +2,12 @@ from dotenv import load_dotenv
 import os
 from azure.core.exceptions import ResourceNotFoundError
 import pyodbc
-from azure.identity import DefaultAzureCredential   # Required for Azure Key Vault
+from azure.identity import DefaultAzureCredential   
 from azure.keyvault.secrets import SecretClient
 
 # Load dotenv:
 load_dotenv()
+
 # Get the keyvault name:
 kv = os.getenv('k-v_name')
 
@@ -23,26 +24,39 @@ def connection_strings(keyvault_name: str) -> dict:
     client = SecretClient(vault_url=kv_url, credential=credential)
     # Try to get secrets:
     try:
-        strings = {'metadata': client.get_secret(metadata_string).value, 'totesys': client.get_secret(totesys_string).value}
+        strings = {'metadata': client.get_secret(metadata_string).value,\
+                   'totesys': client.get_secret(totesys_string).value}
     except Exception as e:
         return e
     # Return connection string dictionary:
     return strings
 
 
-def ddl_metadata(query):
+def query_database(database_name: str, query: str):
     """
-    Arguments: query (str).
-    Returns: result of query. 
-    Description: This function queries the database and returns the result. 
-    """
+    This function accepts the name of a datbase and a query. 
+    It then queries the database and returns the reuslts if there are any.
     
+    Arguments: 
+        database_name (str): name of the database to query.
+        query (str): the query to execute.
+    Returns: Nothing.
+
+    Raises:
+        pydobc.Error: if there is an error querying the database.
+        TypeError: if the database_name or query are not string types. 
+    """
+
+    if not isinstance(database_name, str) or not isinstance(query, str):
+        raise TypeError(f'Expected strings.  Got\
+                        database_name: {type(database_name)}\
+                        query:{type(query)}]')
 
     # Establish Connection Details:
-    connectionString = connection_strings(kv)['metadata']
+    connectionString = connection_strings(kv)[database_name]
 
     # Open the Connection:
-    conn = pyodbc.connect(connectionString, autocommit = True)
+    conn = pyodbc.connect(connectionString, autocommit = False)
 
     # Create Cursor:
     cursor = conn.cursor()
@@ -51,42 +65,61 @@ def ddl_metadata(query):
     try:
         cursor.execute(query)
         
-    except Exception as e:
-        print(f'Error: {e}')
+    except pyodbc.Error as e:
+        # Rollback changes if error:
+        if conn:
+            conn.rollback()
+        # Handle specific database errors
+        error_code = e.args[0] if e.args else "Unknown"
+        return error_code
 
-    # Close the connection:
+    # Rows affected
+    rows_affected = cursor.rowcount
+    if rows_affected > 0:
+        print(f'Rows affected: {rows_affected}')
+    else:
+        print(f'No rows were changed.')
+
+    # Commit:
+    conn.commit()
+    # Close
     cursor.close()
     conn.close()
 
     return cursor.rowcount
 
 
-def ddl_totesys(query):
+def list_folders(path: str) -> list:
     """
-    Arguments: query (str).
-    Returns: result of query. 
-    Description: This function queries the database and returns the result. 
+    Description: This function aims to list the folders/directories
+    in the given path.  It can be used to help identify the individual source
+    systems.  This function will return a list of all the directories/source
+    systems at the specified location.
+
+    Args:
+        Str: Path to check for folders.
+
+    Returns:
+        List: A list of folders located in the path.
+
+    Raises:
+        TypeError: If path is not string format.
+        FileNotFoundError: If path does not exist.
+        FileNotFoundError: If path is not a directory.
     """
-    
-    # Establish Connection Details:
-    connectionString = connection_strings(kv)['totesys']
+    # Check path is string:
+    if not isinstance(path, str):
+        raise TypeError('Path must be a string')
 
-    # Open the Connection:
-    conn = pyodbc.connect(connectionString)
+    # Check path is valid:
+    if not os.path.exists(path):
+        raise FileNotFoundError(f'Path: {path} does not exist.')
 
-    # Create Cursor:
-    cursor = conn.cursor()
-    # Enable autocommit:
-    conn.autocommit = True
+    # Check path is valid directory:
+    if not os.path.isdir(path):
+        raise FileNotFoundError(f'Path: {path} is not a directory.')
 
-    # Execute the query:
-    try:
-        cursor.execute(query)
-    except Exception as e:
-        print(f'Error: {e}')
+    # Assimilate list of folders to return:
+    list_of_folders = [folder for folder in os.listdir(path)]
 
-    # Close the connection:
-    cursor.close()
-    conn.close()
-
-    return cursor.rowcount
+    return list_of_folders

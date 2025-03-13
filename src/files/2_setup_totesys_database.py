@@ -1,5 +1,5 @@
 import json
-from utility_functions import ddl_totesys
+from utility_functions import query_database
 
 """
 This python file will setup the totesys database.
@@ -10,10 +10,10 @@ Next it will read totesys_data.json and upload the data into the tables.
 
 # Setup the toteSys tables:
 with open('./src/sql/setup_totesys_tables.sql', 'r') as file:
-    q = file.read()
+    query = file.read()
 
     # Execute query:
-    ddl_totesys(q)
+    query_database('totesys', query)
 
 
 # Load data in json:
@@ -52,10 +52,10 @@ for table in data:
             query = f"""INSERT INTO [{table}] ({column_names_string})
             VALUES {', '.join(table_data[i:i+1000])};"""
             # Execute query:
-            ddl_totesys(query)
+            query_database('totesys', query)
     else:
         # Compose query:
         query = f"""INSERT INTO [{table}] ({column_names_string})
         VALUES {', '.join(table_data)}"""
         # Execute query:
-        ddl_totesys(query)
+        query_database('totesys', query)
