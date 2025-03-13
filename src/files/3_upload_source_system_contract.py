@@ -52,16 +52,16 @@ while True:
         query = f"""
         MERGE INTO dbo.sourceSystem AS target
         USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}',
-        '{entityNames}','{keyVaultQuery}', '{notebooks}')) 
+        '{entityNames}','{keyVaultQuery}', '{notebooks}'))
             AS source (sourceSystemName, sourceSystemDescription,
         entityNames, keyVaultQuery, notebooks)
         ON target.sourceSystemName = source.sourceSystemName
         WHEN MATCHED THEN
             UPDATE SET
-                target.sourceSystemDescription = source.sourceSystemDescription,
-                target.entityNames = source.entityNames,
-                target.keyVaultQuery = source.keyVaultQuery,
-                target.notebooks = source.notebooks
+               target.sourceSystemDescription = source.sourceSystemDescription,
+               target.entityNames = source.entityNames,
+               target.keyVaultQuery = source.keyVaultQuery,
+               target.notebooks = source.notebooks
         WHEN NOT MATCHED THEN
             INSERT (sourceSystemName, sourceSystemDescription, entityNames,
             keyVaultQuery, notebooks)

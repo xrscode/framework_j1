@@ -52,10 +52,12 @@ def validate_git_credentials(url: str, pat: str) -> bool:
                                 text=True,
                                 timeout=10)
         # If invalid pat raise exception:
-        if "HTTP/1.1 200 OK" not in result.stdout and "HTTP/2 200" not in result.stdout:
+        if "HTTP/1.1 200 OK" not in result.stdout\
+                and "HTTP/2 200" not in result.stdout:
             raise RuntimeError('Invalid PAT')
 
     except Exception as e:
+        print('Error: ', {e})
         raise RuntimeError('Invalid PAT')
 
     # Check URL:
@@ -72,6 +74,7 @@ def validate_git_credentials(url: str, pat: str) -> bool:
         if not repo_check.returncode == 0:
             raise RuntimeError('Invalid url.')
     except Exception as e:
+        print('Error: ', {e})
         raise RuntimeError('Invalid url.')
 
     return True, "Valid URL and PAT token."
@@ -135,7 +138,7 @@ def update_terraform_tfvars(path: str):
         questions = [
             inquirer.List(
                 'choice',
-                message="Git_user already exists.  Would you like to overwrite?",
+                message="Git_user already exists.  Overwrite?",
                 choices=[
                     'yes',
                     'no'],
@@ -158,7 +161,7 @@ def update_terraform_tfvars(path: str):
         questions = [
             inquirer.List(
                 'choice',
-                message="Git_pat already exists.  Would you like to overwrite?",
+                message="Git_pat already exists.  Overwrite?",
                 choices=[
                     'yes',
                     'no'],
@@ -181,7 +184,7 @@ def update_terraform_tfvars(path: str):
         questions = [
             inquirer.List(
                 'choice',
-                message="Git_url already exists.  Would you like to overwrite?",
+                message="Git_url already exists.  Overwrite?",
                 choices=[
                     'yes',
                     'no'],
@@ -213,10 +216,10 @@ def read_terraform_tfvars(path):
     This function reads form terraform.tfvars.
     It aims to extract the data.
 
-    Args: 
+    Args:
         String path to file.
 
-    Returns: 
+    Returns:
         list: [git url, git pat token]
 
     Raises:
@@ -225,17 +228,17 @@ def read_terraform_tfvars(path):
     """
     if not isinstance(path, str):
         raise TypeError('Path should be a string.')
-    
+
     with open(path, 'r') as f:
         # Open and read:
         data = f.read()
         # If no data error:
         if not data:
             raise RuntimeError('No data to read.')
-        
+
         git_url = data.split('\n')[2][11:-1]
         git_pat = data.split('\n')[1][11:-1]
-        
+
     return [git_url, git_pat]
 
 

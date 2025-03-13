@@ -1,8 +1,7 @@
 from dotenv import load_dotenv
 import os
-from azure.core.exceptions import ResourceNotFoundError
 import pyodbc
-from azure.identity import DefaultAzureCredential   
+from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
 # Load dotenv:
@@ -10,6 +9,7 @@ load_dotenv()
 
 # Get the keyvault name:
 kv = os.getenv('k-v_name')
+
 
 def connection_strings(keyvault_name: str) -> dict:
     # Define secret name for metadata:
@@ -24,7 +24,7 @@ def connection_strings(keyvault_name: str) -> dict:
     client = SecretClient(vault_url=kv_url, credential=credential)
     # Try to get secrets:
     try:
-        strings = {'metadata': client.get_secret(metadata_string).value,\
+        strings = {'metadata': client.get_secret(metadata_string).value,
                    'totesys': client.get_secret(totesys_string).value}
     except Exception as e:
         return e
@@ -34,17 +34,17 @@ def connection_strings(keyvault_name: str) -> dict:
 
 def query_database(database_name: str, query: str):
     """
-    This function accepts the name of a datbase and a query. 
+    This function accepts the name of a datbase and a query.
     It then queries the database and returns the reuslts if there are any.
-    
-    Arguments: 
+
+    Arguments:
         database_name (str): name of the database to query.
         query (str): the query to execute.
     Returns: Nothing.
 
     Raises:
         pydobc.Error: if there is an error querying the database.
-        TypeError: if the database_name or query are not string types. 
+        TypeError: if the database_name or query are not string types.
     """
 
     if not isinstance(database_name, str) or not isinstance(query, str):
@@ -56,7 +56,7 @@ def query_database(database_name: str, query: str):
     connectionString = connection_strings(kv)[database_name]
 
     # Open the Connection:
-    conn = pyodbc.connect(connectionString, autocommit = False)
+    conn = pyodbc.connect(connectionString, autocommit=False)
 
     # Create Cursor:
     cursor = conn.cursor()
@@ -64,7 +64,7 @@ def query_database(database_name: str, query: str):
     # Execute the query:
     try:
         cursor.execute(query)
-        
+
     except pyodbc.Error as e:
         # Rollback changes if error:
         if conn:
@@ -78,7 +78,7 @@ def query_database(database_name: str, query: str):
     if rows_affected > 0:
         print(f'Rows affected: {rows_affected}')
     else:
-        print(f'No rows were changed.')
+        print('No rows were changed.')
 
     # Commit:
     conn.commit()
