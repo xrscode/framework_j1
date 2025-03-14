@@ -26,35 +26,54 @@ totesys_data = './src/files/totesys_data.json'
 data = json.loads(read_sql(totesys_data))
 
 
-# For each table, create a bulk insert query:
-for table in data:
+def bulk_insert(data: json):
+    """
+    This function iterates through (totesys_data.json)
+    dictionary and bulk inserts data into a sql database.
 
-    print(f'Inserting data into {table} table...')
+    Arguments:
+        data (json): Data in json format.
 
-    # Column names to string:
-    column_names_string = ', '.join([x for x in data[table][0]])
-    # Values for each table:
-    table_data = []
+    Raises:
+        TypeError: if data is not in json format.
 
-    # Iterate through values:
-    for value in data[table]:
-        values = [f"'{str(x)}'" for x in value.values()]
-        # Convert list of values to string:
-        value_string = ', '.join(values)
-        # Ensure string is in correct format: (value1, value2, value3...valueN)
-        val_string = f"({value_string})"
-        # Append value to table_data list:
-        table_data.append(val_string)
+    Returns:
+        Nothing.
+    """
 
-    # SQL can only upload 1000 values at a time, so split data into chunks of
-    # 1000:
+    # Check data is json:
 
-    queries = []
-    
-    # Start at position 0.  Continue for length of table.  Step by 1000:
-    for i in range(0, len(table_data), 1000):
-        # Compose query:
-        query = f"""INSERT INTO [{table}] ({column_names_string})
-        VALUES {', '.join(table_data[i:i+1000])};"""
-        # Execute query:
-        query_database('totesys', query)
+    if not isinstance(data, dict):
+        raise TypeError(f'Expecting json, got: {type(data)}')
+
+    # For each table, create a bulk insert query:
+    for table in data:
+
+        print(f'Inserting data into {table} table...')
+
+        # Column names to string:
+        column_names_string = ', '.join([x for x in data[table][0]])
+
+        # Values for each table:
+        table_data = []
+
+        # Iterate through values and append to list:
+        for value in data[table]:
+            values = [f"'{str(x)}'" for x in value.values()]
+            # Convert list of values to string:
+            value_to_string = f"({', '.join(values)})"
+            # Append value to table_data list:
+            table_data.append(value_to_string)
+
+        # Upload in chunks of 1000 at a time:
+        # Start at position 0.  Continue for length of table.  Step by 1000:
+        for i in range(0, len(table_data), 1000):
+            # Compose query:
+            query = f"""INSERT INTO [{table}] ({column_names_string})
+            VALUES {', '.join(table_data[i:i+1000])};"""
+            # Execute query:
+            query_database('totesys', query)
+
+
+# Call function:
+bulk_insert(data)
