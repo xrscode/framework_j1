@@ -3,6 +3,8 @@ $python = Get-Command python -ErrorAction SilentlyContinue
 if (-not $python) {
     Write-Host "Python is not installed. Please install Python and try again." -ForegroundColor Red
     exit 1
+} else {
+    Write-Host "Python is installed. Continuing with installation." -ForegroundColor Yellow
 }
 
 # Check if terraform is installed.  If it is not, exit.
@@ -10,20 +12,22 @@ $terraform = Get-Command terraform -ErrorAction SilentlyContinue
 if (-not $terraform) {
     Write-Host "Terraform is not installed. Please install Terraform.  If chocolatey is installed run the following command in the terminal: 'choco install terraform -y' " -ForegroundColor Yellow
     exit 1
+} else {
+    Write-Host "Terraform is installed. Continuing with installation." -ForegroundColor Yellow
 }
 
 # Get the list of installed ODBC drivers
 $odbcDrivers = Get-OdbcDriver -Platform 64-bit | Select-Object -ExpandProperty Name
 
 # Define the driver you're looking for
-$driverName = "ODBC Driver 17 for SQL Server"
+$driverName = "ODBC Driver 18 for SQL Server"
 
 # Check if the driver is installed
 if ($odbcDrivers -contains $driverName) {
-    Write-Output "The ODBC driver '$driverName' is installed."
+    Write-Host "The ODBC driver '$driverName' is installed." -ForegroundColor Yellow
 } else {
-    Write-Output "The ODBC driver '$driverName' is NOT installed."
-    Write-Output "Please install the driver: https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16&redirectedfrom=MSDN"
+    Write-Host "The ODBC driver '$driverName' is NOT installed." -ForegroundColor Red
+    Write-Host "Please install the driver: https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16&redirectedfrom=MSDN" -ForegroundColor Red
     exit 1
 }
 
