@@ -11,7 +11,24 @@ load_dotenv()
 kv = os.getenv('k-v_name')
 
 
-def connection_strings(keyvault_name: str) -> dict:
+def keyvault_connection_strings(keyvault_name: str) -> dict:
+    """
+    Arguments:
+        keyvault_name (str) : The name of the keyvault to access.
+        secret (str) : The name of the secret to access. 
+
+    Raises:
+        TypeError: if keyvault_name, or secret are not strings.
+
+    Returns:
+        Dictionary: of connection strings to sql databases used in this project.
+    """
+
+    # Raise error if strings not
+    if not isinstance(keyvault_name, str) :
+        raise TypeError(f'Expecting strings.  Got: keyvault_name:\
+                        {type(keyvault_name)}.')
+
     # Define secret name for metadata:
     metadata_string = "metadataConnectionString"
     # Define seccret name for totesys:
@@ -53,7 +70,7 @@ def query_database(database_name: str, query: str):
                         query:{type(query)}]')
 
     # Establish Connection Details:
-    connectionString = connection_strings(kv)[database_name]
+    connectionString = keyvault_connection_strings(kv)[database_name]
 
     # Open the Connection:
     conn = pyodbc.connect(connectionString, autocommit=False)
@@ -97,10 +114,10 @@ def list_folders(path: str) -> list:
     systems at the specified location.
 
     Args:
-        Str: Path to check for folders.
+        path (str): Path to check for folders.
 
     Returns:
-        List: A list of folders located in the path.
+        folders (list): A list of folders located in the path.
 
     Raises:
         TypeError: If path is not string format.
@@ -123,3 +140,31 @@ def list_folders(path: str) -> list:
     list_of_folders = [folder for folder in os.listdir(path)]
 
     return list_of_folders
+
+def read_sql(path: str) -> str:
+    """
+    Args:
+        path (str): Path to the sql file to read.
+
+    Returns: 
+        query (str): SQL query as a string.
+
+    Raises:
+        TypeError: if path is not a string.
+        ValueError: if path does not lead to sql file
+    """
+
+    # Check path is a string:
+    if not isinstance(path, str):
+        raise TypeError(f'Path must be a string.  Got: {type(path)}.')
+    
+    # Check path is valid:
+    if not os.path.exists(path):
+        raise FileNotFoundError(f'File: {path} does not exist.')
+    
+    # Read from file and convert to string:
+    with open(path, 'r') as file:
+        query = file.read()
+        
+
+    return query
