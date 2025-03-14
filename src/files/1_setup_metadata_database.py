@@ -21,4 +21,3 @@ source_entity_sql_path = './src/sql/setup_source_entity_tables.sql'
 source_entity_sql_query = read_sql(source_entity_sql_path)
 # Query database:
 query_database(source_entity_sql_query)
-

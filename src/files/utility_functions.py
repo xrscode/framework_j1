@@ -15,17 +15,17 @@ def keyvault_connection_strings(keyvault_name: str) -> dict:
     """
     Arguments:
         keyvault_name (str) : The name of the keyvault to access.
-        secret (str) : The name of the secret to access. 
+        secret (str) : The name of the secret to access.
 
     Raises:
         TypeError: if keyvault_name, or secret are not strings.
 
     Returns:
-        Dictionary: of connection strings to sql databases used in this project.
+        Dict: of connection strings to sql databases used in this project.
     """
 
     # Raise error if strings not
-    if not isinstance(keyvault_name, str) :
+    if not isinstance(keyvault_name, str):
         raise TypeError(f'Expecting strings.  Got: keyvault_name:\
                         {type(keyvault_name)}.')
 
@@ -141,12 +141,13 @@ def list_folders(path: str) -> list:
 
     return list_of_folders
 
+
 def read_sql(path: str) -> str:
     """
     Args:
         path (str): Path to the sql file to read.
 
-    Returns: 
+    Returns:
         query (str): SQL query as a string.
 
     Raises:
@@ -157,14 +158,13 @@ def read_sql(path: str) -> str:
     # Check path is a string:
     if not isinstance(path, str):
         raise TypeError(f'Path must be a string.  Got: {type(path)}.')
-    
+
     # Check path is valid:
     if not os.path.exists(path):
         raise FileNotFoundError(f'File: {path} does not exist.')
-    
+
     # Read from file and convert to string:
     with open(path, 'r') as file:
         query = file.read()
-        
 
     return query
