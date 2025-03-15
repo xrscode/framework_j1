@@ -38,8 +38,9 @@ def choose_entity_contract(sourceSystems: list) -> str:
     if not all(isinstance(item, str) for item in sourceSystems):
         raise TypeError('All sourceSystems must be of type list.')
 
-    # Append 'Exit' to sourceSystems list:
-    sourceSystems.append('Exit')
+    # Append 'Exit' to sourceSystems list if does not exist:
+    if not 'Exit' in sourceSystems:
+        sourceSystems.append('Exit')
 
     while True:
         questions = [
