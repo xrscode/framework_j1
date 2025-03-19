@@ -107,7 +107,9 @@ def query_database(database_name: str, query: str):
         return error_code
     
     finally:
+        # Check if there is an open connection:
         if conn:
+            # Close
             cursor.close()
             conn.close()
     
