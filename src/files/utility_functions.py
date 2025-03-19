@@ -51,37 +51,53 @@ def keyvault_connection_strings(keyvault_name: str) -> dict:
 
 def query_database(database_name: str, query: str):
     """
-    This function accepts the name of a datbase and a query.
-    It then queries the database and returns the reuslts if there are any.
+    This function accepts the name of a database and a query.
+    It then queries the database and returns the results if there are any.
 
     Arguments:
         database_name (str): name of the database to query.
         query (str): the query to execute.
-    Returns: Nothing.
+    Returns: 
+        Tuples: If SELECT statement 10 results.
+        String: Rows affected if not SELECT statement.
 
     Raises:
         pydobc.Error: if there is an error querying the database.
         TypeError: if the database_name or query are not string types.
     """
 
+    # Check database is a string and query is a string:
     if not isinstance(database_name, str) or not isinstance(query, str):
         raise TypeError(f'Expected strings.  Got\
                         database_name: {type(database_name)}\
                         query:{type(query)}]')
 
-    # Establish Connection Details:
-    connectionString = keyvault_connection_strings(kv)[database_name]
+    # Get connection string:
+    connection_string = keyvault_connection_strings(kv)[database_name]
 
     # Open the Connection:
-    conn = pyodbc.connect(connectionString, autocommit=False)
+    conn = pyodbc.connect(connection_string, autocommit=False)
 
     # Create Cursor:
     cursor = conn.cursor()
 
-    # Execute the query:
+    
     try:
+        # Execute Query
         cursor.execute(query)
+        rows_affected = cursor.rowcount
 
+        # Fetch Results (if it's a SELECT query)
+        if query.strip().lower().startswith("select"):
+            results = cursor.fetchmany(10)  # Returns max 10 tuples
+        else:
+            results = f"Rows affected: {rows_affected}"
+        
+        # Commit changes for non-SELECT queries
+        conn.commit()
+
+        return results  # Return results or affected row count
+    
     except pyodbc.Error as e:
         # Rollback changes if error:
         if conn:
@@ -89,21 +105,12 @@ def query_database(database_name: str, query: str):
         # Handle specific database errors
         error_code = e.args[0] if e.args else "Unknown"
         return error_code
-
-    # Rows affected
-    rows_affected = cursor.rowcount
-    if rows_affected > 0:
-        print(f'Rows affected: {rows_affected}')
-    else:
-        print('No rows were changed.')
-
-    # Commit:
-    conn.commit()
-    # Close
-    cursor.close()
-    conn.close()
-
-    return cursor.rowcount
+    
+    finally:
+        if conn:
+            cursor.close()
+            conn.close()
+    
 
 
 def list_folders(path: str) -> list:

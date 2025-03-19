@@ -26,7 +26,7 @@ totesys_data = './src/files/totesys_data.json'
 data = json.loads(read_sql(totesys_data))
 
 
-def bulk_insert(data: json):
+def bulk_insert_totesys(data: json):
     """
     This function iterates through (totesys_data.json)
     dictionary and bulk inserts data into a sql database.
@@ -38,7 +38,7 @@ def bulk_insert(data: json):
         TypeError: if data is not in json format.
 
     Returns:
-        Nothing.
+        None.
     """
 
     # Check data is json:
@@ -72,8 +72,12 @@ def bulk_insert(data: json):
             query = f"""INSERT INTO [{table}] ({column_names_string})
             VALUES {', '.join(table_data[i:i+1000])};"""
             # Execute query:
-            query_database('totesys', query)
+            query = query_database('totesys', query)
+            print(query)
+        
+    return None
 
 
 # Call function:
-bulk_insert(data)
+bulk_insert_totesys(data)
+
