@@ -1,7 +1,6 @@
 import os
 import subprocess
 import inquirer
-import json
 
 """
 For terraform to deploy correctly, terraform.tfvars will need to be created.
