@@ -1,6 +1,7 @@
 import os
 import subprocess
 import inquirer
+import json
 
 """
 For terraform to deploy correctly, terraform.tfvars will need to be created.
@@ -129,83 +130,56 @@ def update_terraform_tfvars(path: str):
     with open(path, 'r+') as f:
         data = f.read()
 
-    # Check git_url exists:
-    if "git_user" not in data:
-        git_user = input('Please enter your git user name.')
-    # If git_url exists overwrite?
-    else:
-        # Prompt user to overwrite or not:
-        questions = [
-            inquirer.List(
-                'choice',
-                message="Git_user already exists.  Overwrite?",
-                choices=[
-                    'yes',
-                    'no'],
-            )]
-        answer = inquirer.prompt(questions)
+    # Dictionary to hold variable names:
+    variables = {'git_user': None, 'git_pat': None, 'git_url': None}
+    
 
-        # Prompt to overwrite:
-        if answer['choice'] == 'yes':
-            # Prompt user to input user:
-            git_user = input('Please enter your git user.')
+    # Iterate through variables to check if they exist:
+    for variable in variables:
+        # If variable does not exist prompt user:
+        if variable not in data:
+            prompt = input(f'Please enter your {variable}.')
+            # Update value in variables dictionary:
+            variables[variable] = prompt  
+        # If variable does exist prompt user to overwrite:
         else:
-            # Grab existing git_user:
-            git_user = data.split('\n')[0][12:-1]
-
-    # Check git_pat exists:
-    if "git_pat" not in data:
-        git_pat = input('Please enter your git pat token.')
-    else:
-        # Prompt user to overwrite or not:
-        questions = [
-            inquirer.List(
-                'choice',
-                message="Git_pat already exists.  Overwrite?",
-                choices=[
-                    'yes',
-                    'no'],
-            )]
-        answer = inquirer.prompt(questions)
-
-        # Prompt to overwrite:
-        if answer['choice'] == 'yes':
-            # Prompt user to input user:
-            git_pat = input('Please enter your git pat.')
-        else:
-            # Grab existing git_user:
-            git_pat = data.split('\n')[1][11:-1]
-
-    # Check git_url exists:
-    if "git_url" not in data:
-        git_url = input('Please enter your git url.')
-    else:
-        # Prompt user to overwrite or not:
-        questions = [
-            inquirer.List(
-                'choice',
-                message="Git_url already exists.  Overwrite?",
-                choices=[
-                    'yes',
-                    'no'],
-            )]
-        answer = inquirer.prompt(questions)
-
-        # Prompt to overwrite:
-        if answer['choice'] == 'yes':
-            # Prompt user to input user:
-            git_url = input('Please enter your git url.')
-        else:
-            # Grab existing git_user:
-            git_url = data.split('\n')[2][11:-1]
+            # Convert data to list of 'key value pairs':
+            values = data.strip().split('\n')
+            # Iterate through the list of 'key value pairs':
+            for i, key_value in enumerate(values):
+                # Check if the variable is in the key_value:
+                if variable in key_value:
+                    # Extract value:
+                    value = key_value.split('=')[1].replace('"', '').strip()
+                    
+                    # Prompt user to overwrite or not:
+                    questions = [
+                        inquirer.List('choice',message=f"""
+                            \n{variable} already exists.
+                            \nCurrent value: '{value}'.
+                            \nWould you like to overwrite?""",
+                            choices=[
+                                'No',
+                                'Yes'],
+                        )]
+                    # Save the answer:
+                    answer = inquirer.prompt(questions)
+                    # Prompt to overwrite:
+                    if answer['choice'] == 'Yes':
+                        # Prompt user to input user:
+                        variables[variable] = \
+                            input(f'Please enter your {variable}.')
+                    else:
+                        # Grab existing git_user:
+                        variables[variable] = value
 
     # Write variables to terraform.tfvars:
     try:
         with open(path, 'w') as f:
             # Write the user credentials to the file:
-            f.write(f'git_user = "{git_user}"\n')
-            f.write(f'git_pat = "{git_pat}"\n')
-            f.write(f'git_url = "{git_url}"\n')
+            f.write(f'git_user = "{variables["git_user"]}"\n')
+            f.write(f'git_pat = "{variables["git_pat"]}"\n')
+            f.write(f'git_url = "{variables["git_url"]}"\n')
         return True, 'Terraform.tfvars now exists with variables.'
     except Exception as e:
         print('Error: ', e)
