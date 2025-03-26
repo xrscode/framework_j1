@@ -145,17 +145,16 @@ def update_terraform_tfvars(path: str):
             # Convert data to list of 'key value pairs':
             values = data.strip().split('\n')
             # Iterate through the list of 'key value pairs':
-            for i, key_value in enumerate(values):
-                # Check if the variable is in the key_value:
-                if variable in key_value:
+            for key in values:
+                # Check if the variable is in the key:
+                if variable in key:
                     # Extract value:
-                    value = key_value.split('=')[1].replace('"', '').strip()
+                    value = key.split('=')[1].replace('"', '').strip()
                     
                     # Prompt user to overwrite or not:
                     questions = [
                         inquirer.List('choice',message=f"""
-                            \n{variable} already exists.
-                            \nCurrent value: '{value}'.
+                            \n{variable}: '{value}'.
                             \nWould you like to overwrite?""",
                             choices=[
                                 'No',

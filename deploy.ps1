@@ -94,7 +94,7 @@ if (Test-Path $requirementsFile) {
 }
 
 # Add the az login command to authenticate to Azure
-az login
+az login --tenant_id 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
 
 # Define Terraform directory
 $terraformDir = ".\terraform"

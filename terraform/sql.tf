@@ -38,7 +38,7 @@ resource "azurerm_mssql_firewall_rule" "allow_my_ip" {
   end_ip_address   = data.http.my_ip.response_body
 }
 
-# Setup Totesys schema:
+# Setup Totesys database:
 resource "azurerm_mssql_database" "fj1_database_totesys" {
   name         = "fj1-totesys-uks"
   server_id    = azurerm_mssql_server.fj1sqlserver.id
@@ -53,7 +53,7 @@ resource "azurerm_mssql_database" "fj1_database_totesys" {
   }
 }
 
-# Setup Metadata schema:
+# Setup Metadata database:
 resource "azurerm_mssql_database" "fj1_database_metadata" {
   name         = "fj1-metadata-uks"
   server_id    = azurerm_mssql_server.fj1sqlserver.id
@@ -67,3 +67,18 @@ resource "azurerm_mssql_database" "fj1_database_metadata" {
     prevent_destroy = false
   }
 }
+
+# # Setup AdventureWorks schema:
+# resource "azurerm_mssql_database" "fj1_database_AdventureWorks" {
+#   name         = "fj1-AdventureWorks-uks"
+#   server_id    = azurerm_mssql_server.fj1sqlserver.id
+#   collation    = "SQL_Latin1_General_CP1_CI_AS"
+#   license_type = "LicenseIncluded"
+#   max_size_gb  = 1
+#   sku_name     = "S0"
+  
+#   # Allow database to be destroyed
+#   lifecycle {
+#     prevent_destroy = false
+#   }
+# }

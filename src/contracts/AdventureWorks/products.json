@@ -1,5 +1,5 @@
 {
-    "name": "products",
+    "name": "products_AW",
     "description": "The products entity contains information about AdventureWorks products.",
     "connectionDetails": {
       "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv",
@@ -9,22 +9,30 @@
       {
         "sortOrder": 1,
         "columnName": "ProductID",
-        "dataType": "int"
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
       },
       {
         "sortOrder": 2,
         "columnName": "ProductName",
-        "dataType": "varchar"
+        "dataType": "varchar",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 3,
         "columnName": "Category",
-        "dataType": "varchar"
+        "dataType": "varchar",
+        "required": true,
+        "primary_key": false
       },
       {
         "sortOrder": 4,
         "columnName": "ListPrice",
-        "dataType": "double"
+        "dataType": "double",
+        "required": true,
+        "primary_key": false
         }
     ]
 }
