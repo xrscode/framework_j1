@@ -3,7 +3,7 @@
     "name": "AdventureWorks",
     "description": "AdventureWorks is a practice data source.",
     "keyVaultQuery": "None",
-    "entityNames": ["salesOrder_AW", "products_AW"],
+    "entityNames": ["sales_order_AW", "products_AW", "customer_AW"],
     "notebooks": 
       {
         "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/BRONZE_AdventureWorks",

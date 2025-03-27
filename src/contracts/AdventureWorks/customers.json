@@ -1,6 +1,6 @@
 {
     
-    "name": "sales_order_AW",
+    "name": "customer_AW",
     "description": "The customers entity contains information about AdventureWorks customers.",
     
     "connectionDetails": {
@@ -13,21 +13,21 @@
         "sortOrder": 1,
         "columnName": "SalesOrderNumber",
         "dataType": "varchar",
-        "required": true,
+        "required": false,
         "primary_key": false
       },
       {
         "sortOrder": 2,
         "columnName": "SalesOrderLineNumber",
         "dataType": "int",
-        "required": true,
+        "required": false,
         "primary_key": false
       },
       {
         "sortOrder": 3,
         "columnName": "OrderDate",
         "dataType":  "date",
-        "required": true,
+        "required": false,
         "primary_key": false
         
       },
@@ -35,7 +35,7 @@
         "sortOrder": 4,
         "columnName": "CustomerName",
         "dataType": "varchar",
-        "required": false,
+        "required": true,
         "primary_key": false
         },
       {
@@ -49,29 +49,29 @@
         "sortOrder": 6,
         "columnName": "Item",
         "dataType": "varchar",
-        "required": true,
+        "required": false,
         "primary_key": false
         },
       {
         "sortOrder": 7,
         "columnName": "Quantity",
         "dataType": "int",
-        "required": true,
+        "required": false,
         "primary_key": false
         },
       {
         "sortOrder": 8,
         "columnName": "UnitPrice",
         "dataType": "double",
-        "required": true,
+        "required": false,
         "primary_key": false
         
         },
         {
           "sortOrder": 9,
           "columnName": "TaxAmount",
-          "dataType": "double",
-          "required": true,
+          "dataType": "varchar",
+          "required": false,
           "primary_key": false
           }
     ]
