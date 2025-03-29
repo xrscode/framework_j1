@@ -1,3 +1,6 @@
+Set python path:
+$env:PYTHONPATH = "$PWD"
+
 Activate venv:
 .\venv\Scripts\activate
 

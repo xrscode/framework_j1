@@ -6,3 +6,4 @@ python-dotenv
 inquirer
 autopep8
 flake8
+pytest

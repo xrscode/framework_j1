@@ -24,7 +24,7 @@ def keyvault_connection_strings(keyvault_name: str) -> dict:
         Dict: of connection strings to sql databases used in this project.
     """
 
-    # Raise error if strings not
+    # Raise error if keyvault_name is not a string:
     if not isinstance(keyvault_name, str):
         raise TypeError(f'Expecting strings.  Got: keyvault_name:\
                         {type(keyvault_name)}.')
@@ -41,12 +41,12 @@ def keyvault_connection_strings(keyvault_name: str) -> dict:
     client = SecretClient(vault_url=kv_url, credential=credential)
     # Try to get secrets:
     try:
-        strings = {'metadata': client.get_secret(metadata_string).value,
+        string_dict = {'metadata': client.get_secret(metadata_string).value,
                    'totesys': client.get_secret(totesys_string).value}
     except Exception as e:
         return e
     # Return connection string dictionary:
-    return strings
+    return string_dict
 
 
 def query_database(database_name: str, query: str):
