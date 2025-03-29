@@ -120,7 +120,8 @@ def list_folders(path: str) -> list:
     Description: This function aims to list the folders/directories
     in the given path.  It can be used to help identify the individual source
     systems.  This function will return a list of all the directories/source
-    systems at the specified location.
+    systems at the specified location.  It does NOT return a path to the 
+    source system.
 
     Args:
         path (str): Path to check for folders.
