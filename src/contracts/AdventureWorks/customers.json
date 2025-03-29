@@ -14,7 +14,7 @@
         "columnName": "SalesOrderNumber",
         "dataType": "varchar",
         "required": false,
-        "primary_key": false
+        "primary_key": true
       },
       {
         "sortOrder": 2,
