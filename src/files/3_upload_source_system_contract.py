@@ -1,6 +1,7 @@
 from utility_functions import query_database, list_folders
 import inquirer
 import json
+import os
 
 """
 This python file will take a sourceSystemContract.json and upload
@@ -83,8 +84,9 @@ def upload_source_system_contract(path: str) -> None:
     if not isinstance(path, str):
         raise TypeError('Path must be a string')
 
-    # Call the list_folders function to check path is valid:
-    list_folders(path)
+    # Check path is valid:
+    if not os.path.exists(path):
+        raise FileNotFoundError(f'Path: {path} does not exist.')
 
     # Open the path:
     with open(path, 'r') as file:
@@ -123,7 +125,8 @@ def upload_source_system_contract(path: str) -> None:
 
     # Execute the query:
     try:
-        query_database('metadata', query)
+        result = query_database('metadata', query)
+        print(f"Uploaded: {sourceSystemName}. {result}.")
     except Exception as e:
         print(f'Error message: {e}')
 
@@ -136,3 +139,4 @@ source_system_path = choose_source_system(source_systems)
 
 # Next call the upload_source_system_contract function:
 upload_source_system_contract(source_system_path)
+
