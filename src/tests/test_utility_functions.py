@@ -8,11 +8,11 @@ $env:PYTHONPATH = "$PWD"
 """
 
 # Test keyvault_connection_strings function:
-def test_function_only_accepts_string():
+def test_data_types_accepted():
     type_list = [1, 1.0, True, None, [], {}, set(), bytes(), bytearray()]
     
     for item in type_list:
         with pytest.raises(TypeError) as excinfo:
             keyvault_connection_strings(item)
-        assert str(excinfo.value) == f"Expecting strings.  Got: keyvault_name:\
-                        {type(item)}."
+        assert str(excinfo.value) == f'Expecting strings.  Got: keyvault_name:\
+                        {type(item)}.'
