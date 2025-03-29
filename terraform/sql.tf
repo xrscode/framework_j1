@@ -7,7 +7,7 @@ resource "azurerm_mssql_server" "fj1sqlserver" {
   # Hard code user
   administrator_login          = "dylan"
   # Hard code password
-  administrator_login_password = "fjadl15v3CVAWEXx45asdfg"
+  administrator_login_password = "${random_string.random_password.result}"
   minimum_tls_version          = "1.2"
   public_network_access_enabled = true
   outbound_network_restriction_enabled = false
@@ -67,18 +67,3 @@ resource "azurerm_mssql_database" "fj1_database_metadata" {
     prevent_destroy = false
   }
 }
-
-# # Setup AdventureWorks schema:
-# resource "azurerm_mssql_database" "fj1_database_AdventureWorks" {
-#   name         = "fj1-AdventureWorks-uks"
-#   server_id    = azurerm_mssql_server.fj1sqlserver.id
-#   collation    = "SQL_Latin1_General_CP1_CI_AS"
-#   license_type = "LicenseIncluded"
-#   max_size_gb  = 1
-#   sku_name     = "S0"
-  
-#   # Allow database to be destroyed
-#   lifecycle {
-#     prevent_destroy = false
-#   }
-# }

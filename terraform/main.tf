@@ -52,6 +52,15 @@ resource "random_string" "random_storage_account" {
   upper = false
 }
 
+# Random Password:
+# Random String:
+resource "random_string" "random_password" {
+  length = 16
+  special = true
+  lower = true
+  upper = true
+}
+
 
 
 # Write to env file:
@@ -61,7 +70,7 @@ resource "local_file" "env_file" {
 k-v_name="${azurerm_key_vault.fj1kv.name}"
 server_name="${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net"
 server_user = "${azurerm_mssql_server.fj1sqlserver.administrator_login}"
-server_password = "fjadl15v3CVAWEXx45asdfg"
+server_password = "${random_string.random_password.result}"
 resource_group_name = "${azurerm_resource_group.framework_rg.name}"
 databricks_workspace_url = "${azurerm_databricks_workspace.dbs_workspace.workspace_url}"
 EOT

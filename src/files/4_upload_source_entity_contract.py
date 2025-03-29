@@ -9,9 +9,6 @@ the metadata database.
 """
 
 
-path = './src/contracts'
-
-
 def choose_entity_contract(sourceSystems: list) -> str:
     """
     This function accepts a list of source systems.
@@ -151,10 +148,10 @@ def upload_source_entity_contract(path: str, sourceSystemName: str):
 
 
 # First determine list of source entities:
-source_entities = list_folders(path)
+source_entities = list_folders('./src/contracts')
 
 # Choose which source entity to upload:
 choice = choose_entity_contract(source_entities)
 
 # Upload source entity contract to metadata database:
-upload_source_entity_contract(path, choice)
+upload_source_entity_contract('./src/contracts', choice)
