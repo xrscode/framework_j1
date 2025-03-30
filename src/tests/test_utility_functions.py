@@ -1,17 +1,11 @@
 import pytest
 from src.files.utility_functions import keyvault_connection_strings
 from unittest.mock import patch, MagicMock
-import os
-from dotenv import load_dotenv
 
 """
 Note: Ensure to set python path with the following command:
 $env:PYTHONPATH = "$PWD"
 """
-
-load_dotenv()
-keyvault_name = os.getenv('k-v_name')
-
 
 # Test keyvault_connection_strings function:
 def test_data_types_accepted():

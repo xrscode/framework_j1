@@ -154,6 +154,9 @@ def list_folders(path: str) -> list:
 
 def read_sql(path: str) -> str:
     """
+    Description: This function reads a sql file and returns the query
+    as a string.  
+
     Args:
         path (str): Path to the sql file to read.
 
@@ -177,4 +180,4 @@ def read_sql(path: str) -> str:
     with open(path, 'r') as file:
         query = file.read()
 
-    return query
+    return query 

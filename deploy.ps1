@@ -93,6 +93,17 @@ if (Test-Path $requirementsFile) {
     Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
 }
 
+# Define test directory:
+$testDir = "src\tests\"
+# Run pytest on all tests in the directory
+pytest $testDir
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "❌ Tests failed! Aborting Terraform deployment." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "✅ All tests passed! Proceeding with Terraform deployment...✅" -ForegroundColor Green
+
 # Add the az login command to authenticate to Azure
 az login --tenant_id 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
 
@@ -113,7 +124,7 @@ if (Test-Path $terraformDir) {
     Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
     terraform apply -auto-approve
 
-    Write-Host "Terraform deployment completed!" -ForegroundColor Green
+    Write-Host "🚀 Deployment complete!" -ForegroundColor Green
 } else {
     Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
 }

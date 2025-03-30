@@ -5,7 +5,7 @@ resource "azurerm_mssql_server" "fj1sqlserver" {
   location                     = azurerm_resource_group.framework_rg.location
   version                      = "12.0"
   # Hard code user
-  administrator_login          = "dylan"
+  administrator_login          = "junior_admin"
   # Hard code password
   administrator_login_password = "${random_string.random_password.result}"
   minimum_tls_version          = "1.2"
