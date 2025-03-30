@@ -21,3 +21,8 @@ if (Test-Path $terraformDir) {
     Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
 }
 
+Set-Location ..
+
+Write-Host "Destruction complete.  To logout of Azure use following command:" -ForegroundColor Cyan
+
+Write-Host "az logout" -ForegroundColor Green

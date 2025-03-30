@@ -72,7 +72,7 @@ server_user = "${azurerm_mssql_server.fj1sqlserver.administrator_login}"
 server_password = "${random_string.random_password.result}"
 resource_group_name = "${azurerm_resource_group.framework_rg.name}"
 databricks_workspace_url = "${azurerm_databricks_workspace.dbs_workspace.workspace_url}"
-k-v_name="${azurerm_key_vault.fj1kv.name}"
+keyvault_name="${azurerm_key_vault.fj1kv.name}"
 EOT
 depends_on = [ azurerm_key_vault.fj1kv, azurerm_mssql_server.fj1sqlserver, azurerm_databricks_workspace.dbs_workspace, azurerm_resource_group.framework_rg ]
 }

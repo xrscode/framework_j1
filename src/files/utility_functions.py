@@ -8,7 +8,7 @@ from azure.keyvault.secrets import SecretClient
 load_dotenv()
 
 # Get the keyvault name:
-kv = os.getenv('k-v_name')
+kv = os.getenv('keyvault_name')
 
 
 def keyvault_connection_strings(keyvault_name: str) -> dict:

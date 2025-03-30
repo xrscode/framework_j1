@@ -105,7 +105,8 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "✅ All tests passed! Proceeding with Terraform deployment...✅" -ForegroundColor Green
 
 # Add the az login command to authenticate to Azure
-az login --tenant_id 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
+az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
+# Use the tenant_id for TelefonicaTech UK
 
 # Define Terraform directory
 $terraformDir = ".\terraform"
@@ -124,7 +125,7 @@ if (Test-Path $terraformDir) {
     Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
     terraform apply -auto-approve
 
-    Write-Host "🚀 Deployment complete!" -ForegroundColor Green
+    Write-Host "🚀 Deployment complete! 🚀" -ForegroundColor Green
 } else {
     Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
 }
@@ -152,3 +153,4 @@ if (Test-Path $pythonScript) {
     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
 }
 
+Write-Host "Deployment complete.  Please check .env file for user credentials." -ForegroundColor Cyan
