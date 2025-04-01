@@ -23,6 +23,6 @@ if (Test-Path $terraformDir) {
 
 Set-Location ..
 
-Write-Host "Destruction complete.  To logout of Azure use following command:" -ForegroundColor Cyan
+Write-Host "Destruction complete.  To logout of Azure use the following command:" -ForegroundColor Cyan
 
 Write-Host "az logout" -ForegroundColor Green

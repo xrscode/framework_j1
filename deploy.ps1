@@ -93,6 +93,8 @@ if (Test-Path $requirementsFile) {
     Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
 }
 
+Write-Host "Initiating unit tests..." -ForegroundColor Cyan
+
 # Define test directory:
 $testDir = "src\tests\"
 # Run pytest on all tests in the directory
@@ -104,9 +106,8 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "✅ All tests passed! Proceeding with Terraform deployment...✅" -ForegroundColor Green
 
-# Add the az login command to authenticate to Azure
+# Add the az login command to authenticate to Azure, use Telefonica tenant_id:
 az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
-# Use the tenant_id for TelefonicaTech UK
 
 # Define Terraform directory
 $terraformDir = ".\terraform"
