@@ -73,6 +73,7 @@ server_password = "${random_string.random_password.result}"
 resource_group_name = "${azurerm_resource_group.framework_rg.name}"
 databricks_workspace_url = "${azurerm_databricks_workspace.dbs_workspace.workspace_url}"
 keyvault_name="${azurerm_key_vault.fj1kv.name}"
+ip_address = "${data.http.my_ip.response_body}"
 EOT
 depends_on = [ azurerm_key_vault.fj1kv, azurerm_mssql_server.fj1sqlserver, azurerm_databricks_workspace.dbs_workspace, azurerm_resource_group.framework_rg ]
 }
