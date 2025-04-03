@@ -4,8 +4,8 @@ import pyodbc
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
-# Load dotenv:
-load_dotenv()
+# Refresh dotenv:
+load_dotenv('.env')
 
 # Get the keyvault name:
 kv = os.getenv('keyvault_name')

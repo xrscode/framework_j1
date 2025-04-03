@@ -16,6 +16,18 @@ if (-not $terraform) {
     Write-Host "Terraform is installed. Continuing with installation." -ForegroundColor Yellow
 }
 
+# Check if the .env exists.  If it does, delete:
+$envFile = ".\.env"  # Define the file name
+
+# Check if the .env file exists
+if (Test-Path $envFile) {
+    Write-Host ".env file found. Deleting..."
+    Remove-Item $envFile -Force
+    Write-Host ".env file deleted."
+} else {
+    Write-Host "No .env file found."
+}
+
 # Get the list of installed ODBC drivers
 $odbcDrivers = Get-OdbcDriver -Platform 64-bit | Select-Object -ExpandProperty Name
 
