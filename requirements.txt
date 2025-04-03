@@ -7,3 +7,4 @@ inquirer
 autopep8
 flake8
 pytest
+azure-mgmt-sql

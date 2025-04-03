@@ -38,7 +38,7 @@ $driverName = "ODBC Driver 18 for SQL Server"
 if ($odbcDrivers -contains $driverName) {
     Write-Host "The ODBC driver '$driverName' is installed." -ForegroundColor Yellow
 } else {
-    Write-Host "The ODBC driver '$driverName' is NOT installed." -ForegroundColor Red
+    Write-Host "The 64-bit ODBC driver '$driverName' is NOT installed." -ForegroundColor Red
     Write-Host "Please install the driver: https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16&redirectedfrom=MSDN" -ForegroundColor Red
     exit 1
 }
@@ -145,6 +145,16 @@ if (Test-Path $terraformDir) {
 
 Write-Host "Navigating out of the 'terraform' directory..." -ForegroundColor Cyan
 Set-Location ..
+
+# Setup Check connection to sql server works:
+$pythonScript = ".\src\files\0_check_db_connection.py"
+if (Test-Path $pythonScript) {
+    Write-Host "Running Python script: $pythonScript.  Checking connection..." -ForegroundColor Cyan
+    python $pythonScript
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
+}
 
 # Setup the metadata database:
 $pythonScript = ".\src\files\1_setup_metadata_database.py"
