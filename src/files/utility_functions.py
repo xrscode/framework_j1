@@ -5,7 +5,7 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
 # Refresh dotenv:
-load_dotenv('.env')
+load_dotenv(override=True)
 
 # Get the keyvault name:
 kv = os.getenv('keyvault_name')

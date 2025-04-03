@@ -1,5 +1,5 @@
 import json
-from utility_functions import query_database, read_sql
+from utility_functions import *
 
 
 """

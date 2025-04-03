@@ -1,5 +1,5 @@
 import json
-from utility_functions import list_folders, query_database
+from utility_functions import *
 import os
 import inquirer
 

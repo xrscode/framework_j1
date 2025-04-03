@@ -1,4 +1,4 @@
-from utility_functions import query_database, list_folders
+from utility_functions import *
 import inquirer
 import json
 import os
