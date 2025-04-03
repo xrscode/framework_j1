@@ -6,7 +6,15 @@ from azure.mgmt.sql import SqlManagementClient
 """
 There is a strange bug where if this project is deployed from the London
 Telefonica office the WAN ip address of the computer ends in 210. 
-When pyodbc tries to connect to SQL server from the same machine
+When pyodbc tries to connect to SQL server from the same machine Azure 
+registers the ip address as coming from a different WAN ip; 209. 
+
+This file queries the metadata database.  If an error is thrown, it will 
+grab the blocked ip address. 
+
+It will then add a firewall rule to sql server allowing the blocked ip address.
+
+Remaining python files should then work correctly to setup the database. 
 """
 
 # Refresh dotenv:
