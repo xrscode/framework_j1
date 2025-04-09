@@ -3,6 +3,7 @@ import os
 import pyodbc
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
+import csv
 
 # Refresh dotenv:
 load_dotenv(override=True)
@@ -181,3 +182,19 @@ def read_sql(path: str) -> str:
         query = file.read()
 
     return query 
+
+
+def open_csv(location, has_header=True):
+    """
+    Args:
+        location (str): Location of the CSV file to read.
+        has_header (bool): Whether the CSV file has a header row.
+    Returns: 
+        data (list): List of rows within CSV (excluding header if specified).
+    """
+    with open(location, newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        if has_header:
+            next(reader)  # Skip the header
+        data = [row for row in reader]
+    return data

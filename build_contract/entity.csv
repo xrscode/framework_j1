@@ -1,2 +1,13 @@
-COL1, COL2, COL3, COL4,
-1, 2, 3, 4,
+name,description,connectionString,sourceQuery, sortOrder,columnName,dataType,required,primary_key
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,1,counterparty_id,int,true,true
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,2,counterparty_legal_name,string,true,false
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,3,legal_address_id, int, true, false
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,4,commercial_contact, string, false, false
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,5,delivery_contact, string, false, false
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,6,created_at, date, false, false
+counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,7,last_updated, date, false, false
+currency, Currency table., connectionStringTotesys, SELECT * FROM currency, 1, currency_id, int, true, true
+currency, Currency table., connectionStringTotesys, SELECT * FROM currency, 2, currency_code, string, true, false
+currency, Currency table., connectionStringTotesys, SELECT * FROM currency, 3, created_at, date, false, false
+currency, Currency table., connectionStringTotesys, SELECT * FROM currency, 4, last_updated, date, false, false
+date, dim_date entity., connectionStringTotesys, None, 1, date_id, int, true, true
