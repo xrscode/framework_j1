@@ -1,0 +1,38 @@
+{
+    "name": "currency",
+    "description": "Currency table.",
+    "connectionDetails": {
+        "connectionString": "connectionStringTotesys",
+        "sourceQuery": "SELECT * FROM currency"
+    },
+    "ingestion_columns": [
+        {
+            "sortOrder": 1,
+            "columnName": "currency_id",
+            "dataType": "int",
+            "required": false,
+            "primary_key": true
+        },
+        {
+            "sortOrder": 2,
+            "columnName": "currency_code",
+            "dataType": "str",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 3,
+            "columnName": "created_at",
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 4,
+            "columnName": "last_updated",
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
+        }
+    ]
+}

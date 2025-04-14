@@ -18,42 +18,42 @@
             "columnName": "counterparty_legal_name",
             "dataType": "string",
             "required": true,
-            "primary_key": true
+            "primary_key": false
         },
         {
             "sortOrder": 3,
             "columnName": "legal_address_id",
-            "dataType": " int",
+            "dataType": "int",
             "required": true,
-            "primary_key": true
+            "primary_key": false
         },
         {
             "sortOrder": 4,
             "columnName": "commercial_contact",
-            "dataType": " string",
-            "required": true,
-            "primary_key": true
+            "dataType": "str",
+            "required": false,
+            "primary_key": false
         },
         {
             "sortOrder": 5,
             "columnName": "delivery_contact",
-            "dataType": " string",
-            "required": true,
-            "primary_key": true
+            "dataType": "str",
+            "required": false,
+            "primary_key": false
         },
         {
             "sortOrder": 6,
             "columnName": "created_at",
-            "dataType": " date",
-            "required": true,
-            "primary_key": true
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
         },
         {
             "sortOrder": 7,
             "columnName": "last_updated",
-            "dataType": " date",
-            "required": true,
-            "primary_key": true
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
         }
     ]
 }

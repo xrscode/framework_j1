@@ -29,3 +29,5 @@ autopep8 --in-place --aggressive --aggressive .\src\files\5_check_terraform_tfva
 autopep8 --in-place --aggressive --aggressive .\src\files\utility_functions.py && flake8 .\src\files\utility_functions.py
 
 autopep8 --in-place --aggressive --aggressive ..src.files.1_setup_metadata_database.py && flake8 ..src.files.1_setup_metadata_database.py
+
+autopep8 --in-place --aggressive --aggressive .\build_contract\create_contracts.py && flake8 .\build_contract\create_contracts.py

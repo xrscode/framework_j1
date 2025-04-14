@@ -1,0 +1,66 @@
+{
+    "name": "date",
+    "description": "dim_date",
+    "connectionDetails": {
+        "connectionString": "connectionStringTotesys",
+        "sourceQuery": "None"
+    },
+    "ingestion_columns": [
+        {
+            "sortOrder": 1,
+            "columnName": "date_id",
+            "dataType": "int",
+            "required": true,
+            "primary_key": true
+        },
+        {
+            "sortOrder": 2,
+            "columnName": "year",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 3,
+            "columnName": "month",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 4,
+            "columnName": "day",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 5,
+            "columnName": "day_of_week",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 6,
+            "columnName": "day_name",
+            "dataType": "str",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 7,
+            "columnName": "month_name",
+            "dataType": "str",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 8,
+            "columnName": "quarter",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        }
+    ]
+}
