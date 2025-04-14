@@ -9,7 +9,7 @@
         {
             "sortOrder": 1,
             "columnName": "payment_type_id",
-            "dataType": "true",
+            "dataType": "int",
             "required": true,
             "primary_key": true
         },

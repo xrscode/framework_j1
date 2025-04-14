@@ -40,7 +40,7 @@ location,dim_location,connectionStringTotesys,SELECT * FROM design,7,country,str
 location,dim_location,connectionStringTotesys,SELECT * FROM design,8,phone,str,true,false
 location,dim_location,connectionStringTotesys,SELECT * FROM design,9,created_at,date,false,false
 location,dim_location,connectionStringTotesys,SELECT * FROM design,10,last_updated,date,false,false
-payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,1,payment_type_id,true,true,true
+payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,1,payment_type_id,int,true,true
 payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,2,payment_type_name,int,true,false
 payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,3,created_at,date,false,false
 payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,4,last_updated,date,false,false
