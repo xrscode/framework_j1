@@ -87,9 +87,9 @@ staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,4,department_id,int,
 staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,5,email_address,str,true,false
 staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,6,created_at,date,false,false
 staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,7,last_updated,date,false,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM transaction,1,transaction_id,int,true,true
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM transaction,2,transaction_type,str,true,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM transaction,3,sales_order_id,int,true,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM transaction,4,purchase_order_id,int,true,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM transaction,5,created_at,date,false,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM transaction,6,last_updated,date,false,false
+transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],1,transaction_id,int,true,true
+transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],2,transaction_type,str,true,false
+transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],3,sales_order_id,int,true,false
+transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],4,purchase_order_id,int,true,false
+transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],5,created_at,date,false,false
+transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],6,last_updated,date,false,false
