@@ -1,0 +1,96 @@
+{
+    "name": "sales_order",
+    "description": "Description of the fact_sales_order entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "SELECT * FROM sales_order"
+    },
+    "ingestion_columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "sales_order_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "design_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "staff_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "counterparty_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 7,
+        "columnName": "units_sold",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 8,
+        "columnName": "unit_price",
+        "dataType": "decimal(10,2)",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 9,
+        "columnName": "currency_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 10,
+        "columnName": "agreed_delivery_date",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
+      }
+      ,
+      {
+        "sortOrder": 11,
+        "columnName": "agreed_payment_date",
+        "dataType": "date",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 12,
+        "columnName": "agreed_delivery_location_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      }
+    ]
+  }
+  

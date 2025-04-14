@@ -1,40 +1,38 @@
 {
     "name": "payment_type",
-    "description": "Description of the dim_payment_type entity",
+    "description": "dim_payment_type",
     "connectionDetails": {
-      "connectionString": "connectionStringTotesys",
-      "sourceQuery": "SELECT * FROM payment_type"
+        "connectionString": "connectionStringTotesys",
+        "sourceQuery": "SELECT * FROM payment_type"
     },
     "ingestion_columns": [
-      {
-        "sortOrder": 1,
-        "columnName": "payment_type_id",
-        "dataType": "int",
-        "required": true,
-        "primary_key": true
-      },
-      {
-        "sortOrder": 2,
-        "columnName": "payment_type_name",
-        "dataType": "int",
-        "required": true,
-        "primary_key": false
-      }
-      ,
-      {
-        "sortOrder": 3,
-        "columnName": "created_at",
-        "dataType": "date",
-        "required": false,
-        "primary_key": false
-      }
-      ,
-      {
-        "sortOrder": 4,
-        "columnName": "last_updated",
-        "dataType": "date",
-        "required": false,
-        "primary_key": false
-      }
+        {
+            "sortOrder": 1,
+            "columnName": "payment_type_id",
+            "dataType": "true",
+            "required": true,
+            "primary_key": true
+        },
+        {
+            "sortOrder": 2,
+            "columnName": "payment_type_name",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 3,
+            "columnName": "created_at",
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 4,
+            "columnName": "last_updated",
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
+        }
     ]
-  }
+}

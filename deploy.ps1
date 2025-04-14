@@ -127,62 +127,62 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "✅ All tests passed! Proceeding with Terraform deployment...✅" -ForegroundColor Green
 
-# # Add the az login command to authenticate to Azure, use Telefonica tenant_id:
-# az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
+# Add the az login command to authenticate to Azure, use Telefonica tenant_id:
+az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
 
-# # Define Terraform directory
-# $terraformDir = ".\terraform"
+# Define Terraform directory
+$terraformDir = ".\terraform"
 
-# # Run Terraform deployment
-# if (Test-Path $terraformDir) {
-#     Write-Host "Navigating to Terraform directory..." -ForegroundColor Cyan
-#     Set-Location $terraformDir
+# Run Terraform deployment
+if (Test-Path $terraformDir) {
+    Write-Host "Navigating to Terraform directory..." -ForegroundColor Cyan
+    Set-Location $terraformDir
 
-#     Write-Host "Initializing Terraform..." -ForegroundColor Yellow
-#     terraform init
+    Write-Host "Initializing Terraform..." -ForegroundColor Yellow
+    terraform init
 
-#     Write-Host "Planning Terraform deployment..." -ForegroundColor Yellow
-#     terraform plan
+    Write-Host "Planning Terraform deployment..." -ForegroundColor Yellow
+    terraform plan
 
-#     Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
-#     terraform apply -auto-approve
+    Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
+    terraform apply -auto-approve
 
-#     Write-Host "🚀 Deployment complete! 🚀" -ForegroundColor Green
-# } else {
-#     Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
-# }
+    Write-Host "🚀 Deployment complete! 🚀" -ForegroundColor Green
+} else {
+    Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
+}
 
-# Write-Host "Navigating out of the 'terraform' directory..." -ForegroundColor Cyan
-# Set-Location ..
+Write-Host "Navigating out of the 'terraform' directory..." -ForegroundColor Cyan
+Set-Location ..
 
-# # Setup Check connection to sql server works:
-# $pythonScript = ".\src\files\0_check_db_connection.py"
-# if (Test-Path $pythonScript) {
-#     Write-Host "Running Python script: $pythonScript.  Checking connection..." -ForegroundColor Cyan
-#     python $pythonScript
-#     Write-Host "Python script execution completed!" -ForegroundColor Green
-# } else {
-#     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
-# }
+# Setup Check connection to sql server works:
+$pythonScript = ".\src\files\0_check_db_connection.py"
+if (Test-Path $pythonScript) {
+    Write-Host "Running Python script: $pythonScript.  Checking connection..." -ForegroundColor Cyan
+    python $pythonScript
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
+}
 
-# # Setup the metadata database:
-# $pythonScript = ".\src\files\1_setup_metadata_database.py"
-# if (Test-Path $pythonScript) {
-#     Write-Host "Running Python script: $pythonScript.  Creating metadata database..." -ForegroundColor Cyan
-#     python $pythonScript
-#     Write-Host "Python script execution completed!" -ForegroundColor Green
-# } else {
-#     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
-# }
+# Setup the metadata database:
+$pythonScript = ".\src\files\1_setup_metadata_database.py"
+if (Test-Path $pythonScript) {
+    Write-Host "Running Python script: $pythonScript.  Creating metadata database..." -ForegroundColor Cyan
+    python $pythonScript
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
+}
 
-# # Setup the totesys database:
-# $pythonScript = ".\src\files\2_setup_totesys_database.py"
-# if (Test-Path $pythonScript) {
-#     Write-Host "Running Python script: $pythonScript.  Populating TotesysDB database..." -ForegroundColor Cyan
-#     python $pythonScript
-#     Write-Host "Python script execution completed!" -ForegroundColor Green
-# } else {
-#     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
-# }
+# Setup the totesys database:
+$pythonScript = ".\src\files\2_setup_totesys_database.py"
+if (Test-Path $pythonScript) {
+    Write-Host "Running Python script: $pythonScript.  Populating TotesysDB database..." -ForegroundColor Cyan
+    python $pythonScript
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
+}
 
-# Write-Host "Deployment complete.  Please check .env file for user credentials." -ForegroundColor Cyan
+Write-Host "Deployment complete.  Please check .env file for user credentials." -ForegroundColor Cyan

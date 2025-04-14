@@ -2,7 +2,7 @@ from src.files.utility_functions import open_csv
 import json
 
 # Define location of CSV file:
-location = './build_contract/entity.csv'
+location = './build_contract/x-entity.csv'
 
 # Save the data to variable:
 csv_data = open_csv(location, True)
@@ -47,5 +47,5 @@ for entity in list_of_entities:
 
     # Write json to file:
     with open(f"./build_contract/contracts/{entity}.json", "w") as json_file:
-        # The indent parameter to make more readable:
+        # Set indent to 4 to make more readable:
         json.dump(json_structure, json_file, indent=4)
