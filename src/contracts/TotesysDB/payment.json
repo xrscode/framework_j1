@@ -1,6 +1,6 @@
 {
     "name": "payment",
-    "description": "dim_payment",
+    "description": "fact_payment",
     "connectionDetails": {
         "connectionString": "connectionStringTotesys",
         "sourceQuery": "SELECT * FROM payment"

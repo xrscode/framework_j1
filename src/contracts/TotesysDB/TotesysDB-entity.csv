@@ -1,15 +1,15 @@
 name,description,connectionString,sourceQuery, sortOrder,columnName,dataType,required,primary_key
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,1,counterparty_id,int,true,true
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,2,counterparty_legal_name,string,true,false
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,3,legal_address_id,int,true,false
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,4,commercial_contact,str,false,false
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,5,delivery_contact,str,false,false
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,6,created_at,date,false,false
-counterparty,A third party company products are bought from.,connectionStringTotesys,SELECT * FROM counterparty,7,last_updated,date,false,false
-currency, Currency table.,connectionStringTotesys,SELECT * FROM currency,1, currency_id,int,false,true
-currency, Currency table.,connectionStringTotesys,SELECT * FROM currency,2,currency_code,str,true,false
-currency, Currency table.,connectionStringTotesys,SELECT * FROM currency,3,created_at,date,false,false
-currency, Currency table.,connectionStringTotesys,SELECT * FROM currency,4,last_updated,date,false,false
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,1,counterparty_id,int,true,true
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,2,counterparty_legal_name,string,true,false
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,3,legal_address_id,int,true,false
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,4,commercial_contact,str,false,false
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,5,delivery_contact,str,false,false
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,6,created_at,date,false,false
+counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,7,last_updated,date,false,false
+currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,1, currency_id,int,true,true
+currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,2,currency_code,str,true,false
+currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,3,created_at,date,false,false
+currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,4,last_updated,date,false,false
 date,dim_date,connectionStringTotesys,None,1,date_id,int,true,true
 date,dim_date,connectionStringTotesys,None,2,year,int,true,false
 date,dim_date,connectionStringTotesys,None,3,month,int,true,false
@@ -44,18 +44,18 @@ payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type
 payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,2,payment_type_name,int,true,false
 payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,3,created_at,date,false,false
 payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,4,last_updated,date,false,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,1,payment_id,int,true,true
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,2,created_at,timestamp,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,3,last_updated,date,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,4,transaction_id,int,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,5,counterparty_id,int,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,6,payment_amount,"decimal(10,2)",true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,7,currency_d,int,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,8,payment_type_id,int,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,9,paid,bool,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,10,payment_date,date,true,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,11,company_ac_number,int,false,false
-payment,dim_payment,connectionStringTotesys,SELECT * FROM payment,12,counterparty_ac_number,int,false,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,1,payment_id,int,true,true
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,2,created_at,timestamp,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,3,last_updated,date,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,4,transaction_id,int,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,5,counterparty_id,int,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,6,payment_amount,"decimal(10,2)",true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,7,currency_d,int,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,8,payment_type_id,int,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,9,paid,bool,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,10,payment_date,date,true,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,11,company_ac_number,int,false,false
+payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,12,counterparty_ac_number,int,false,false
 purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,1,purchase_order_id,int,true,true
 purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,2,created_at,timestamp,true,false
 purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,3,last_updated,timestamp,true,false

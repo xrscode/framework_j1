@@ -1,6 +1,6 @@
 {
     "name": "currency",
-    "description": "Currency table.",
+    "description": "dim_currency.",
     "connectionDetails": {
         "connectionString": "connectionStringTotesys",
         "sourceQuery": "SELECT * FROM currency"
@@ -10,7 +10,7 @@
             "sortOrder": 1,
             "columnName": "currency_id",
             "dataType": "int",
-            "required": false,
+            "required": true,
             "primary_key": true
         },
         {

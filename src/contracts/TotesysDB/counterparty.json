@@ -1,6 +1,6 @@
 {
     "name": "counterparty",
-    "description": "A third party company products are bought from.",
+    "description": "dim_counterparty",
     "connectionDetails": {
         "connectionString": "connectionStringTotesys",
         "sourceQuery": "SELECT * FROM counterparty"
