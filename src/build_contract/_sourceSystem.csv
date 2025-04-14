@@ -1,1 +1,1 @@
-name,description,connectionString,sourceQuery, sortOrder,columnName,dataType,required,primary_key
+name,description,keyVaultQuery,entityNames,notebooks

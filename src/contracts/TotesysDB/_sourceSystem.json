@@ -2,15 +2,23 @@
     "name": "TotesysDB",
     "description": "Totesys is a retail database.",
     "keyVaultQuery": "connectionStringTotesys",
-    "entityNames": ["counterparty", "currency", "department",
-"design", "location", "payment", "payment_type", "purchase_order",
-"sales_order", "staff", "transaction"],
-"notebooks": 
-      {
+    "entityNames": [
+        "counterparty",
+        "currency",
+        "department",
+        "design",
+        "location",
+        "payment",
+        "payment_type",
+        "purchase_order",
+        "sales_order",
+        "staff",
+        "transaction"
+    ],
+    "notebooks": {
         "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/BRONZE_TotesysDB",
         "silver": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/SILVER_TotesysDB",
         "gold": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/GOLD_TotesysDB",
         "analysis": "/Workspace/Repos/Git/jf1/src/notebooks/TotesysDB/Analysis_TotesysDB"
-      }
-    
+    }
 }

@@ -3,7 +3,7 @@
     "description": "dim_location",
     "connectionDetails": {
         "connectionString": "connectionStringTotesys",
-        "sourceQuery": "SELECT * FROM design"
+        "sourceQuery": "SELECT * FROM address"
     },
     "ingestion_columns": [
         {
