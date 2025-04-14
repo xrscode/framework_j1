@@ -1,0 +1,82 @@
+{
+    "name": "location",
+    "description": "Description of the dim_location entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "SELECT * FROM address"
+    },
+    "ingestion_columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "address_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "address_line_1",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "address_line_2",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "district",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "city",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "postal_code",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 7,
+        "columnName": "country",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 8,
+        "columnName": "phone",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 9,
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 10,
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      }
+      
+    ]
+  }
+  

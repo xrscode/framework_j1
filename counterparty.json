@@ -1,0 +1,19 @@
+{
+    "name": "counterparty",
+    "description": "A third party company products are bought from.",
+    "connectionDetails": "connectionStringTotesys",
+    "ingestion_columns": [
+        {
+            "columnName": "SELECT * FROM counterparty",
+            "dataType": "counterparty_legal_name",
+            "required": "string",
+            "primary_key": "required"
+        },
+        {
+            "columnName": "SELECT * FROM counterparty",
+            "dataType": "counterparty_legal_name",
+            "required": "string",
+            "primary_key": "required"
+        }
+    ]
+}

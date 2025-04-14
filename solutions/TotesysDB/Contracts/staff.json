@@ -1,0 +1,61 @@
+{
+    "name": "staff",
+    "description": "Description of the dim_staff entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "SELECT * FROM staff"
+    },
+    "ingestion_columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "staff_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": true
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "first_name",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "last_name",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      }
+      ,
+      {
+        "sortOrder": 4,
+        "columnName": "department_id",
+        "dataType": "int",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "email_address",
+        "dataType": "string",
+        "required": true,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "created_at",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      },
+      {
+        "sortOrder": 7,
+        "columnName": "last_updated",
+        "dataType": "date",
+        "required": false,
+        "primary_key": false
+      }
+    ]
+  }
+  

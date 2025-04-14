@@ -1,58 +1,59 @@
 {
     "name": "counterparty",
-    "description": "Description of the entity",
+    "description": "dim_counterparty",
     "connectionDetails": {
-      "connectionString": "connectionStringTotesys",
-      "sourceQuery": "SELECT * FROM counterparty"},
+        "connectionString": "connectionStringTotesys",
+        "sourceQuery": "SELECT * FROM counterparty"
+    },
     "ingestion_columns": [
-      {
-        "sortOrder": 1,
-        "columnName": "counterparty_id",
-        "dataType": "int",
-        "required": true,
-        "primary_key": true
-      },
-      {
-        "sortOrder": 2,
-        "columnName": "counterparty_legal_name",
-        "dataType": "string",
-        "required": true,
-        "primary_key": false
-      },
-      {
-        "sortOrder": 3,
-        "columnName": "legal_address_id",
-        "dataType": "int",
-        "required": true,
-        "primary_key": false
-      },
-      {
-        "sortOrder": 4,
-        "columnName": "commercial_contact",
-        "dataType": "string",
-        "required": false,
-        "primary_key": false
-      },
-      {
-        "sortOrder": 6,
-        "columnName": "delivery_contact",
-        "dataType": "string",
-        "required": false,
-        "primary_key": false
-      },
-      {
-        "sortOrder": 7,
-        "columnName": "created_at",
-        "dataType": "date",
-        "required": false,
-        "primary_key": false
-      },
-      {
-        "sortOrder": 8,
-        "columnName": "last_updated",
-        "dataType": "date",
-        "required": false,
-        "primary_key": false
-      }
-      ]
-    }
+        {
+            "sortOrder": 1,
+            "columnName": "counterparty_id",
+            "dataType": "int",
+            "required": true,
+            "primary_key": true
+        },
+        {
+            "sortOrder": 2,
+            "columnName": "counterparty_legal_name",
+            "dataType": "string",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 3,
+            "columnName": "legal_address_id",
+            "dataType": "int",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 4,
+            "columnName": "commercial_contact",
+            "dataType": "str",
+            "required": false,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 5,
+            "columnName": "delivery_contact",
+            "dataType": "str",
+            "required": false,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 6,
+            "columnName": "created_at",
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 7,
+            "columnName": "last_updated",
+            "dataType": "date",
+            "required": false,
+            "primary_key": false
+        }
+    ]
+}

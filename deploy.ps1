@@ -7,58 +7,6 @@ if (-not $python) {
     Write-Host "Python is installed. Continuing with installation." -ForegroundColor Yellow
 }
 
-# Check if terraform is installed.  If it is not, exit.
-$terraform = Get-Command terraform -ErrorAction SilentlyContinue
-if (-not $terraform) {
-    Write-Host "Terraform is not installed. Please install Terraform.  If chocolatey is installed run the following command in the terminal: 'choco install terraform -y' " -ForegroundColor Yellow
-    exit 1
-} else {
-    Write-Host "Terraform is installed. Continuing with installation." -ForegroundColor Yellow
-}
-
-# Check if the .env exists.  If it does, delete:
-$envFile = ".\.env"  # Define the file name
-
-# Check if the .env file exists
-if (Test-Path $envFile) {
-    Write-Host ".env file found. Deleting..."
-    Remove-Item $envFile -Force
-    Write-Host ".env file deleted."
-} else {
-    Write-Host "No .env file found."
-}
-
-# Get the list of installed ODBC drivers
-$odbcDrivers = Get-OdbcDriver -Platform 64-bit | Select-Object -ExpandProperty Name
-
-# Define the driver you're looking for
-$driverName = "ODBC Driver 18 for SQL Server"
-
-# Check if the driver is installed
-if ($odbcDrivers -contains $driverName) {
-    Write-Host "The ODBC driver '$driverName' is installed." -ForegroundColor Yellow
-} else {
-    Write-Host "The 64-bit ODBC driver '$driverName' is NOT installed." -ForegroundColor Red
-    Write-Host "Please install the driver: https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16&redirectedfrom=MSDN" -ForegroundColor Red
-    exit 1
-}
-
-$terraformTfvars = "./src/files/5_check_terraform_tfvars.py"
-# Update git credentials:
-if (Test-Path $terraformTfvars) {
-    Write-Host "Running Python script: $terraformTfvars" -ForegroundColor Cyan
-    python $terraformTfvars
-    # Check if Python script failed
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Python script failed! Stopping PowerShell execution." -ForegroundColor Red
-        exit 1
-    }
-    Write-Host "Python script execution completed!" -ForegroundColor Green
-} else {
-    Write-Host "Python script not found at '$terraformTfvars'. Skipping execution." -ForegroundColor Red
-    exit 1
-}
-
 # Define venv directory:
 $venvDir = ".\venv"
 
@@ -104,6 +52,67 @@ if (Test-Path $requirementsFile) {
 } else {
     Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
 }
+
+
+
+
+
+# Check if terraform is installed.  If it is not, exit.
+$terraform = Get-Command terraform -ErrorAction SilentlyContinue
+if (-not $terraform) {
+    Write-Host "Terraform is not installed. Please install Terraform.  If chocolatey is installed run the following command in the terminal: 'choco install terraform -y' " -ForegroundColor Yellow
+    exit 1
+} else {
+    Write-Host "Terraform is installed. Continuing with installation." -ForegroundColor Yellow
+}
+
+# Check if the .env exists.  If it does, delete:
+$envFile = ".\.env"  # Define the file name
+
+Write-Host "Checking for .env..."
+# Check if the .env file exists
+if (Test-Path $envFile) {
+    Write-Host ".env file found. Deleting..."
+    Remove-Item $envFile -Force
+    Write-Host ".env file deleted."
+} else {
+    Write-Host "No .env file found.  Deletion unnecessary."
+}
+
+# Get the list of installed ODBC drivers
+$odbcDrivers = Get-OdbcDriver -Platform 64-bit | Select-Object -ExpandProperty Name
+
+# Define the driver you're looking for
+$driverName = "ODBC Driver 18 for SQL Server"
+
+# Check if the driver is installed
+if ($odbcDrivers -contains $driverName) {
+    Write-Host "The ODBC driver '$driverName' is installed." -ForegroundColor Yellow
+} else {
+    Write-Host "The 64-bit ODBC driver '$driverName' is NOT installed." -ForegroundColor Red
+    Write-Host "Please install the driver: https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16&redirectedfrom=MSDN" -ForegroundColor Red
+    exit 1
+}
+
+$terraformTfvars = "./src/files/5_check_terraform_tfvars.py"
+# Update git credentials:
+if (Test-Path $terraformTfvars) {
+    Write-Host "Running Python script: $terraformTfvars" -ForegroundColor Cyan
+    python $terraformTfvars
+    # Check if Python script failed
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Python script failed! Stopping PowerShell execution." -ForegroundColor Red
+        exit 1
+    }
+    Write-Host "Python script execution completed!" -ForegroundColor Green
+} else {
+    Write-Host "Python script not found at '$terraformTfvars'. Skipping execution." -ForegroundColor Red
+    exit 1
+}
+
+
+
+
 
 Write-Host "Initiating unit tests..." -ForegroundColor Cyan
 

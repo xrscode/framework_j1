@@ -1,0 +1,51 @@
+{
+    "name": "date",
+    "description": "Description of the dim_date entity",
+    "connectionDetails": {
+      "connectionString": "connectionStringTotesys",
+      "sourceQuery": "None"
+    },
+    "ingestion_columns": [
+      {
+        "sortOrder": 1,
+        "columnName": "date_id",
+        "dataType": "date"
+      },
+      {
+        "sortOrder": 2,
+        "columnName": "year",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 3,
+        "columnName": "month",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 4,
+        "columnName": "day",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 5,
+        "columnName": "day_of_week",
+        "dataType": "int"
+      },
+      {
+        "sortOrder": 6,
+        "columnName": "day_name",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 7,
+        "columnName": "month_name",
+        "dataType": "string"
+      },
+      {
+        "sortOrder": 8,
+        "columnName": "quarter",
+        "dataType": "int"
+      }
+    ]
+  }
+  
