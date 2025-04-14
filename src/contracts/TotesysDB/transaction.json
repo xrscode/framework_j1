@@ -3,7 +3,7 @@
     "description": "dim_transaction",
     "connectionDetails": {
         "connectionString": "connectionStringTotesys",
-        "sourceQuery": "SELECT * FROM transaction"
+        "sourceQuery": "SELECT * FROM [transaction]"
     },
     "ingestion_columns": [
         {
