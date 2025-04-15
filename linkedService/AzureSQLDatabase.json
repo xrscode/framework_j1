@@ -1,0 +1,25 @@
+{
+	"name": "AzureSQLDatabase",
+	"properties": {
+		"parameters": {
+			"keyVaultSecretName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "Azure Key Vault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": {
+					"value": "@linkedService().keyVaultSecretName",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
