@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS sourceSystem;
 CREATE TABLE sourceSystem (
     sourceSystemID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
     sourceSystemName VARCHAR(255) NOT NULL UNIQUE, -- Unique source name
+    sourceType VARCHAR(255), --sql_database / csv
     sourceSystemDescription VARCHAR(255), -- Description of the source
     entityNames VARCHAR(255),
     keyVaultQuery VARCHAR(255), -- Keyvault secret Name
