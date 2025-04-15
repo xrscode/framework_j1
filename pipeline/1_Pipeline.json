@@ -6,7 +6,14 @@
 				"name": "Lookup Entities",
 				"description": "Lookup all entities associated with sourceSystem",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup Source System",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -37,7 +44,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Notebooks",
+						"activity": "Lookup Entities",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -65,7 +72,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).bronze",
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).bronze",
 									"type": "Expression"
 								},
 								"baseParameters": {
@@ -159,7 +166,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).silver",
 									"type": "Expression"
 								},
 								"baseParameters": {
@@ -225,17 +232,10 @@
 				}
 			},
 			{
-				"name": "Lookup Notebooks",
+				"name": "Lookup Source System",
 				"description": "This activity will query the metadata database, to determine which notebooks to run.",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Lookup Entities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -293,12 +293,18 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).gold",
 									"type": "Expression"
 								},
 								"baseParameters": {
-									"entityName": "@string(item()['entityName'])",
-									"sourceSystem": "@string(pipeline().parameters.sourceSystem)"
+									"entityName": {
+										"value": "@string(item()['entityName'])",
+										"type": "Expression"
+									},
+									"sourceSystem": {
+										"value": "@string(pipeline().parameters.sourceSystem)",
+										"type": "Expression"
+									}
 								}
 							},
 							"linkedServiceName": {
@@ -365,7 +371,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebookPath": {
-						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).analysis",
+						"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).analysis",
 						"type": "Expression"
 					}
 				},
