@@ -58,49 +58,11 @@
 					},
 					"activities": [
 						{
-							"name": "BRONZE",
-							"description": "Activate bronze ingestion layer.",
-							"type": "DatabricksNotebook",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"notebookPath": {
-									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).bronze",
-									"type": "Expression"
-								},
-								"baseParameters": {
-									"entityName": {
-										"value": "@string(item()['entityName'])",
-										"type": "Expression"
-									},
-									"sourceSystem": {
-										"value": "@string(pipeline().parameters.sourceSystem)",
-										"type": "Expression"
-									},
-									"entitySourceQuery": {
-										"value": "@item()['entitySourceQuery']",
-										"type": "Expression"
-									}
-								}
-							},
-							"linkedServiceName": {
-								"referenceName": "Framework Databricks",
-								"type": "LinkedServiceReference"
-							}
-						},
-						{
 							"name": "Update Bronze Location",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "BRONZE",
+									"activity": "Ingestion_Switch",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -128,6 +90,59 @@
 									"referenceName": "sourceEntity_table",
 									"type": "DatasetReference"
 								}
+							}
+						},
+						{
+							"name": "Ingestion_Switch",
+							"type": "Switch",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"on": {
+									"value": "@json(activity('Lookup Source System').output.firstRow.sourceType)",
+									"type": "Expression"
+								},
+								"cases": [
+									{
+										"value": "sql_database",
+										"activities": [
+											{
+												"name": "Copy data2",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"enableStaging": false
+												}
+											}
+										]
+									}
+								],
+								"defaultActivities": [
+									{
+										"name": "Copy data1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"enableStaging": false
+										}
+									}
+								]
 							}
 						}
 					]
