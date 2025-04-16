@@ -25,7 +25,8 @@
 				"folderPath": {
 					"value": "@concat(\n   '/', \n   dataset().source_system,\n   '/', \n   dataset().entity_name,\n   '/',\n   formatDateTime(utcNow(), 'yyyy'),\n   '/',\n   formatDateTime(utcNow(), 'MM'),\n   '/',\n   formatDateTime(utcNow(), 'dd'),\n   '/'\n)",
 					"type": "Expression"
-				}
+				},
+				"fileSystem": "vivaldi"
 			},
 			"compressionCodec": "snappy"
 		},
