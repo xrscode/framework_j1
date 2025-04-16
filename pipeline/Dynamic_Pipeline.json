@@ -232,7 +232,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
+							"value": "SELECT *\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
