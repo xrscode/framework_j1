@@ -343,7 +343,7 @@
 										"value": "@pipeline().parameters.sourceSystem",
 										"type": "Expression"
 									},
-									"entityIngestionColumn": {
+									"entityIngestionColumns": {
 										"value": "@item()['entityIngestionColumns']",
 										"type": "Expression"
 									}
