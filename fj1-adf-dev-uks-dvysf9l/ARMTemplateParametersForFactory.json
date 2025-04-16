@@ -20,11 +20,8 @@
 		"Metadata Database_properties_typeProperties_userName": {
 			"value": "junior_admin"
 		},
-		"AzureDataLakeStorage1_sasUri": {
-			"value": ""
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_sasToken_secretName": {
-			"value": "sastoken"
+		"Data Lake_properties_typeProperties_sasUri_secretName": {
+			"value": "sastokenURL"
 		}
 	}
 }
