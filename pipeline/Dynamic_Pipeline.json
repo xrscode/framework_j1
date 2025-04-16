@@ -53,7 +53,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup Source System').output.firstRow.sourceType\n",
+						"value": "@activity('Lookup Entities').output.value",
 						"type": "Expression"
 					},
 					"activities": [
