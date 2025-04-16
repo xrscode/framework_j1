@@ -339,7 +339,14 @@
 						{
 							"name": "Lookup Silver Location",
 							"type": "Lookup",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "SILVER",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -351,6 +358,7 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
+									"sqlReaderQuery": "@concat(\n   'UPDATE sourceEntity SET silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
