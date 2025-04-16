@@ -374,6 +374,85 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Transformation_copy1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Transformation",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "GOLD",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": {
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).gold",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Lookup Gold Location",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "GOLD",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat(\n   'UPDATE sourceEntity SET goldLocation = ''',\n   if(empty(activity('GOLD').output.runOutput), 'None', activity('GOLD').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE goldLocation = ''',\n   if(empty(activity('GOLD').output.runOutput), 'None', activity('GOLD').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "sourceEntity_table",
+									"type": "DatasetReference"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
