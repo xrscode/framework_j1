@@ -20,57 +20,6 @@
       "dataType": "int",
       "required": false,
       "primary_key": false
-    },
-    {
-      "sortOrder": 3,
-      "columnName": "OrderDate",
-      "dataType":  "date",
-      "required": false,
-      "primary_key": false
-      
-    },
-    {
-      "sortOrder": 4,
-      "columnName": "CustomerName",
-      "dataType": "varchar",
-      "required": true,
-      "primary_key": false
-      },
-    {
-      "sortOrder": 5,
-      "columnName": "EmailAddress",
-      "dataType": "varchar",
-      "required": true,
-      "primary_key": false
-      },
-    {
-      "sortOrder": 6,
-      "columnName": "Item",
-      "dataType": "varchar",
-      "required": false,
-      "primary_key": false
-      },
-    {
-      "sortOrder": 7,
-      "columnName": "Quantity",
-      "dataType": "int",
-      "required": false,
-      "primary_key": false
-      },
-    {
-      "sortOrder": 8,
-      "columnName": "UnitPrice",
-      "dataType": "double",
-      "required": false,
-      "primary_key": false
-      
-      },
-      {
-        "sortOrder": 9,
-        "columnName": "TaxAmount",
-        "dataType": "double",
-        "required": false,
-        "primary_key": false
-        }
+    }
   ]
 }
