@@ -53,7 +53,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup Entities').output.value",
+						"value": "@json(activity('Lookup Entities').output.value[0])",
 						"type": "Expression"
 					},
 					"activities": [
