@@ -203,6 +203,10 @@
 													"entity_name": {
 														"value": "@json(item().entityName)",
 														"type": "Expression"
+													},
+													"source_system": {
+														"value": "@activity('Lookup Source System').output.name",
+														"type": "Expression"
 													}
 												}
 											}
