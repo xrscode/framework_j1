@@ -127,7 +127,7 @@
 				}
 			},
 			{
-				"name": "Transformation",
+				"name": "Load_Silver",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -261,11 +261,11 @@
 				}
 			},
 			{
-				"name": "Load",
+				"name": "Load_Transform",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Transformation",
+						"activity": "Load_Silver",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -297,8 +297,14 @@
 									"type": "Expression"
 								},
 								"baseParameters": {
-									"entityName": "@string(item()['entityName'])",
-									"sourceSystem": "@string(pipeline().parameters.sourceSystem)"
+									"entityName": {
+										"value": "@string(item()['entityName'])",
+										"type": "Expression"
+									},
+									"sourceSystem": {
+										"value": "@string(pipeline().parameters.sourceSystem)",
+										"type": "Expression"
+									}
 								}
 							},
 							"linkedServiceName": {
@@ -349,7 +355,7 @@
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
-						"activity": "Load",
+						"activity": "Load_Transform",
 						"dependencyConditions": [
 							"Succeeded"
 						]
