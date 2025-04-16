@@ -300,7 +300,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Transformation",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -312,6 +312,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output.value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "SILVER",
