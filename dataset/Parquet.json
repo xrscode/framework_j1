@@ -5,12 +5,20 @@
 			"referenceName": "Data Lake",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"entity_name": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "framework-j1/BRONZE/TotesysDB",
+				"folderPath": {
+					"value": "@concat('vivaldi/framework-j1/BRONZE', '/', formatDateTime(utcNow(), 'yyyy-MM-dd'), '/', '.parquet')\n",
+					"type": "Expression"
+				},
 				"fileSystem": "vivaldi"
 			},
 			"compressionCodec": "snappy"
