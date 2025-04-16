@@ -2,7 +2,7 @@
     "name": "department",
     "description": "dim_department",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM department"
     },
     "ingestion_columns": [

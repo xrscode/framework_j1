@@ -2,7 +2,7 @@
     "name": "currency",
     "description": "dim_currency.",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM currency"
     },
     "ingestion_columns": [

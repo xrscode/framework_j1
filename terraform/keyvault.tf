@@ -86,6 +86,14 @@ resource "azurerm_key_vault_secret" "store_totesys_connection_string" {
   depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
 }
 
+# Store connection totesys string in keyvault in ADO format:
+resource "azurerm_key_vault_secret" "store_totesys_connection_string_ADO" {
+  name = "totesysConnectionStringADO"
+  value = "Server=tcp:${azurerm_mssql_server.fj1sqlserver.name}.database.windows.net,1433;Database=${azurerm_mssql_database.fj1_database_totesys.name};User ID=${azurerm_mssql_server.fj1sqlserver.administrator_login};Password=${azurerm_mssql_server.fj1sqlserver.administrator_login_password};Encrypt=true;Connection Timeout=30;"
+  key_vault_id = azurerm_key_vault.fj1kv.id
+  depends_on = [ azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin ]
+}
+
 # Store server name in keyvault:
 resource "azurerm_key_vault_secret" "store_server_name" {
   name = "serverName"
@@ -118,6 +126,22 @@ resource "azurerm_key_vault_secret" "storeSaS" {
   key_vault_id = azurerm_key_vault.fj1kv.id
 # Ensure keyvault created first:
   depends_on = [azurerm_key_vault.fj1kv, azurerm_role_assignment.user_kv_admin]
+}
+
+locals {
+  clean_sas_token = replace(data.azurerm_storage_account_sas.j1SaS.sas, "?", "")
+  sas_url         = "https://${azurerm_storage_account.fj1_storage.name}.dfs.core.windows.net/?${local.clean_sas_token}"
+}
+
+resource "azurerm_key_vault_secret" "storeSaSURL" {
+  name         = "sastokenURL"
+  value        = local.sas_url
+  key_vault_id = azurerm_key_vault.fj1kv.id
+
+  depends_on = [
+    azurerm_key_vault.fj1kv,
+    azurerm_role_assignment.user_kv_admin
+  ]
 }
 
 # Store storage account name in KeyVault:

@@ -2,7 +2,7 @@
     "name": "purchase_order",
     "description": "fact_purchase_order",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM purchase_order"
     },
     "ingestion_columns": [

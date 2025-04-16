@@ -2,7 +2,7 @@
     "name": "staff",
     "description": "dim_staff",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM staff"
     },
     "ingestion_columns": [

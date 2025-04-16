@@ -2,7 +2,7 @@
     "name": "TotesysDB",
     "description": "Totesys is a retail database.",
     "sourceType": "sql_database",
-    "keyVaultQuery": "connectionStringTotesys",
+    "keyVaultQuery": "totesysConnectionString",
     "entityNames": [
         "counterparty",
         "currency",

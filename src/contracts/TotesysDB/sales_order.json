@@ -2,7 +2,7 @@
     "name": "sales_order",
     "description": "fact_sales_order",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM sales_order"
     },
     "ingestion_columns": [

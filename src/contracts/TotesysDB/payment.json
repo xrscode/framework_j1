@@ -2,7 +2,7 @@
     "name": "payment",
     "description": "fact_payment",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM payment"
     },
     "ingestion_columns": [

@@ -2,7 +2,7 @@
     "name": "payment_type",
     "description": "dim_payment_type",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM payment_type"
     },
     "ingestion_columns": [

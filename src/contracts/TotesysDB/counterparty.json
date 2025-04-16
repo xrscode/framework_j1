@@ -2,7 +2,7 @@
     "name": "counterparty",
     "description": "dim_counterparty",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM counterparty"
     },
     "ingestion_columns": [
