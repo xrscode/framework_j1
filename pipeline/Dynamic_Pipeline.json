@@ -344,7 +344,7 @@
 										"type": "Expression"
 									},
 									"entityIngestionColumn": {
-										"value": "@json(item().entityIngestionColumns)[0]",
+										"value": "@item()['entityIngestionColumns']",
 										"type": "Expression"
 									},
 									"entitySourceQuery": {
