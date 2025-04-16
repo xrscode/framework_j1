@@ -71,7 +71,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"on": {
-									"value": "@activity('Lookup Source System').output.sourceType",
+									"value": "@activity('Lookup Source System').output.firstRow.sourceType",
 									"type": "Expression"
 								},
 								"cases": [
