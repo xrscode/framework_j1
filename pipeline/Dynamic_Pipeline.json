@@ -139,6 +139,10 @@
 															"entity_name": {
 																"value": "@item().entityName",
 																"type": "Expression"
+															},
+															"source_system": {
+																"value": "@activity('Lookup Source System').output.name",
+																"type": "Expression"
 															}
 														}
 													}
