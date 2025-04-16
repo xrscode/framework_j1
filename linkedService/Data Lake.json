@@ -1,0 +1,17 @@
+{
+	"name": "Data Lake",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"sasUri": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "Azure Key Vault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sastokenURL"
+			}
+		}
+	}
+}
