@@ -94,7 +94,7 @@
 													"source": {
 														"type": "AzureSqlSource",
 														"sqlReaderQuery": {
-															"value": "@item().entitySourceQuery.sourceQuery",
+															"value": "@json(item().entitySourceQuery).sourceQuery",
 															"type": "Expression"
 														},
 														"queryTimeout": "02:00:00",
