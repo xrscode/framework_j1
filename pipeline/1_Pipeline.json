@@ -207,7 +207,7 @@
 							"typeProperties": {
 								"variableName": "secretName",
 								"value": {
-									"value": "@json(activity('Lookup Entities').output.value[0]).entitySourceQuery.connectionString",
+									"value": "@activity('Lookup Entities').output.value",
 									"type": "Expression"
 								}
 							}
