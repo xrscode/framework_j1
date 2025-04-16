@@ -333,6 +333,24 @@
 								"notebookPath": {
 									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).silver",
 									"type": "Expression"
+								},
+								"baseParameters": {
+									"entityName": {
+										"value": "@item().entityName",
+										"type": "Expression"
+									},
+									"sourceSystem": {
+										"value": "@pipeline().parameters.sourceSystem",
+										"type": "Expression"
+									},
+									"entityIngestionColumn": {
+										"value": "@item().entityIngestionColumns",
+										"type": "Expression"
+									},
+									"entitySourceQuery": {
+										"value": "@item().entitySourceQuery",
+										"type": "Expression"
+									}
 								}
 							},
 							"linkedServiceName": {
