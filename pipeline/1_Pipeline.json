@@ -235,9 +235,6 @@
 			"sourceSystem": {
 				"type": "string",
 				"defaultValue": "TotesysDB"
-			},
-			"keyVaultSecretName": {
-				"type": "string"
 			}
 		},
 		"variables": {
