@@ -23,7 +23,7 @@
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@concat(\n   '/', \n   dataset().source_system,\n   '/', \n   dataset().entity_name,\n   '/',\n   formatDateTime(utcNow(), 'yyyy'),\n   '/',\n   formatDateTime(utcNow(), 'MM'),\n   '/',\n   formatDateTime(utcNow(), 'dd'),\n   '/'\n)",
+					"value": "@concat(\n   '/',\n   'framework-j1',\n   '/', \n   dataset().source_system,\n   '/', \n   dataset().entity_name,\n   '/',\n   formatDateTime(utcNow(), 'yyyy'),\n   '/',\n   formatDateTime(utcNow(), 'MM'),\n   '/',\n   formatDateTime(utcNow(), 'dd'),\n   '/'\n)",
 					"type": "Expression"
 				},
 				"fileSystem": "vivaldi"
