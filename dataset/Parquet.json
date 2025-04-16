@@ -8,6 +8,9 @@
 		"parameters": {
 			"entity_name": {
 				"type": "string"
+			},
+			"source_system": {
+				"type": "String"
 			}
 		},
 		"annotations": [],
@@ -15,12 +18,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@concat(dataset().entity_name, '.parquet')",
-					"type": "Expression"
-				},
 				"folderPath": {
-					"value": "@concat('framework-j1/BRONZE', '/', dataset().entity_name, '/',\nformatDateTime(utcNow(), 'yyyy'), '/',\nformatDateTime(utcNow(), 'MM'), '/',\nformatDateTime(utcNow(), 'dd')\n)",
+					"value": "@concat('framework-j1/BRONZE', '/', \ndataset().source_system, '/',\ndataset().entity_name, '/',\nformatDateTime(utcNow(), 'yyyy'), '/',\nformatDateTime(utcNow(), 'MM'), '/',\nformatDateTime(utcNow(), 'dd')\n)",
 					"type": "Expression"
 				},
 				"fileSystem": "vivaldi"
