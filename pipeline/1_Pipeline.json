@@ -107,7 +107,7 @@
 										"value": "sql_database",
 										"activities": [
 											{
-												"name": "Copy data2",
+												"name": "Ingest SQL",
 												"type": "Copy",
 												"dependsOn": [],
 												"policy": {
@@ -119,8 +119,29 @@
 												},
 												"userProperties": [],
 												"typeProperties": {
+													"source": {
+														"type": "AzureSqlSource",
+														"sqlReaderQuery": {
+															"value": "@activity('Lookup Entities').output.connectionDetails.sourceQuery",
+															"type": "Expression"
+														},
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
 													"enableStaging": false
-												}
+												},
+												"inputs": [
+													{
+														"referenceName": "SQL_Connection",
+														"type": "DatasetReference",
+														"parameters": {
+															"keyVault": {
+																"value": "@activity('Lookup Entities').output.connectionDetails.connectionString",
+																"type": "Expression"
+															}
+														}
+													}
+												]
 											}
 										]
 									}
@@ -398,6 +419,9 @@
 		],
 		"parameters": {
 			"sourceSystem": {
+				"type": "string"
+			},
+			"keyVaultSecretName": {
 				"type": "string"
 			}
 		},
