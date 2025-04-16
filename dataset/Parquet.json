@@ -28,7 +28,7 @@
 				},
 				"fileSystem": "vivaldi"
 			},
-			"compressionCodec": "snappy"
+			"compressionCodec": "none"
 		},
 		"schema": [
 			{
