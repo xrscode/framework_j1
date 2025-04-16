@@ -141,7 +141,7 @@
 																"type": "Expression"
 															},
 															"source_system": {
-																"value": "@json(activity('Lookup Source System').output.firstRow.sourceSystemName)",
+																"value": "@activity('Lookup Source System').output.firstRow.sourceSystemName",
 																"type": "Expression"
 															}
 														}
