@@ -426,6 +426,16 @@
 								"notebookPath": {
 									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).gold",
 									"type": "Expression"
+								},
+								"baseParameters": {
+									"entityName": {
+										"value": "@item().entityName",
+										"type": "Expression"
+									},
+									"sourceSystem": {
+										"value": "@pipeline().parameters.sourceSystem",
+										"type": "Expression"
+									}
 								}
 							},
 							"linkedServiceName": {
