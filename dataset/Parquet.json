@@ -1,0 +1,49 @@
+{
+	"name": "Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Data Lake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "framework-j1/BRONZE/TotesysDB",
+				"fileSystem": "vivaldi"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "counterparty_id",
+				"type": "INT32"
+			},
+			{
+				"name": "counterparty_legal_name",
+				"type": "UTF8"
+			},
+			{
+				"name": "legal_address_id",
+				"type": "INT32"
+			},
+			{
+				"name": "commercial_contact",
+				"type": "UTF8"
+			},
+			{
+				"name": "delivery_contact",
+				"type": "UTF8"
+			},
+			{
+				"name": "created_at",
+				"type": "UTF8"
+			},
+			{
+				"name": "last_updated",
+				"type": "UTF8"
+			}
+		]
+	}
+}

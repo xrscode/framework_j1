@@ -58,41 +58,6 @@
 					},
 					"activities": [
 						{
-							"name": "Update Bronze Location",
-							"type": "Lookup",
-							"dependsOn": [
-								{
-									"activity": "Ingestion_Switch",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderQuery": {
-										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "sourceEntity_table",
-									"type": "DatasetReference"
-								}
-							}
-						},
-						{
 							"name": "Ingestion_Switch",
 							"type": "Switch",
 							"dependsOn": [],
@@ -128,7 +93,24 @@
 														"queryTimeout": "02:00:00",
 														"partitionOption": "None"
 													},
-													"enableStaging": false
+													"sink": {
+														"type": "ParquetSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "ParquetWriteSettings"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
 												},
 												"inputs": [
 													{
@@ -141,7 +123,33 @@
 															}
 														}
 													}
+												],
+												"outputs": [
+													{
+														"referenceName": "Parquet",
+														"type": "DatasetReference"
+													}
 												]
+											},
+											{
+												"name": "Lookup1",
+												"type": "Lookup",
+												"dependsOn": [
+													{
+														"activity": "Ingest SQL",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": []
 											}
 										]
 									}
@@ -165,12 +173,6 @@
 									}
 								]
 							}
-						},
-						{
-							"name": "If Condition1",
-							"type": "IfCondition",
-							"dependsOn": [],
-							"userProperties": []
 						}
 					]
 				}
