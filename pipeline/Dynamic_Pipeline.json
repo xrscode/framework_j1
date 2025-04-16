@@ -346,10 +346,6 @@
 									"entityIngestionColumn": {
 										"value": "@item()['entityIngestionColumns']",
 										"type": "Expression"
-									},
-									"entitySourceQuery": {
-										"value": "@item().entitySourceQuery",
-										"type": "Expression"
 									}
 								}
 							},
