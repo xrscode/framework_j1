@@ -8,6 +8,12 @@
 		"Azure Key Vault_properties_typeProperties_baseUrl": {
 			"value": "https://fj1-kv-dev-uks-dvysf9l.vault.azure.net/"
 		},
+		"AzureSQLDatabase_properties_typeProperties_connectionString_secretName": {
+			"value": "@linkedService().keyVaultSecretName"
+		},
+		"Data Lake_properties_typeProperties_sasUri_secretName": {
+			"value": "sastokenURL"
+		},
 		"Framework Databricks_properties_typeProperties_existingClusterId": {
 			"value": "0414-113738-lbr5rwbt"
 		},
@@ -19,9 +25,6 @@
 		},
 		"Metadata Database_properties_typeProperties_userName": {
 			"value": "junior_admin"
-		},
-		"Data Lake_properties_typeProperties_sasUri_secretName": {
-			"value": "sastokenURL"
 		},
 		"containerUri": {
 			"value": ""
