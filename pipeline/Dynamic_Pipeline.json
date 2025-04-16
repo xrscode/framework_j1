@@ -1,0 +1,510 @@
+{
+	"name": "Dynamic_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup Entities",
+				"description": "Lookup all entities associated with sourceSystem",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Lookup Source System",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "--First create varaiable to store sourceEntityID:\nDECLARE @sourceSystemID INT;\n\n-- Query sourceSystem to match sourceSystemName and get ID:\nSELECT @sourceSystemID = sourceSystemID\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}';\n\n--SELECT from sourceEntity\nSELECT * FROM sourceEntity\nWHERE sourceSystemID = @sourceSystemID",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "sourceEntity_table",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Ingestion",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup Entities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Ingestion_Switch",
+							"type": "Switch",
+							"dependsOn": [
+								{
+									"activity": "Set KeyVault",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"on": {
+									"value": "@activity('Lookup Source System').output.firstRow.sourceType",
+									"type": "Expression"
+								},
+								"cases": [
+									{
+										"value": "sql_database",
+										"activities": [
+											{
+												"name": "Ingest SQL",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "AzureSqlSource",
+														"sqlReaderQuery": {
+															"value": "@json(item().entitySourceQuery).sourceQuery",
+															"type": "Expression"
+														},
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "ParquetSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "ParquetWriteSettings"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SQL_Connection",
+														"type": "DatasetReference",
+														"parameters": {
+															"keyVault": {
+																"value": "@variables('secretName')",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "Parquet",
+														"type": "DatasetReference",
+														"parameters": {
+															"entity_name": {
+																"value": "@item().entityName",
+																"type": "Expression"
+															},
+															"source_system": {
+																"value": "@activity('Lookup Source System').output.firstRow.sourceSystemName",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								],
+								"defaultActivities": [
+									{
+										"name": "Copy data1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "AzureSqlSource",
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "sourceEntity_table",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "Parquet",
+												"type": "DatasetReference",
+												"parameters": {
+													"entity_name": {
+														"value": "@json(item().entityName)",
+														"type": "Expression"
+													},
+													"source_system": {
+														"value": "@activity('Lookup Source System').output.name",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
+						},
+						{
+							"name": "Set KeyVault",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "secretName",
+								"value": {
+									"value": "@json(item().entitySourceQuery).connectionString\n",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Update Bronze",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "Ingestion_Switch",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/'' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/'' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "sourceEntity_table",
+									"type": "DatasetReference"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Lookup Source System",
+				"description": "This activity will query the metadata database, to determine which notebooks to run.",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "sourceSystem_table",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Transformation",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Ingestion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "SILVER",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": {
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).silver",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Update Silver",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "SILVER",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat(\n   'UPDATE sourceEntity SET silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE silverLocation = ''',\n   if(empty(activity('SILVER').output.runOutput), 'None', activity('SILVER').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "sourceEntity_table",
+									"type": "DatasetReference"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Load",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Transformation",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Entities').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "GOLD",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": {
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).gold",
+									"type": "Expression"
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Framework Databricks",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Lookup Gold",
+							"type": "Lookup",
+							"dependsOn": [
+								{
+									"activity": "GOLD",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@concat(\n   'UPDATE sourceEntity SET goldLocation = ''',\n   if(empty(activity('GOLD').output.runOutput), 'None', activity('GOLD').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE goldLocation = ''',\n   if(empty(activity('GOLD').output.runOutput), 'None', activity('GOLD').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "sourceEntity_table",
+									"type": "DatasetReference"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Analysis",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Load",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": {
+						"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).analysis",
+						"type": "Expression"
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Framework Databricks",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"sourceSystem": {
+				"type": "string",
+				"defaultValue": "TotesysDB"
+			}
+		},
+		"variables": {
+			"sourceSystem": {
+				"type": "String"
+			},
+			"updateBronzeLocation": {
+				"type": "String"
+			},
+			"secretName": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
