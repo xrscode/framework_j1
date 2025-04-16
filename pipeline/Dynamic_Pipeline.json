@@ -134,7 +134,13 @@
 												"outputs": [
 													{
 														"referenceName": "Parquet",
-														"type": "DatasetReference"
+														"type": "DatasetReference",
+														"parameters": {
+															"entity_name": {
+																"value": "@json(item().entityName)",
+																"type": "Expression"
+															}
+														}
 													}
 												]
 											}
