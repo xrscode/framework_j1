@@ -246,7 +246,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
-									"sqlReaderQuery": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+									"sqlReaderQuery": {
+										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''vivaldi/framework-j1/BRONZE/',\n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy-MM-dd'),\n   '/', \n   item().entityName,\n   '.parquet'' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''vivaldi/framework-j1/BRONZE/',\n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy-MM-dd'),\n   '/', \n   item().entityName,\n   '.parquet'' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
