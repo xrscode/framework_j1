@@ -1,0 +1,23 @@
+{
+	"name": "SQL_Connection",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQLDatabase",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"keyVaultSecretName": {
+					"value": "@dataset().keyVault",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"keyVault": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

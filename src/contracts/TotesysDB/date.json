@@ -2,7 +2,7 @@
     "name": "date",
     "description": "dim_date",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "None"
     },
     "ingestion_columns": [

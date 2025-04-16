@@ -2,7 +2,7 @@
     "name": "design",
     "description": "dim_design",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM design"
     },
     "ingestion_columns": [

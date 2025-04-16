@@ -95,43 +95,70 @@ def upload_source_system_contract(path: str) -> None:
     with open(path, 'r') as file:
         # Load the json file:
         sourceSystemContract = json.load(file)
-
-    # Begin to build up query:
-    sourceSystemName = sourceSystemContract['name']
-    sourceSystemDescription = sourceSystemContract['description']
-    keyVaultQuery = sourceSystemContract['keyVaultQuery']
-    entityNames = str(
-        sourceSystemContract['entityNames']).replace(
-        "'", '"')
+        
+    
+    source_system_name = sourceSystemContract['name']
+    source_system_type = sourceSystemContract['sourceType']
+    source_system_description = sourceSystemContract['description']
+    entity_names = str(sourceSystemContract['entityNames']).replace("'", '"')
+    key_vault_query = sourceSystemContract['keyVaultQuery']
     notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
+
 
     # Merge prevents sourceSystemID from incrementing on match:
     query = f"""
     MERGE INTO dbo.sourceSystem AS target
-    USING (VALUES ('{sourceSystemName}', '{sourceSystemDescription}',
-    '{entityNames}','{keyVaultQuery}', '{notebooks}'))
-        AS source (sourceSystemName, sourceSystemDescription,
-    entityNames, keyVaultQuery, notebooks)
-    ON target.sourceSystemName = source.sourceSystemName
-    WHEN MATCHED THEN
-        UPDATE SET
-            target.sourceSystemDescription = source.sourceSystemDescription,
-            target.entityNames = source.entityNames,
-            target.keyVaultQuery = source.keyVaultQuery,
-            target.notebooks = source.notebooks
-    WHEN NOT MATCHED THEN
-        INSERT (sourceSystemName, sourceSystemDescription, entityNames,
-        keyVaultQuery, notebooks)
-            VALUES ('{sourceSystemName}', '{sourceSystemDescription}',
-            '{entityNames}', '{keyVaultQuery}', '{notebooks}');
+USING (
+    VALUES (
+    '{source_system_name}',
+    '{source_system_type}',
+    '{source_system_description}',
+    '{entity_names}',
+    '{key_vault_query}',
+    '{notebooks}'
+    )
+) AS source (
+    sourceSystemName,
+    sourceType,
+    sourceSystemDescription,
+    entityNames,
+    keyVaultQuery,
+    notebooks
+)
+ON target.sourceSystemName = source.sourceSystemName
+WHEN MATCHED THEN
+    UPDATE SET
+        target.sourceSystemName = source.sourceSystemName,
+        target.sourceType = source.sourceType,
+        target.sourceSystemDescription = source.sourceSystemDescription,
+        target.entityNames = source.entityNames,
+        target.keyVaultQuery = source.keyVaultQuery,
+        target.notebooks = source.notebooks
+WHEN NOT MATCHED THEN
+    INSERT (
+        sourceSystemName,
+        sourceType,
+        sourceSystemDescription,
+        entityNames,
+        keyVaultQuery,
+        notebooks
+    )
+    VALUES (
+    '{source_system_name}',
+    '{source_system_type}',
+    '{source_system_description}',
+    '{entity_names}',
+    '{key_vault_query}',
+    '{notebooks}'
+    );
     """
+    print(query)
 
     # Execute the query:
-    try:
-        result = query_database('metadata', query)
-        print(f"Uploaded: {sourceSystemName}. {result}.")
-    except Exception as e:
-        print(f'Error message: {e}')
+    result = query_database('metadata', query)
+    print(result)
+    return result
+        
 
 
 # First get list of source systems:

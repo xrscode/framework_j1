@@ -13,9 +13,10 @@ data = [x for x in csv_data[0]]
 source_system_structure = {
     "name": data[0],
     "description": data[1],
-    "keyVaultQuery": data[2],
-    "entityNames": json.loads(data[3]),
-    "notebooks": json.loads(data[4])
+    "sourceType": data[2],
+    "keyVaultQuery": data[3],
+    "entityNames": json.loads(data[4]),
+    "notebooks": json.loads(data[5])
 }
 
 # Write json to file:

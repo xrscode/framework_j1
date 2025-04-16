@@ -1,95 +1,95 @@
 name,description,connectionString,sourceQuery, sortOrder,columnName,dataType,required,primary_key
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,1,counterparty_id,int,true,true
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,2,counterparty_legal_name,string,true,false
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,3,legal_address_id,int,true,false
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,4,commercial_contact,str,false,false
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,5,delivery_contact,str,false,false
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,6,created_at,date,false,false
-counterparty,dim_counterparty,connectionStringTotesys,SELECT * FROM counterparty,7,last_updated,date,false,false
-currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,1, currency_id,int,true,true
-currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,2,currency_code,str,true,false
-currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,3,created_at,date,false,false
-currency, dim_currency.,connectionStringTotesys,SELECT * FROM currency,4,last_updated,date,false,false
-date,dim_date,connectionStringTotesys,None,1,date_id,int,true,true
-date,dim_date,connectionStringTotesys,None,2,year,int,true,false
-date,dim_date,connectionStringTotesys,None,3,month,int,true,false
-date,dim_date,connectionStringTotesys,None,4,day,int,true,false
-date,dim_date,connectionStringTotesys,None,5,day_of_week,int,true,false
-date,dim_date,connectionStringTotesys,None,6,day_name,str,true,false
-date,dim_date,connectionStringTotesys,None,7,month_name,str,true,false
-date,dim_date,connectionStringTotesys,None,8,quarter,int,true,false
-department,dim_department,connectionStringTotesys,SELECT * FROM department,1,department_id,int,true,true
-department,dim_department,connectionStringTotesys,SELECT * FROM department,2,department_name,str,true,false
-department,dim_department,connectionStringTotesys,SELECT * FROM department,3,location,str,true,false
-department,dim_department,connectionStringTotesys,SELECT * FROM department,4,manager,str,true,false
-department,dim_department,connectionStringTotesys,SELECT * FROM department,5,created_at,date,true,false
-department,dim_department,connectionStringTotesys,SELECT * FROM department,6,last_updated,date,true,false
-design,dim_design,connectionStringTotesys,SELECT * FROM design,1,design_id,int,true,true
-design,dim_design,connectionStringTotesys,SELECT * FROM design,2,created_at,date,false,false
-design,dim_design,connectionStringTotesys,SELECT * FROM design,3,design_name,str,true,true
-design,dim_design,connectionStringTotesys,SELECT * FROM design,4,file_location,str,true,false
-design,dim_design,connectionStringTotesys,SELECT * FROM design,5,file_name,str,true,false
-design,dim_design,connectionStringTotesys,SELECT * FROM design,6,last_updated,date,false,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,1,address_id,int,true,true
-location,dim_location,connectionStringTotesys,SELECT * FROM address,2,address_line_1,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,3,address_line_2,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,4,distrcit,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,5,city,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,6,postal_code,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,7,country,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,8,phone,str,true,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,9,created_at,date,false,false
-location,dim_location,connectionStringTotesys,SELECT * FROM address,10,last_updated,date,false,false
-payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,1,payment_type_id,int,true,true
-payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,2,payment_type_name,int,true,false
-payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,3,created_at,date,false,false
-payment_type,dim_payment_type,connectionStringTotesys,SELECT * FROM payment_type,4,last_updated,date,false,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,1,payment_id,int,true,true
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,2,created_at,timestamp,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,3,last_updated,date,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,4,transaction_id,int,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,5,counterparty_id,int,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,6,payment_amount,"decimal(10,2)",true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,7,currency_d,int,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,8,payment_type_id,int,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,9,paid,bool,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,10,payment_date,date,true,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,11,company_ac_number,int,false,false
-payment,fact_payment,connectionStringTotesys,SELECT * FROM payment,12,counterparty_ac_number,int,false,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,1,purchase_order_id,int,true,true
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,2,created_at,timestamp,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,3,last_updated,timestamp,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,4,staff_id,int,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,5,counterparty_id,int,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,6,item_code,str,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,7,item_quantity,int,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,8,item_unit_price,"decimal(10,2)",true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,9,currency_id,int,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,10,agreed_delivery_date,date,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,11,agreed_payment_date,date,true,false
-purchase_order,fact_purchase_order,connectionStringTotesys,SELECT * FROM purchase_order,12,agreed_delivery_location_id,int,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,1,sales_order_id,int,true,true
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,2,created_at,date,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,3,last_updated,date,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,4,design_id,int,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,5,staff_id,int,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,6,counterparty_id,int,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,7,units_sold,int,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,8,unit_price,"decimal(10,2)",true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,9,currency_id,int,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,10,agreed_delivery_date,date,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,11,agreed_payment_date,date,true,false
-sales_order,fact_sales_order,connectionStringTotesys,SELECT * FROM sales_order,12,agreed_delivery_location_id,int,true,false
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,1,staff_id,int,true,true
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,2,first_name,str,true,false
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,3,last_name,str,true,false
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,4,department_id,int,true,false
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,5,email_address,str,true,false
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,6,created_at,date,false,false
-staff,dim_staff,connectionStringTotesys,SELECT * FROM staff,7,last_updated,date,false,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],1,transaction_id,int,true,true
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],2,transaction_type,str,true,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],3,sales_order_id,int,true,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],4,purchase_order_id,int,true,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],5,created_at,date,false,false
-transaction,dim_transaction,connectionStringTotesys,SELECT * FROM [transaction],6,last_updated,date,false,false
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,1,counterparty_id,int,true,true
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,2,counterparty_legal_name,string,true,false
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,3,legal_address_id,int,true,false
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,4,commercial_contact,str,false,false
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,5,delivery_contact,str,false,false
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,6,created_at,date,false,false
+counterparty,dim_counterparty,totesysConnectionStringADO,SELECT * FROM counterparty,7,last_updated,date,false,false
+currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,1, currency_id,int,true,true
+currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,2,currency_code,str,true,false
+currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,3,created_at,date,false,false
+currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,4,last_updated,date,false,false
+date,dim_date,totesysConnectionStringADO,None,1,date_id,int,true,true
+date,dim_date,totesysConnectionStringADO,None,2,year,int,true,false
+date,dim_date,totesysConnectionStringADO,None,3,month,int,true,false
+date,dim_date,totesysConnectionStringADO,None,4,day,int,true,false
+date,dim_date,totesysConnectionStringADO,None,5,day_of_week,int,true,false
+date,dim_date,totesysConnectionStringADO,None,6,day_name,str,true,false
+date,dim_date,totesysConnectionStringADO,None,7,month_name,str,true,false
+date,dim_date,totesysConnectionStringADO,None,8,quarter,int,true,false
+department,dim_department,totesysConnectionStringADO,SELECT * FROM department,1,department_id,int,true,true
+department,dim_department,totesysConnectionStringADO,SELECT * FROM department,2,department_name,str,true,false
+department,dim_department,totesysConnectionStringADO,SELECT * FROM department,3,location,str,true,false
+department,dim_department,totesysConnectionStringADO,SELECT * FROM department,4,manager,str,true,false
+department,dim_department,totesysConnectionStringADO,SELECT * FROM department,5,created_at,date,true,false
+department,dim_department,totesysConnectionStringADO,SELECT * FROM department,6,last_updated,date,true,false
+design,dim_design,totesysConnectionStringADO,SELECT * FROM design,1,design_id,int,true,true
+design,dim_design,totesysConnectionStringADO,SELECT * FROM design,2,created_at,date,false,false
+design,dim_design,totesysConnectionStringADO,SELECT * FROM design,3,design_name,str,true,true
+design,dim_design,totesysConnectionStringADO,SELECT * FROM design,4,file_location,str,true,false
+design,dim_design,totesysConnectionStringADO,SELECT * FROM design,5,file_name,str,true,false
+design,dim_design,totesysConnectionStringADO,SELECT * FROM design,6,last_updated,date,false,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,1,address_id,int,true,true
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,2,address_line_1,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,3,address_line_2,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,4,distrcit,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,5,city,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,6,postal_code,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,7,country,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,8,phone,str,true,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,9,created_at,date,false,false
+location,dim_location,totesysConnectionStringADO,SELECT * FROM address,10,last_updated,date,false,false
+payment_type,dim_payment_type,totesysConnectionStringADO,SELECT * FROM payment_type,1,payment_type_id,int,true,true
+payment_type,dim_payment_type,totesysConnectionStringADO,SELECT * FROM payment_type,2,payment_type_name,int,true,false
+payment_type,dim_payment_type,totesysConnectionStringADO,SELECT * FROM payment_type,3,created_at,date,false,false
+payment_type,dim_payment_type,totesysConnectionStringADO,SELECT * FROM payment_type,4,last_updated,date,false,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,1,payment_id,int,true,true
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,2,created_at,timestamp,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,3,last_updated,date,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,4,transaction_id,int,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,5,counterparty_id,int,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,6,payment_amount,"decimal(10,2)",true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,7,currency_d,int,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,8,payment_type_id,int,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,9,paid,bool,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,10,payment_date,date,true,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,11,company_ac_number,int,false,false
+payment,fact_payment,totesysConnectionStringADO,SELECT * FROM payment,12,counterparty_ac_number,int,false,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,1,purchase_order_id,int,true,true
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,2,created_at,timestamp,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,3,last_updated,timestamp,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,4,staff_id,int,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,5,counterparty_id,int,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,6,item_code,str,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,7,item_quantity,int,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,8,item_unit_price,"decimal(10,2)",true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,9,currency_id,int,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,10,agreed_delivery_date,date,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,11,agreed_payment_date,date,true,false
+purchase_order,fact_purchase_order,totesysConnectionStringADO,SELECT * FROM purchase_order,12,agreed_delivery_location_id,int,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,1,sales_order_id,int,true,true
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,2,created_at,date,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,3,last_updated,date,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,4,design_id,int,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,5,staff_id,int,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,6,counterparty_id,int,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,7,units_sold,int,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,8,unit_price,"decimal(10,2)",true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,9,currency_id,int,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,10,agreed_delivery_date,date,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,11,agreed_payment_date,date,true,false
+sales_order,fact_sales_order,totesysConnectionStringADO,SELECT * FROM sales_order,12,agreed_delivery_location_id,int,true,false
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,1,staff_id,int,true,true
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,2,first_name,str,true,false
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,3,last_name,str,true,false
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,4,department_id,int,true,false
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,5,email_address,str,true,false
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,6,created_at,date,false,false
+staff,dim_staff,totesysConnectionStringADO,SELECT * FROM staff,7,last_updated,date,false,false
+transaction,dim_transaction,totesysConnectionStringADO,SELECT * FROM [transaction],1,transaction_id,int,true,true
+transaction,dim_transaction,totesysConnectionStringADO,SELECT * FROM [transaction],2,transaction_type,str,true,false
+transaction,dim_transaction,totesysConnectionStringADO,SELECT * FROM [transaction],3,sales_order_id,int,true,false
+transaction,dim_transaction,totesysConnectionStringADO,SELECT * FROM [transaction],4,purchase_order_id,int,true,false
+transaction,dim_transaction,totesysConnectionStringADO,SELECT * FROM [transaction],5,created_at,date,false,false
+transaction,dim_transaction,totesysConnectionStringADO,SELECT * FROM [transaction],6,last_updated,date,false,false

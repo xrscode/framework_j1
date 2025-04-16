@@ -1,0 +1,64 @@
+{
+	"name": "Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Data Lake",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"entity_name": {
+				"type": "string"
+			},
+			"source_system": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().entity_name, '.parquet')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(\n   '/',\n   'framework-j1',\n   '/',\n   'BRONZE', \n   '/',\n   dataset().source_system,\n   '/', \n   dataset().entity_name,\n   '/',\n   formatDateTime(utcNow(), 'yyyy'),\n   '/',\n   formatDateTime(utcNow(), 'MM'),\n   '/',\n   formatDateTime(utcNow(), 'dd'),\n   '/'\n)",
+					"type": "Expression"
+				},
+				"fileSystem": "vivaldi"
+			},
+			"compressionCodec": "none"
+		},
+		"schema": [
+			{
+				"name": "counterparty_id",
+				"type": "INT32"
+			},
+			{
+				"name": "counterparty_legal_name",
+				"type": "UTF8"
+			},
+			{
+				"name": "legal_address_id",
+				"type": "INT32"
+			},
+			{
+				"name": "commercial_contact",
+				"type": "UTF8"
+			},
+			{
+				"name": "delivery_contact",
+				"type": "UTF8"
+			},
+			{
+				"name": "created_at",
+				"type": "UTF8"
+			},
+			{
+				"name": "last_updated",
+				"type": "UTF8"
+			}
+		]
+	}
+}

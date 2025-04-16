@@ -2,7 +2,7 @@
     "name": "location",
     "description": "dim_location",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM address"
     },
     "ingestion_columns": [
