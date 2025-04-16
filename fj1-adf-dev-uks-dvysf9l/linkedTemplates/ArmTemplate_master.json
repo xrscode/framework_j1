@@ -27,6 +27,14 @@
 			"type": "string",
 			"defaultValue": "junior_admin"
 		},
+		"AzureDataLakeStorage1_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'AzureDataLakeStorage1'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_sasToken_secretName": {
+			"type": "string",
+			"defaultValue": "sastoken"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +76,12 @@
 					},
 					"Metadata Database_properties_typeProperties_userName": {
 						"value": "[parameters('Metadata Database_properties_typeProperties_userName')]"
+					},
+					"AzureDataLakeStorage1_sasUri": {
+						"value": "[parameters('AzureDataLakeStorage1_sasUri')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_sasToken_secretName": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_sasToken_secretName')]"
 					}
 				}
 			},

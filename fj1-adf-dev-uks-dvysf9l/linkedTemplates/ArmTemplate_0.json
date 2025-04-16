@@ -26,6 +26,14 @@
 		"Metadata Database_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "junior_admin"
+		},
+		"AzureDataLakeStorage1_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'AzureDataLakeStorage1'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_sasToken_secretName": {
+			"type": "string",
+			"defaultValue": "sastoken"
 		}
 	},
 	"variables": {
@@ -90,6 +98,29 @@
 							"type": "LinkedServiceReference"
 						},
 						"secretName": "sqlPassword"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Azure Key Vault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"sasUri": "[parameters('AzureDataLakeStorage1_sasUri')]",
+					"sasToken": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "Azure Key Vault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('AzureDataLakeStorage1_properties_typeProperties_sasToken_secretName')]"
 					}
 				}
 			},
