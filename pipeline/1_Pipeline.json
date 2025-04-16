@@ -44,7 +44,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Entities",
+						"activity": "Set KeyVault Name",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -118,7 +118,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"keyVault": {
-																"value": "@activity('Lookup Entities').output.connectionDetails.connectionString",
+																"value": "@variables('secretName')",
 																"type": "Expression"
 															}
 														}
@@ -205,11 +205,36 @@
 						"type": "DatasetReference"
 					}
 				}
+			},
+			{
+				"name": "Set KeyVault Name",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Lookup Entities",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "secretName",
+					"value": {
+						"value": "@activity('Lookup Entities').output.connectionDetails.connectionString",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
 			"sourceSystem": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "TotesysDB"
 			},
 			"keyVaultSecretName": {
 				"type": "string"
@@ -220,6 +245,9 @@
 				"type": "String"
 			},
 			"updateBronzeLocation": {
+				"type": "String"
+			},
+			"secretName": {
 				"type": "String"
 			}
 		},
