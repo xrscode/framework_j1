@@ -1,19 +1,18 @@
 {
 	"name": "AzureDataLakeStorage1",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
-			"sasUri": "https://fj1adlsdvysf9l.dfs.core.windows.net/",
-			"sasToken": {
+			"sasUri": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
 					"referenceName": "Azure Key Vault",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "sastoken"
+				"secretName": "sastokenURL"
 			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
