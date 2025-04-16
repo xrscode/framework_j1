@@ -20,7 +20,7 @@
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@concat('vivaldi/framework-j1/BRONZE', '/', dataset().entity_name, '/',\nformatDateTime(utcNow(), 'yyyy'), '/',\nformatDateTime(utcNow(), 'MM'), '/',\nformatDateTime(utcNow(), 'dd')\n)",
+					"value": "@concat('framework-j1/BRONZE', '/', dataset().entity_name, '/',\nformatDateTime(utcNow(), 'yyyy'), '/',\nformatDateTime(utcNow(), 'MM'), '/',\nformatDateTime(utcNow(), 'dd')\n)",
 					"type": "Expression"
 				},
 				"fileSystem": "vivaldi"
