@@ -376,7 +376,7 @@
 				}
 			},
 			{
-				"name": "Transformation_copy1",
+				"name": "Load",
 				"type": "ForEach",
 				"dependsOn": [
 					{
