@@ -17,12 +17,7 @@
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"folderPath": {
-					"value": "@concat('framework-j1/BRONZE', '/', \ndataset().source_system, '/',\ndataset().entity_name, '/',\nformatDateTime(utcNow(), 'yyyy'), '/',\nformatDateTime(utcNow(), 'MM'), '/',\nformatDateTime(utcNow(), 'dd')\n)",
-					"type": "Expression"
-				},
-				"fileSystem": "vivaldi"
+				"type": "AzureBlobFSLocation"
 			},
 			"compressionCodec": "snappy"
 		},
