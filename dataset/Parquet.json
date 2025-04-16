@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"folderPath": {
-					"value": "@concat('vivaldi/framework-j1/BRONZE', '/', formatDateTime(utcNow(), 'yyyy-MM-dd'), '/', '.parquet')\n",
+					"value": "@concat('vivaldi/framework-j1/BRONZE', '/', dataset().entity_name, formatDateTime(utcNow(), 'yyyy-MM-dd'), '/',dataset().entity_name, '.parquet')",
 					"type": "Expression"
 				},
 				"fileSystem": "vivaldi"
