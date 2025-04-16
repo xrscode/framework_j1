@@ -44,7 +44,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Set KeyVault Name",
+						"activity": "Lookup Entities",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -60,7 +60,14 @@
 						{
 							"name": "Ingestion_Switch",
 							"type": "Switch",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set KeyVault",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"userProperties": [],
 							"typeProperties": {
 								"on": {
@@ -187,6 +194,23 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "Set KeyVault",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "secretName",
+								"value": {
+									"value": "@activity('Lookup Entities').output.value.entitySourceQuery.connectionString",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -217,30 +241,6 @@
 					"dataset": {
 						"referenceName": "sourceSystem_table",
 						"type": "DatasetReference"
-					}
-				}
-			},
-			{
-				"name": "Set KeyVault Name",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Lookup Entities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "secretName",
-					"value": {
-						"value": "@activity('Lookup Entities').output.connectionDetails.connectionString",
-						"type": "Expression"
 					}
 				}
 			}
