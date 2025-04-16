@@ -1,0 +1,60 @@
+{
+	"name": "Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Data Lake",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"entity_name": {
+				"type": "string"
+			},
+			"source_system": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('framework-j1/BRONZE', '/', \ndataset().source_system, '/',\ndataset().entity_name, '/',\nformatDateTime(utcNow(), 'yyyy'), '/',\nformatDateTime(utcNow(), 'MM'), '/',\nformatDateTime(utcNow(), 'dd')\n)",
+					"type": "Expression"
+				},
+				"fileSystem": "vivaldi"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "counterparty_id",
+				"type": "INT32"
+			},
+			{
+				"name": "counterparty_legal_name",
+				"type": "UTF8"
+			},
+			{
+				"name": "legal_address_id",
+				"type": "INT32"
+			},
+			{
+				"name": "commercial_contact",
+				"type": "UTF8"
+			},
+			{
+				"name": "delivery_contact",
+				"type": "UTF8"
+			},
+			{
+				"name": "created_at",
+				"type": "UTF8"
+			},
+			{
+				"name": "last_updated",
+				"type": "UTF8"
+			}
+		]
+	}
+}

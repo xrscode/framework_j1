@@ -1,12 +1,19 @@
 {
-	"name": "1_Pipeline",
+	"name": "Dynamic_Pipeline",
 	"properties": {
 		"activities": [
 			{
 				"name": "Lookup Entities",
 				"description": "Lookup all entities associated with sourceSystem",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup Source System",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -37,7 +44,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Notebooks",
+						"activity": "Lookup Entities",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -51,49 +58,186 @@
 					},
 					"activities": [
 						{
-							"name": "BRONZE",
-							"description": "Activate bronze ingestion layer.",
-							"type": "DatabricksNotebook",
+							"name": "Ingestion_Switch",
+							"type": "Switch",
+							"dependsOn": [
+								{
+									"activity": "Set KeyVault",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"on": {
+									"value": "@activity('Lookup Source System').output.firstRow.sourceType",
+									"type": "Expression"
+								},
+								"cases": [
+									{
+										"value": "sql_database",
+										"activities": [
+											{
+												"name": "Ingest SQL",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "AzureSqlSource",
+														"sqlReaderQuery": {
+															"value": "@json(item().entitySourceQuery).sourceQuery",
+															"type": "Expression"
+														},
+														"queryTimeout": "02:00:00",
+														"partitionOption": "None"
+													},
+													"sink": {
+														"type": "ParquetSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "ParquetWriteSettings"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SQL_Connection",
+														"type": "DatasetReference",
+														"parameters": {
+															"keyVault": {
+																"value": "@variables('secretName')",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "Parquet",
+														"type": "DatasetReference",
+														"parameters": {
+															"entity_name": {
+																"value": "@item().entityName",
+																"type": "Expression"
+															},
+															"source_system": {
+																"value": "@activity('Lookup Source System').output.firstRow.sourceSystemName",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								],
+								"defaultActivities": [
+									{
+										"name": "Copy data1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "AzureSqlSource",
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "sourceEntity_table",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "Parquet",
+												"type": "DatasetReference",
+												"parameters": {
+													"entity_name": {
+														"value": "@json(item().entityName)",
+														"type": "Expression"
+													},
+													"source_system": {
+														"value": "@activity('Lookup Source System').output.name",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
+						},
+						{
+							"name": "Set KeyVault",
+							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"notebookPath": {
-									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).bronze",
+								"variableName": "secretName",
+								"value": {
+									"value": "@json(item().entitySourceQuery).connectionString\n",
 									"type": "Expression"
-								},
-								"baseParameters": {
-									"entityName": {
-										"value": "@string(item()['entityName'])",
-										"type": "Expression"
-									},
-									"sourceSystem": {
-										"value": "@string(pipeline().parameters.sourceSystem)",
-										"type": "Expression"
-									},
-									"entitySourceQuery": {
-										"value": "@item()['entitySourceQuery']",
-										"type": "Expression"
-									}
 								}
-							},
-							"linkedServiceName": {
-								"referenceName": "Framework Databricks",
-								"type": "LinkedServiceReference"
 							}
 						},
 						{
-							"name": "Update Bronze Location",
+							"name": "Update Bronze",
 							"type": "Lookup",
 							"dependsOn": [
 								{
-									"activity": "BRONZE",
+									"activity": "Ingestion_Switch",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -111,7 +255,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''',\n   if(empty(activity('BRONZE').output.runOutput), 'None', activity('BRONZE').output.runOutput),\n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)",
+										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/'' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/'' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -124,6 +268,35 @@
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Lookup Source System",
+				"description": "This activity will query the metadata database, to determine which notebooks to run.",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT *\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "sourceSystem_table",
+						"type": "DatasetReference"
+					}
 				}
 			},
 			{
@@ -146,7 +319,6 @@
 					"activities": [
 						{
 							"name": "SILVER",
-							"description": "Activate bronze ingestion layer.",
 							"type": "DatabricksNotebook",
 							"dependsOn": [],
 							"policy": {
@@ -159,26 +331,8 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).silver",
 									"type": "Expression"
-								},
-								"baseParameters": {
-									"entityName": {
-										"value": "@string(item()['entityName'])",
-										"type": "Expression"
-									},
-									"sourceSystem": {
-										"value": "@string(pipeline().parameters.sourceSystem)",
-										"type": "Expression"
-									},
-									"entityIngestionColumns": {
-										"value": "@item()['entityIngestionColumns']",
-										"type": "Expression"
-									},
-									"entitySourceQuery": {
-										"value": "@item()['entitySourceQuery']",
-										"type": "Expression"
-									}
 								}
 							},
 							"linkedServiceName": {
@@ -225,42 +379,6 @@
 				}
 			},
 			{
-				"name": "Lookup Notebooks",
-				"description": "This activity will query the metadata database, to determine which notebooks to run.",
-				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Lookup Entities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
-							"type": "Expression"
-						},
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "sourceSystem_table",
-						"type": "DatasetReference"
-					}
-				}
-			},
-			{
 				"name": "Load",
 				"type": "ForEach",
 				"dependsOn": [
@@ -280,7 +398,6 @@
 					"activities": [
 						{
 							"name": "GOLD",
-							"description": "Perform analytics on ingested data.",
 							"type": "DatabricksNotebook",
 							"dependsOn": [],
 							"policy": {
@@ -293,12 +410,8 @@
 							"userProperties": [],
 							"typeProperties": {
 								"notebookPath": {
-									"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
+									"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).gold",
 									"type": "Expression"
-								},
-								"baseParameters": {
-									"entityName": "@string(item()['entityName'])",
-									"sourceSystem": "@string(pipeline().parameters.sourceSystem)"
 								}
 							},
 							"linkedServiceName": {
@@ -307,7 +420,7 @@
 							}
 						},
 						{
-							"name": "Update Gold",
+							"name": "Lookup Gold",
 							"type": "Lookup",
 							"dependsOn": [
 								{
@@ -365,7 +478,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebookPath": {
-						"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).analysis",
+						"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).analysis",
 						"type": "Expression"
 					}
 				},
@@ -377,7 +490,8 @@
 		],
 		"parameters": {
 			"sourceSystem": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "TotesysDB"
 			}
 		},
 		"variables": {
@@ -385,6 +499,9 @@
 				"type": "String"
 			},
 			"updateBronzeLocation": {
+				"type": "String"
+			},
+			"secretName": {
 				"type": "String"
 			}
 		},
