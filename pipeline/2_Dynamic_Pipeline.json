@@ -153,7 +153,7 @@
 								],
 								"defaultActivities": [
 									{
-										"name": "Copy data1",
+										"name": "HTTP",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
@@ -166,9 +166,14 @@
 										"userProperties": [],
 										"typeProperties": {
 											"source": {
-												"type": "AzureSqlSource",
-												"queryTimeout": "02:00:00",
-												"partitionOption": "None"
+												"type": "DelimitedTextSource",
+												"storeSettings": {
+													"type": "HttpReadSettings",
+													"requestMethod": "GET"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
 											},
 											"sink": {
 												"type": "ParquetSink",
@@ -191,8 +196,14 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "sourceEntity_table",
-												"type": "DatasetReference"
+												"referenceName": "http_csv",
+												"type": "DatasetReference",
+												"parameters": {
+													"url": {
+														"value": "@item().connectionDetails.connectionString",
+														"type": "Expression"
+													}
+												}
 											}
 										],
 										"outputs": [
