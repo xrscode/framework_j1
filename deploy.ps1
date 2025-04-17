@@ -155,8 +155,8 @@ if (Test-Path $terraformDir) {
 Write-Host "Navigating out of the 'terraform' directory..." -ForegroundColor Cyan
 Set-Location ..
 
-# Setup Check connection to sql server works:
-$pythonScript = ".\src\files\0_check_db_connection.py"
+# Check ip address:
+$pythonScript = ".\src\files\check_db_connection.py"
 if (Test-Path $pythonScript) {
     Write-Host "Running Python script: $pythonScript.  Checking connection..." -ForegroundColor Cyan
     python $pythonScript

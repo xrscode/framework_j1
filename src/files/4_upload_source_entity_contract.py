@@ -1,13 +1,18 @@
 import json
 from utility_functions import *
+from check_db_connection import check_connection
 import os
 import inquirer
+
 
 """
 This python file will take a sourceEntityContract.json and upload it into
 the metadata database.
 """
 
+
+# Check connection first:
+check_connection()
 
 def choose_entity_contract(sourceSystems: list) -> str:
     """

@@ -10,14 +10,6 @@ currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,1, cur
 currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,2,currency_code,str,true,false
 currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,3,created_at,date,false,false
 currency, dim_currency.,totesysConnectionStringADO,SELECT * FROM currency,4,last_updated,date,false,false
-date,dim_date,totesysConnectionStringADO,None,1,date_id,int,true,true
-date,dim_date,totesysConnectionStringADO,None,2,year,int,true,false
-date,dim_date,totesysConnectionStringADO,None,3,month,int,true,false
-date,dim_date,totesysConnectionStringADO,None,4,day,int,true,false
-date,dim_date,totesysConnectionStringADO,None,5,day_of_week,int,true,false
-date,dim_date,totesysConnectionStringADO,None,6,day_name,str,true,false
-date,dim_date,totesysConnectionStringADO,None,7,month_name,str,true,false
-date,dim_date,totesysConnectionStringADO,None,8,quarter,int,true,false
 department,dim_department,totesysConnectionStringADO,SELECT * FROM department,1,department_id,int,true,true
 department,dim_department,totesysConnectionStringADO,SELECT * FROM department,2,department_name,str,true,false
 department,dim_department,totesysConnectionStringADO,SELECT * FROM department,3,location,str,true,false
