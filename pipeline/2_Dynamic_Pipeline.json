@@ -201,7 +201,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@variables('item').value",
+																"value": "@json(variables('item')).value",
 																"type": "Expression"
 															}
 														}
