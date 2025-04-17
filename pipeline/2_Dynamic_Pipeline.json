@@ -286,7 +286,7 @@
 			},
 			{
 				"name": "Lookup Source System",
-				"description": "This activity will query the metadata database, to determine which notebooks to run.",
+				"description": "This activity will query the metadata database to determine details about the source system.",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
