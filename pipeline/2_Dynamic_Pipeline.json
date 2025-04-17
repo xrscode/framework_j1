@@ -201,7 +201,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@json(item().entitySourceQuery).connectionString",
+																"value": "@item().entitySourceQuery.connectionString",
 																"type": "Expression"
 															}
 														}
@@ -232,7 +232,14 @@
 						{
 							"name": "Set KeyVault",
 							"type": "SetVariable",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
@@ -278,6 +285,23 @@
 								"dataset": {
 									"referenceName": "sourceEntity_table",
 									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "item",
+								"value": {
+									"value": "@item()",
+									"type": "Expression"
 								}
 							}
 						}
@@ -540,6 +564,9 @@
 				"type": "String"
 			},
 			"secretName": {
+				"type": "String"
+			},
+			"item": {
 				"type": "String"
 			}
 		},
