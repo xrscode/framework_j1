@@ -1,5 +1,8 @@
 from utility_functions import *
+from check_db_connection import check_connection
 
+# Run Check Connection first:
+check_connection()
 
 """
 This python file will setup the metadata datasbse.
