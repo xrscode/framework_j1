@@ -62,7 +62,7 @@
 							"type": "Switch",
 							"dependsOn": [
 								{
-									"activity": "Set KeyVault",
+									"activity": "Set Item",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -125,7 +125,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"keyVault": {
-																"value": "@variables('secretName')",
+																"value": "@json(item().entitySourceQuery).connectionString",
 																"type": "Expression"
 															}
 														}
@@ -201,7 +201,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@item().entitySourceQuery.connectionString",
+																"value": "@json(item().entitySourceQuery).connectionString\n\n",
 																"type": "Expression"
 															}
 														}
@@ -227,23 +227,6 @@
 										]
 									}
 								]
-							}
-						},
-						{
-							"name": "Set KeyVault",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "secretName",
-								"value": {
-									"value": "@json(item().entitySourceQuery).connectionString\n",
-									"type": "Expression"
-								}
 							}
 						},
 						{
@@ -278,6 +261,23 @@
 								"dataset": {
 									"referenceName": "sourceEntity_table",
 									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Set Item",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "item_url",
+								"value": {
+									"value": "@json(item().entitySourceQuery).connectionString\n",
+									"type": "Expression"
 								}
 							}
 						}
@@ -540,6 +540,9 @@
 				"type": "String"
 			},
 			"secretName": {
+				"type": "String"
+			},
+			"item_url": {
 				"type": "String"
 			}
 		},

@@ -2,14 +2,15 @@
 	"name": "http_server",
 	"properties": {
 		"parameters": {
-			"url": {
-				"type": "string"
+			"http_url": {
+				"type": "string",
+				"defaultValue": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv"
 			}
 		},
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
-			"url": "@{linkedService().url}",
+			"url": "@{linkedService().http_url}",
 			"enableServerCertificateValidation": false,
 			"authenticationType": "Anonymous"
 		}
