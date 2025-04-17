@@ -226,81 +226,6 @@
 											}
 										]
 									}
-								],
-								"defaultActivities": [
-									{
-										"name": "HTTP",
-										"type": "Copy",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"source": {
-												"type": "DelimitedTextSource",
-												"storeSettings": {
-													"type": "HttpReadSettings",
-													"requestMethod": "GET"
-												},
-												"formatSettings": {
-													"type": "DelimitedTextReadSettings"
-												}
-											},
-											"sink": {
-												"type": "ParquetSink",
-												"storeSettings": {
-													"type": "AzureBlobFSWriteSettings"
-												},
-												"formatSettings": {
-													"type": "ParquetWriteSettings"
-												}
-											},
-											"enableStaging": false,
-											"translator": {
-												"type": "TabularTranslator",
-												"typeConversion": true,
-												"typeConversionSettings": {
-													"allowDataTruncation": true,
-													"treatBooleanAsNumber": false
-												}
-											}
-										},
-										"inputs": [
-											{
-												"referenceName": "http_csv",
-												"type": "DatasetReference",
-												"parameters": {
-													"url": {
-														"value": "@item().connectionDetails.connectionString",
-														"type": "Expression"
-													}
-												}
-											}
-										],
-										"outputs": [
-											{
-												"referenceName": "Parquet",
-												"type": "DatasetReference",
-												"parameters": {
-													"entity_name": {
-														"value": "@json(item().entityName)",
-														"type": "Expression"
-													},
-													"source_system": {
-														"value": "@activity('Lookup Source System').output.name",
-														"type": "Expression"
-													}
-												}
-											}
-										]
-									}
 								]
 							}
 						},
@@ -604,7 +529,7 @@
 		"parameters": {
 			"sourceSystem": {
 				"type": "string",
-				"defaultValue": "TotesysDB"
+				"defaultValue": "AdventureWorks"
 			}
 		},
 		"variables": {
