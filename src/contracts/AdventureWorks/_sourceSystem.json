@@ -2,7 +2,7 @@
     
     "name": "AdventureWorks",
     "description": "AdventureWorks is a practice data source.",
-    "sourceType": "csv",
+    "sourceType": "http",
     "keyVaultQuery": "None",
     "entityNames": ["sales_order_AW", "products_AW", "customer_AW"],
     "notebooks": 
