@@ -5,7 +5,7 @@
 			"referenceName": "http_server",
 			"type": "LinkedServiceReference",
 			"parameters": {
-				"url": {
+				"http_url": {
 					"value": "@dataset().url",
 					"type": "Expression"
 				}
