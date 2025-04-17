@@ -276,7 +276,7 @@
 							"typeProperties": {
 								"variableName": "item_url",
 								"value": {
-									"value": "@json(item().entitySourceQuery).connectionString\n",
+									"value": "@json(json(item().entitySourceQuery).connectionString).value\n",
 									"type": "Expression"
 								}
 							}
