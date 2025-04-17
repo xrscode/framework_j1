@@ -50,6 +50,7 @@
 						]
 					}
 				],
+				"userProperties": [],
 				"typeProperties": {
 					"items": {
 						"value": "@activity('Lookup Entities').output.value",
@@ -200,7 +201,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@json(item().entitySourceQuery).sourceQuery",
+																"value": "@json(item().entitySourceQuery).connectionString",
 																"type": "Expression"
 															}
 														}
