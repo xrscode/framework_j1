@@ -62,7 +62,7 @@
 							"type": "Switch",
 							"dependsOn": [
 								{
-									"activity": "Set KeyVault",
+									"activity": "Set Item",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -125,7 +125,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"keyVault": {
-																"value": "@variables('secretName')",
+																"value": "@json(item().entitySourceQuery).connectionString",
 																"type": "Expression"
 															}
 														}
@@ -227,30 +227,6 @@
 										]
 									}
 								]
-							}
-						},
-						{
-							"name": "Set KeyVault",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Set Item",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "secretName",
-								"value": {
-									"value": "@json(item().entitySourceQuery).connectionString\n",
-									"type": "Expression"
-								}
 							}
 						},
 						{
