@@ -201,7 +201,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@activity('Lookup Source System').firstRow.sourceType",
+																"value": "@activity('Lookup Source System').output.firstRow.sourceType",
 																"type": "Expression"
 															}
 														}
