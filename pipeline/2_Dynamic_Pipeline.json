@@ -201,7 +201,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@json(item().entitySourceQuery).connectionString",
+																"value": "@json(item().entitySourceQuery).connectionString.value",
 																"type": "Expression"
 															}
 														}
@@ -276,7 +276,7 @@
 							"typeProperties": {
 								"variableName": "item",
 								"value": {
-									"value": "@json(item().entitySourceQuery).connectionString",
+									"value": "@json(item().entitySourceQuery).connectionString.value",
 									"type": "Expression"
 								}
 							}
