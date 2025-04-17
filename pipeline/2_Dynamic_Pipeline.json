@@ -149,66 +149,80 @@
 												]
 											}
 										]
-									}
-								],
-								"defaultActivities": [
+									},
 									{
-										"name": "Copy data1",
-										"type": "Copy",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"source": {
-												"type": "AzureSqlSource",
-												"queryTimeout": "02:00:00",
-												"partitionOption": "None"
-											},
-											"sink": {
-												"type": "ParquetSink",
-												"storeSettings": {
-													"type": "AzureBlobFSWriteSettings"
+										"value": "http",
+										"activities": [
+											{
+												"name": "http_copy",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
 												},
-												"formatSettings": {
-													"type": "ParquetWriteSettings"
-												}
-											},
-											"enableStaging": false,
-											"translator": {
-												"type": "TabularTranslator",
-												"typeConversion": true,
-												"typeConversionSettings": {
-													"allowDataTruncation": true,
-													"treatBooleanAsNumber": false
-												}
-											}
-										},
-										"inputs": [
-											{
-												"referenceName": "sourceEntity_table",
-												"type": "DatasetReference"
-											}
-										],
-										"outputs": [
-											{
-												"referenceName": "Parquet",
-												"type": "DatasetReference",
-												"parameters": {
-													"entity_name": {
-														"value": "@json(item().entityName)",
-														"type": "Expression"
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"storeSettings": {
+															"type": "HttpReadSettings",
+															"requestMethod": "GET"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
 													},
-													"source_system": {
-														"value": "@activity('Lookup Source System').output.name",
-														"type": "Expression"
+													"sink": {
+														"type": "ParquetSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "ParquetWriteSettings"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
 													}
-												}
+												},
+												"inputs": [
+													{
+														"referenceName": "http_csv",
+														"type": "DatasetReference",
+														"parameters": {
+															"url": {
+																"value": "@item().entitySourceQuery.connectionString",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "Parquet",
+														"type": "DatasetReference",
+														"parameters": {
+															"entity_name": {
+																"value": "@json(item().entityName)",
+																"type": "Expression"
+															},
+															"source_system": {
+																"value": "@activity('Lookup Source System').output.name",
+																"type": "Expression"
+															}
+														}
+													}
+												]
 											}
 										]
 									}
@@ -272,7 +286,7 @@
 			},
 			{
 				"name": "Lookup Source System",
-				"description": "This activity will query the metadata database, to determine which notebooks to run.",
+				"description": "This activity will query the metadata database to determine details about the source system.",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -515,7 +529,7 @@
 		"parameters": {
 			"sourceSystem": {
 				"type": "string",
-				"defaultValue": "TotesysDB"
+				"defaultValue": "AdventureWorks"
 			}
 		},
 		"variables": {
