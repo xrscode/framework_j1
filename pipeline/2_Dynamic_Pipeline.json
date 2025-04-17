@@ -234,7 +234,7 @@
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Set Item",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -289,7 +289,7 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "Set Item",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
