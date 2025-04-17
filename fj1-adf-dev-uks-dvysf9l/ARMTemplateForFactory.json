@@ -34,6 +34,10 @@
 		"Metadata Database_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "junior_admin"
+		},
+		"http_server_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().http_url}"
 		}
 	},
 	"variables": {
@@ -521,7 +525,7 @@
 									"type": "Switch",
 									"dependsOn": [
 										{
-											"activity": "Set KeyVault",
+											"activity": "Set Item",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -584,7 +588,7 @@
 																"type": "DatasetReference",
 																"parameters": {
 																	"keyVault": {
-																		"value": "@variables('secretName')",
+																		"value": "@json(item().entitySourceQuery).connectionString",
 																		"type": "Expression"
 																	}
 																}
@@ -608,88 +612,84 @@
 														]
 													}
 												]
-											}
-										],
-										"defaultActivities": [
+											},
 											{
-												"name": "Copy data1",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "AzureSqlSource",
-														"queryTimeout": "02:00:00",
-														"partitionOption": "None"
-													},
-													"sink": {
-														"type": "ParquetSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
+												"value": "http",
+												"activities": [
+													{
+														"name": "http_copy",
+														"type": "Copy",
+														"dependsOn": [],
+														"policy": {
+															"timeout": "0.12:00:00",
+															"retry": 0,
+															"retryIntervalInSeconds": 30,
+															"secureOutput": false,
+															"secureInput": false
 														},
-														"formatSettings": {
-															"type": "ParquetWriteSettings"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "sourceEntity_table",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "Parquet",
-														"type": "DatasetReference",
-														"parameters": {
-															"entity_name": {
-																"value": "@json(item().entityName)",
-																"type": "Expression"
+														"userProperties": [],
+														"typeProperties": {
+															"source": {
+																"type": "DelimitedTextSource",
+																"storeSettings": {
+																	"type": "HttpReadSettings",
+																	"requestMethod": "GET"
+																},
+																"formatSettings": {
+																	"type": "DelimitedTextReadSettings"
+																}
 															},
-															"source_system": {
-																"value": "@activity('Lookup Source System').output.name",
-																"type": "Expression"
+															"sink": {
+																"type": "ParquetSink",
+																"storeSettings": {
+																	"type": "AzureBlobFSWriteSettings"
+																},
+																"formatSettings": {
+																	"type": "ParquetWriteSettings"
+																}
+															},
+															"enableStaging": false,
+															"translator": {
+																"type": "TabularTranslator",
+																"typeConversion": true,
+																"typeConversionSettings": {
+																	"allowDataTruncation": true,
+																	"treatBooleanAsNumber": false
+																}
 															}
-														}
+														},
+														"inputs": [
+															{
+																"referenceName": "http_csv",
+																"type": "DatasetReference",
+																"parameters": {
+																	"url": {
+																		"value": "@variables('item_url')",
+																		"type": "Expression"
+																	}
+																}
+															}
+														],
+														"outputs": [
+															{
+																"referenceName": "Parquet",
+																"type": "DatasetReference",
+																"parameters": {
+																	"entity_name": {
+																		"value": "@json(item().entityName)",
+																		"type": "Expression"
+																	},
+																	"source_system": {
+																		"value": "@activity('Lookup Source System').output.name",
+																		"type": "Expression"
+																	}
+																}
+															}
+														]
 													}
 												]
 											}
 										]
-									}
-								},
-								{
-									"name": "Set KeyVault",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "secretName",
-										"value": {
-											"value": "@json(item().entitySourceQuery).connectionString\n",
-											"type": "Expression"
-										}
 									}
 								},
 								{
@@ -727,13 +727,30 @@
 											"parameters": {}
 										}
 									}
+								},
+								{
+									"name": "Set Item",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "item_url",
+										"value": {
+											"value": "@json(item().entitySourceQuery).connectionString\n",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
 					},
 					{
 						"name": "Lookup Source System",
-						"description": "This activity will query the metadata database, to determine which notebooks to run.",
+						"description": "This activity will query the metadata database to determine details about the source system.",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -982,7 +999,7 @@
 				"parameters": {
 					"sourceSystem": {
 						"type": "string",
-						"defaultValue": "TotesysDB"
+						"defaultValue": "AdventureWorks"
 					}
 				},
 				"variables": {
@@ -994,6 +1011,9 @@
 					},
 					"secretName": {
 						"type": "String"
+					},
+					"item_url": {
+						"type": "String"
 					}
 				},
 				"annotations": []
@@ -1002,8 +1022,9 @@
 				"[concat(variables('factoryId'), '/datasets/sourceEntity_table')]",
 				"[concat(variables('factoryId'), '/datasets/sourceSystem_table')]",
 				"[concat(variables('factoryId'), '/linkedServices/Framework Databricks')]",
+				"[concat(variables('factoryId'), '/datasets/SQL_Connection')]",
 				"[concat(variables('factoryId'), '/datasets/Parquet')]",
-				"[concat(variables('factoryId'), '/datasets/SQL_Connection')]"
+				"[concat(variables('factoryId'), '/datasets/http_csv')]"
 			]
 		},
 		{
@@ -1102,6 +1123,43 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSQLDatabase')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/http_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "http_server",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"http_url": {
+							"value": "@dataset().url",
+							"type": "Expression"
+						}
+					}
+				},
+				"parameters": {
+					"url": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/http_server')]"
 			]
 		},
 		{
@@ -1326,6 +1384,27 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Azure Key Vault')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/http_server')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"http_url": {
+						"type": "string",
+						"defaultValue": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv"
+					}
+				},
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('http_server_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

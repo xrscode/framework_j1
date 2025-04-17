@@ -35,6 +35,10 @@
 			"type": "string",
 			"defaultValue": "junior_admin"
 		},
+		"http_server_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().http_url}"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -64,6 +68,9 @@
 					},
 					"Azure Key Vault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('Azure Key Vault_properties_typeProperties_baseUrl')]"
+					},
+					"http_server_properties_typeProperties_url": {
+						"value": "[parameters('http_server_properties_typeProperties_url')]"
 					},
 					"AzureSQLDatabase_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('AzureSQLDatabase_properties_typeProperties_connectionString_secretName')]"

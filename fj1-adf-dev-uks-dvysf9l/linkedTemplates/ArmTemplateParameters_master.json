@@ -26,6 +26,9 @@
 		"Metadata Database_properties_typeProperties_userName": {
 			"value": "junior_admin"
 		},
+		"http_server_properties_typeProperties_url": {
+			"value": "@{linkedService().http_url}"
+		},
 		"containerUri": {
 			"value": ""
 		},
