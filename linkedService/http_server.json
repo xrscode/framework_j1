@@ -3,8 +3,7 @@
 	"properties": {
 		"parameters": {
 			"http_url": {
-				"type": "string",
-				"defaultValue": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv"
+				"type": "string"
 			}
 		},
 		"annotations": [],
