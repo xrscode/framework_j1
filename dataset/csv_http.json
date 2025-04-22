@@ -1,5 +1,5 @@
 {
-	"name": "http_csv",
+	"name": "csv_http",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "http_server",
