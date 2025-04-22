@@ -206,7 +206,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"entity_name": {
-																"value": "@json(item().entityName)",
+																"value": "@item().entityName",
 																"type": "Expression"
 															},
 															"source_system": {
