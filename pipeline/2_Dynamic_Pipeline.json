@@ -192,7 +192,7 @@
 												},
 												"inputs": [
 													{
-														"referenceName": "http_csv",
+														"referenceName": "csv_http",
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
