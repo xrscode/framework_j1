@@ -1,5 +1,5 @@
 {
-	"name": "1_Starter_Pipeline",
+	"name": "1_Databricks_Ingest",
 	"properties": {
 		"activities": [
 			{
