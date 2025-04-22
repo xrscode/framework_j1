@@ -86,7 +86,7 @@
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "Lookup Notebooks",
+								"activity": "Lookup Source System",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -114,7 +114,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"notebookPath": {
-											"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).bronze",
+											"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).bronze",
 											"type": "Expression"
 										},
 										"baseParameters": {
@@ -209,7 +209,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"notebookPath": {
-											"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).silver",
+											"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).silver",
 											"type": "Expression"
 										},
 										"baseParameters": {
@@ -276,7 +276,7 @@
 						}
 					},
 					{
-						"name": "Lookup Notebooks",
+						"name": "Lookup Source System",
 						"description": "This activity will query the metadata database, to determine which notebooks to run.",
 						"type": "Lookup",
 						"dependsOn": [
@@ -299,7 +299,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "SELECT notebooks\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
+									"value": "SELECT *\nFROM sourceSystem\nWHERE sourceSystemName = '@{pipeline().parameters.sourceSystem}'",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -345,7 +345,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"notebookPath": {
-											"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).gold",
+											"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).gold",
 											"type": "Expression"
 										},
 										"baseParameters": {
@@ -424,7 +424,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebookPath": {
-								"value": "@json(activity('Lookup Notebooks').output.firstRow.notebooks).analysis",
+								"value": "@json(activity('Lookup Source System').output.firstRow.notebooks).analysis",
 								"type": "Expression"
 							}
 						},
