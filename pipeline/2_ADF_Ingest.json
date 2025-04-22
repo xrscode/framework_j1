@@ -1,5 +1,5 @@
 {
-	"name": "2_Dynamic_Pipeline",
+	"name": "2_ADF_Ingest",
 	"properties": {
 		"activities": [
 			{
@@ -241,7 +241,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName, \n   '.parquet'' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName, \n   '.parquet'' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
+										"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName,\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName, \n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
