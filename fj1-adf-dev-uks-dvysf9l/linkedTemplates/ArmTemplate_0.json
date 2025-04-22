@@ -466,7 +466,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/1_Starter_Pipeline')]",
+			"name": "[concat(parameters('factoryName'), '/1_Databricks_Ingest')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -880,7 +880,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/2_Dynamic_Pipeline')]",
+			"name": "[concat(parameters('factoryName'), '/2_ADF_Ingest')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1125,7 +1125,7 @@
 										"source": {
 											"type": "AzureSqlSource",
 											"sqlReaderQuery": {
-												"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName, \n   '.parquet'' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName, \n   '.parquet'' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
+												"value": "@concat(\n   'UPDATE sourceEntity SET bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName,\n   ''' WHERE entityName = ''',\n   item().entityName,\n   '''; SELECT * FROM sourceEntity WHERE bronzeLocation = ''/',\n   activity('Lookup Source System').output.firstRow.sourceSystemName,\n   '/', \n   item().entityName,\n   '/', \n   formatDateTime(utcNow(), 'yyyy'),\n   '/', \n   formatDateTime(utcNow(), 'MM'),\n   '/', \n   formatDateTime(utcNow(), 'dd'),\n   '/', \n   item().entityName, \n   ''' AND entityName = ''',\n   item().entityName,\n   ''';'\n)\n",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00",
