@@ -2,7 +2,7 @@
     "name": "transaction",
     "description": "dim_transaction",
     "connectionDetails": {
-        "connectionString": "connectionStringTotesys",
+        "connectionString": "totesysConnectionStringADO",
         "sourceQuery": "SELECT * FROM [transaction]"
     },
     "ingestion_columns": [

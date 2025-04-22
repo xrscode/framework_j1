@@ -38,7 +38,7 @@
             "sortOrder": 5,
             "columnName": "EmailAddress",
             "dataType": "varchar",
-            "required": false,
+            "required": true,
             "primary_key": false
         },
         {

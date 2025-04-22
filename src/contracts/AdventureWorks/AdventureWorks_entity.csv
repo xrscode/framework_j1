@@ -16,7 +16,7 @@ sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/d
 sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,2,SalesOrderLineNumber,int,true,false
 sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,3,OrderDate,date,true,false
 sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,4,CustomerName,varchar,false,false
-sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,5,EmailAddress,varchar,false,false
+sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,5,EmailAddress,varchar,true,false
 sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,6,Item,varchar,true,false
 sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,7,Quantity,int,true,false
 sales_order_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,8,UnitPrice,double,true,false
