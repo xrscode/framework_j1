@@ -78,7 +78,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/http_csv')]",
+			"name": "[concat(parameters('factoryName'), '/csv_http')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -219,7 +219,79 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Parquet')]",
+			"name": "[concat(parameters('factoryName'), '/SQL_Connection')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSQLDatabase",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"keyVaultSecretName": {
+							"value": "@dataset().keyVault",
+							"type": "Expression"
+						}
+					}
+				},
+				"parameters": {
+					"keyVault": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQLDatabase')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csv_sink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Data Lake",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"entity_name": {
+						"type": "string"
+					},
+					"source_system": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().entity_name, '.csv')",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(    '/',    'framework-j1',    '/',    'BRONZE',     '/',    dataset().source_system,    '/',     dataset().entity_name,    '/',    formatDateTime(utcNow(), 'yyyy'),    '/',    formatDateTime(utcNow(), 'MM'),    '/',    formatDateTime(utcNow(), 'dd'),    '/' )",
+							"type": "Expression"
+						},
+						"fileSystem": "vivaldi"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Data Lake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parquet_sink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -285,35 +357,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Data Lake')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SQL_Connection')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSQLDatabase",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"keyVaultSecretName": {
-							"value": "@dataset().keyVault",
-							"type": "Expression"
-						}
-					}
-				},
-				"parameters": {
-					"keyVault": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSQLDatabase')]"
 			]
 		},
 		{
@@ -901,14 +944,7 @@
 								{
 									"name": "Ingestion_Switch",
 									"type": "Switch",
-									"dependsOn": [
-										{
-											"activity": "Set Item",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
+									"dependsOn": [],
 									"userProperties": [],
 									"typeProperties": {
 										"on": {
@@ -974,7 +1010,7 @@
 														],
 														"outputs": [
 															{
-																"referenceName": "Parquet",
+																"referenceName": "parquet_sink",
 																"type": "DatasetReference",
 																"parameters": {
 																	"entity_name": {
@@ -1018,12 +1054,14 @@
 																}
 															},
 															"sink": {
-																"type": "ParquetSink",
+																"type": "DelimitedTextSink",
 																"storeSettings": {
 																	"type": "AzureBlobFSWriteSettings"
 																},
 																"formatSettings": {
-																	"type": "ParquetWriteSettings"
+																	"type": "DelimitedTextWriteSettings",
+																	"quoteAllText": true,
+																	"fileExtension": ".txt"
 																}
 															},
 															"enableStaging": false,
@@ -1038,11 +1076,11 @@
 														},
 														"inputs": [
 															{
-																"referenceName": "http_csv",
+																"referenceName": "csv_http",
 																"type": "DatasetReference",
 																"parameters": {
 																	"url": {
-																		"value": "@variables('item_url').value",
+																		"value": "@json(item().entitySourceQuery).connectionString",
 																		"type": "Expression"
 																	}
 																}
@@ -1050,17 +1088,11 @@
 														],
 														"outputs": [
 															{
-																"referenceName": "Parquet",
+																"referenceName": "csv_sink",
 																"type": "DatasetReference",
 																"parameters": {
-																	"entity_name": {
-																		"value": "@json(item().entityName)",
-																		"type": "Expression"
-																	},
-																	"source_system": {
-																		"value": "@activity('Lookup Source System').output.name",
-																		"type": "Expression"
-																	}
+																	"entity_name": "@item().entityName",
+																	"source_system": "@activity('Lookup Source System').output.firstRow.sourceSystemName"
 																}
 															}
 														]
@@ -1103,23 +1135,6 @@
 											"referenceName": "sourceEntity_table",
 											"type": "DatasetReference",
 											"parameters": {}
-										}
-									}
-								},
-								{
-									"name": "Set Item",
-									"type": "SetVariable",
-									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "item_url",
-										"value": {
-											"value": "@json(item().entitySourceQuery).connectionString",
-											"type": "Expression"
 										}
 									}
 								}
@@ -1401,8 +1416,9 @@
 				"[concat(variables('factoryId'), '/datasets/sourceSystem_table')]",
 				"[concat(variables('factoryId'), '/linkedServices/Framework Databricks')]",
 				"[concat(variables('factoryId'), '/datasets/SQL_Connection')]",
-				"[concat(variables('factoryId'), '/datasets/Parquet')]",
-				"[concat(variables('factoryId'), '/datasets/http_csv')]"
+				"[concat(variables('factoryId'), '/datasets/parquet_sink')]",
+				"[concat(variables('factoryId'), '/datasets/csv_http')]",
+				"[concat(variables('factoryId'), '/datasets/csv_sink')]"
 			]
 		}
 	]
