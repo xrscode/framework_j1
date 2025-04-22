@@ -26,7 +26,7 @@ if (Test-Path $terraformDir) {
     Set-Location $terraformDir
 
     # Prompt user for confirmation
-    $confirmation = Read-Host "Are you sure you want to destroy the Terraform deployment? (y/n)" -ForegroundColor Cyan
+    $confirmation = Read-Host "Are you sure you want to destroy the Terraform deployment? (y/n)"3.
     
     if ($confirmation -eq "y") {
         Write-Host "Destroying Terraform deployment..." -ForegroundColor Yellow
