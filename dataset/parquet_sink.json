@@ -1,5 +1,5 @@
 {
-	"name": "Parquet",
+	"name": "parquet_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Data Lake",
