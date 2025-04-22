@@ -60,14 +60,7 @@
 						{
 							"name": "Ingestion_Switch",
 							"type": "Switch",
-							"dependsOn": [
-								{
-									"activity": "Set Item",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"on": {
@@ -201,7 +194,7 @@
 														"type": "DatasetReference",
 														"parameters": {
 															"url": {
-																"value": "@json(variables('item_url')).value",
+																"value": "@json(item().entitySourceQuery).connectionString",
 																"type": "Expression"
 															}
 														}
@@ -261,23 +254,6 @@
 								"dataset": {
 									"referenceName": "sourceEntity_table",
 									"type": "DatasetReference"
-								}
-							}
-						},
-						{
-							"name": "Set Item",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "item_url",
-								"value": {
-									"value": "@json(item().entitySourceQuery).connectionString",
-									"type": "Expression"
 								}
 							}
 						}
