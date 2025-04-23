@@ -383,7 +383,8 @@
 		],
 		"parameters": {
 			"sourceSystem": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "AdventureWorks"
 			}
 		},
 		"variables": {
