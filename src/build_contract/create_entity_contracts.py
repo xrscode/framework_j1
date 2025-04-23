@@ -1,9 +1,10 @@
 from src.files.utility_functions import open_csv
 import json
 
-# Define location of CSV file:
-source_name = 'AdventureWorks'
-csv_location = f'./src/contracts/{source_name}/{source_name}_entity.csv'
+# Define the source system to generate contracts for:
+source_system = 'AdventureWorks'
+
+csv_location = f'./src/contracts/{source_system}/{source_system}_entity.csv'
 
 # Save the data to variable:
 csv_data = open_csv(csv_location, True)
@@ -47,6 +48,6 @@ for entity in list_of_entities:
         json_structure["ingestion_columns"].append(ingestion_column_structure)
 
     # Write json to file:
-    with open(f'./src/contracts/{source_name}/{entity}.json', "w") as json_file:
+    with open(f'./src/contracts/{source_system}/{entity}.json', "w") as json_file:
         # Set indent to 4 to make more readable:
         json.dump(json_structure, json_file, indent=4)

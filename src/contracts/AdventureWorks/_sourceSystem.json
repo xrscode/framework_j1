@@ -1,15 +1,17 @@
 {
-    
     "name": "AdventureWorks",
-    "description": "AdventureWorks is a practice data source.",
+    "description": "AdventureWorks is a ficticious retail database.",
     "sourceType": "http",
     "keyVaultQuery": "None",
-    "entityNames": ["sales_order_AW", "products_AW", "customer_AW"],
-    "notebooks": 
-      {
-        "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/BBRONZE_AdventureWorks",
+    "entityNames": [
+        "sales_order_AW",
+        "products_AW",
+        "customer_AW"
+    ],
+    "notebooks": {
+        "bronze": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/BRONZE_AdventureWorks",
         "silver": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/SILVER_AdventureWorks",
         "gold": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/GOLD_AdventureWorks",
         "analysis": "/Workspace/Repos/Git/jf1/src/notebooks/AdventureWorks/Analysis_AdventureWorks"
-      }
-  }
+    }
+}

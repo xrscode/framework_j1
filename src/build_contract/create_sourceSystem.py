@@ -1,8 +1,10 @@
 from src.files.utility_functions import open_csv
 import json
 
+source_system = 'AdventureWorks'
+
 # Define location of CSV file:
-csv_location = './src/build_contract/_sourceSystem.csv'
+csv_location = f'./src/contracts/{source_system}/{source_system}_sourceSystem.csv'
 
 # Save the data to variable:
 csv_data = open_csv(csv_location, True)
@@ -20,6 +22,6 @@ source_system_structure = {
 }
 
 # Write json to file:
-with open(f"./src/build_contract/contracts/_sourceSystem.json", "w") as json_file:
+with open(f'./src/contracts/{source_system}/_sourceSystem.json', "w") as json_file:
     # Set indent to 4 to make more readable:
     json.dump(source_system_structure, json_file, indent=4)

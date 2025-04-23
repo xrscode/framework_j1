@@ -148,7 +148,9 @@ def list_folders(path: str) -> list:
         raise FileNotFoundError(f'Path: {path} is not a directory.')
 
     # Assimilate list of folders to return:
-    list_of_folders = [folder for folder in os.listdir(path)]
+    list_of_folders = [folder for folder in os.listdir(path)\
+                        if os.path.isdir(os.path.join(path, folder))]
+
 
     return list_of_folders
 
