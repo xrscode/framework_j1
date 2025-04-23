@@ -219,7 +219,7 @@
 							}
 						},
 						{
-							"name": "Update Bronze",
+							"name": "Update Bronze Location",
 							"type": "Lookup",
 							"dependsOn": [
 								{
@@ -341,7 +341,7 @@
 							}
 						},
 						{
-							"name": "Update Silver",
+							"name": "Update Silver Location",
 							"type": "Lookup",
 							"dependsOn": [
 								{
@@ -430,7 +430,7 @@
 							}
 						},
 						{
-							"name": "Lookup Gold",
+							"name": "Update Gold Location",
 							"type": "Lookup",
 							"dependsOn": [
 								{
