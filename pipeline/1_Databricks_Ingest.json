@@ -6,7 +6,14 @@
 				"name": "Lookup Entities",
 				"description": "Lookup all entities associated with sourceSystem",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup Source System",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -37,7 +44,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Source System",
+						"activity": "Lookup Entities",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -228,14 +235,7 @@
 				"name": "Lookup Source System",
 				"description": "This activity will query the metadata database, to determine which notebooks to run.",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Lookup Entities",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
