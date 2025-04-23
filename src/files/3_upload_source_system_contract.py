@@ -1,6 +1,5 @@
 from utility_functions import *
 from check_db_connection import check_connection
-import inquirer
 import json
 import os
 
@@ -15,7 +14,7 @@ New source systems should be placed in src/contracts/<sourceSystemName>
 # Run Check Connection first:
 check_connection()
 
-def choose_source_system(source_systems: list) -> str:
+def choose_source_return_path(source_systems: list) -> str:
     """
     Description: The purpose of this function is to accept a list
     (of source systems) and present the user with those options to choose from.
@@ -25,6 +24,9 @@ def choose_source_system(source_systems: list) -> str:
     The function will check that 'Exit' is in the list of source systems.
     If it is not, it will append it to the list so the user can select 'Exit',
     if they do not wish to upload a contract.
+
+    When a source system has been chosen, this function will return the 
+    path to that source system.
 
     Args:
         source_systems (list) of (str's): List of source systems to choose.
@@ -168,7 +170,7 @@ WHEN NOT MATCHED THEN
 source_systems = list_folders('./src/contracts/')
 
 # Next, prompt user to select source system:
-source_system_path = choose_source_system(source_systems)
+source_system_path = choose_source_return_path(source_systems)
 
 # Next call the upload_source_system_contract function:
 upload_source_system_contract(source_system_path)
