@@ -8,7 +8,7 @@ load_dotenv(override=True)
 # Set values:
 databricks_cluster_id = os.getenv('databricksClusterID')
 databricks_domain = f'https://{os.getenv('databricks_workspace_url')}'
-keyvault_address = f'https://{os.getenv('keyvault_name')}.valut.azure.net/'
+keyvault_address = f'https://{os.getenv('keyvault_name')}.vault.azure.net/'
 metadata_database_server = os.getenv('server_name')
 
 # Define paths to linked services:
