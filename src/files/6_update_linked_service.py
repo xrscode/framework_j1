@@ -38,6 +38,14 @@ with open(azure_key_vault_ls, 'r') as file:
     with open(azure_key_vault_ls, 'w') as file:
         json.dump(data, file, indent=4)
    
+# Modify Metadata Database.json
+with open(metadata_ls, 'r') as file:
+    data = json.load(file)
+    # Update properties > typeProperties > baseUrl:
+    data['properties']['typeProperties']['server'] = metadata_database_server
+    # Write back to file:
+    with open(metadata_ls, 'w') as file:
+        json.dump(data, file, indent=4)
 
 
 

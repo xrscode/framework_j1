@@ -1,23 +1,23 @@
 {
-	"name": "Metadata Database",
-	"properties": {
-		"annotations": [],
-		"type": "AzureSqlDatabase",
-		"typeProperties": {
-			"server": "fj1sqlserver-plpz3ez.database.windows.net",
-			"database": "fj1-metadata-uks",
-			"encrypt": "mandatory",
-			"trustServerCertificate": false,
-			"authenticationType": "SQL",
-			"userName": "junior_admin",
-			"password": {
-				"type": "AzureKeyVaultSecret",
-				"store": {
-					"referenceName": "Azure Key Vault",
-					"type": "LinkedServiceReference"
-				},
-				"secretName": "sqlPassword"
-			}
-		}
-	}
+    "name": "Metadata Database",
+    "properties": {
+        "annotations": [],
+        "type": "AzureSqlDatabase",
+        "typeProperties": {
+            "server": "fj1sqlserver-00j196a.database.windows.net",
+            "database": "fj1-metadata-uks",
+            "encrypt": "mandatory",
+            "trustServerCertificate": false,
+            "authenticationType": "SQL",
+            "userName": "junior_admin",
+            "password": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "Azure Key Vault",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "sqlPassword"
+            }
+        }
+    }
 }
