@@ -196,8 +196,22 @@ if (Test-Path $pythonScript) {
     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
 }
 
-# Push changes to github:
-Write-Host "Pushing changes to github" -ForegroundColor Cyan
-git add .; git commit -m 'Updated Linked Services'; git push origin main
+# Define the specific files you want to commit
+$filesToCommit = @(
+    "./linkedService/Azure Key Vault.json",
+    "./linkedService/Framework Databricks.json",
+    "./linkedService/Metadata Database.json"
+)
 
-Write-Host "Deployment complete.  Please check .env file for user credentials." -ForegroundColor Cyan
+Write-Host "Pushing specific changes to GitHub..." -ForegroundColor Cyan
+
+# Add only the specific files
+git add $filesToCommit
+
+# Commit with a message
+git commit -m 'Updated Linked Services'
+
+# Push to the main branch
+git push origin main
+
+Write-Host "✅ Deployment complete. Please check .env file for user credentials." -ForegroundColor Cyan
