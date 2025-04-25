@@ -1,10 +1,9 @@
 import json
-from utility_functions import *
+from utility_functions import read_sql, query_database
 from check_db_connection import check_connection
 
 # Run Check Connection first:
 check_connection()
-
 
 
 """
@@ -75,14 +74,13 @@ def bulk_insert_totesys(data: json):
         for i in range(0, len(table_data), 1000):
             # Compose query:
             query = f"""INSERT INTO [{table}] ({column_names_string})
-            VALUES {', '.join(table_data[i:i+1000])};"""
+            VALUES {', '.join(table_data[i:i + 1000])};"""
             # Execute query:
             query = query_database('totesys', query)
             print(query)
-        
+
     return None
 
 
 # Call function:
 bulk_insert_totesys(data)
-

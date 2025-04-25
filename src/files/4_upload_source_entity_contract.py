@@ -1,8 +1,7 @@
 import json
-from utility_functions import *
+from utility_functions import list_folders, choose_source, query_database
 from check_db_connection import check_connection
 import os
-import inquirer
 
 
 """
@@ -13,6 +12,7 @@ the metadata database.
 
 # Check connection first:
 check_connection()
+
 
 def upload_source_entity_contract(path: str, sourceSystemName: str):
     """
@@ -109,6 +109,7 @@ def upload_source_entity_contract(path: str, sourceSystemName: str):
             query_database('metadata', query)
         except Exception as e:
             print(f'Error message: {e}')
+
 
 # Define path to source systems:
 path = './src/contracts'

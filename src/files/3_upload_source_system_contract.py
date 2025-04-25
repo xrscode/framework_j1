@@ -1,5 +1,5 @@
-from utility_functions import return_source_system_path, choose_source,\
-query_database, list_folders
+from utility_functions import return_source_system_path, choose_source, \
+    query_database, list_folders
 from check_db_connection import check_connection
 import json
 import os
@@ -14,6 +14,7 @@ New source systems should be placed in src/contracts/<sourceSystemName>
 
 # Run Check Connection first:
 check_connection()
+
 
 def upload_source_system_contract(path: str) -> None:
     """
@@ -45,15 +46,13 @@ def upload_source_system_contract(path: str) -> None:
     with open(path, 'r') as file:
         # Load the json file:
         sourceSystemContract = json.load(file)
-        
-    
+
     source_system_name = sourceSystemContract['name']
     source_system_type = sourceSystemContract['sourceType']
     source_system_description = sourceSystemContract['description']
     entity_names = str(sourceSystemContract['entityNames']).replace("'", '"')
     key_vault_query = sourceSystemContract['keyVaultQuery']
     notebooks = str(sourceSystemContract['notebooks']).replace("'", '"')
-
 
     # Merge prevents sourceSystemID from incrementing on match:
     query = f"""
@@ -109,7 +108,6 @@ WHEN NOT MATCHED THEN
     result = query_database('metadata', query)
     print(result)
     return result
-        
 
 
 # First get list of source systems:
