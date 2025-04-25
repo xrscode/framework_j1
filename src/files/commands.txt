@@ -26,6 +26,7 @@ autopep8 --in-place --aggressive --aggressive .\src\files\2_setup_totesys_databa
 autopep8 --in-place --aggressive --aggressive .\src\files\3_upload_source_system_contract.py && flake8 .\src\files\3_upload_source_system_contract.py
 autopep8 --in-place --aggressive --aggressive .\src\files\4_upload_source_entity_contract.py && flake8 .\src\files\4_upload_source_entity_contract.py
 autopep8 --in-place --aggressive --aggressive .\src\files\5_check_terraform_tfvars.py && flake8 .\src\files\5_check_terraform_tfvars.py
+autopep8 --in-place --aggressive --aggressive .\build_contract\6_update_linked_service.py && flake8 .\build_contract\6_update_linked_service.py
 autopep8 --in-place --aggressive --aggressive .\src\files\utility_functions.py && flake8 .\src\files\utility_functions.py
 autopep8 --in-place --aggressive --aggressive .\src\files\check_db_connection.py && flake8 .\src\files\check_db_connection.py
 autopep8 --in-place --aggressive --aggressive .\build_contract\create_contracts.py && flake8 .\build_contract\create_contracts.py

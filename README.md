@@ -32,9 +32,9 @@ Go to this address:
 https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16&redirectedfrom=MSDN
 And install the latest ODBC driver for windows x64.
 
-# 3. Run: .\install.ps1
+# 3. Run: .\deploy.ps1
 In order to deploy the project, in the terminal run the following command:
-'.\install.ps1'
+'.\deploy.ps1'
 
 Follow the prompts within the terminal. 
 

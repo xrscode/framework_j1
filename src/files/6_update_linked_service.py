@@ -5,6 +5,16 @@ from jsonschema import validate
 
 """
 Note that paths need to be set from the ROOT folder.
+
+The purpose of this script is to update ADF linked services.  After Terraform
+has finished deploying an .env file will be created. 
+
+In this env file are credentials and data required to update linked services.
+
+This script will take that data and update the linked service documents. 
+
+Before updating the linked service documentation, a simple validation/schema
+check will be performed to ensure the files remain valid. 
 """
 # Re-load dotenv:
 load_dotenv(override=True)
