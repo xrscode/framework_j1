@@ -19,6 +19,7 @@ csv_data = open_csv(csv_location, True)
 data = [x for x in csv_data[0]]
 
 source_system_structure = {
+    "$schema": "../../json_schema/_sourceSystemSchema.json",
     "name": data[0],
     "description": data[1],
     "sourceType": data[2],

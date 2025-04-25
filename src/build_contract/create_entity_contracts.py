@@ -24,6 +24,7 @@ for entity in list_of_entities:
 
     # Define the JSON structures for entities:
     json_structure = {
+        "$schema": "../../json_schema/_entitySchema.json",
         "name": str(entity_data[0][0]).strip(),
         "description": str(entity_data[0][1]).strip(),
         "connectionDetails": {

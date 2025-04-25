@@ -1,4 +1,5 @@
-from utility_functions import *
+from utility_functions import return_source_system_path, choose_source,\
+query_database, list_folders
 from check_db_connection import check_connection
 import json
 import os
@@ -13,62 +14,6 @@ New source systems should be placed in src/contracts/<sourceSystemName>
 
 # Run Check Connection first:
 check_connection()
-
-def choose_source_return_path(source_systems: list) -> str:
-    """
-    Description: The purpose of this function is to accept a list
-    (of source systems) and present the user with those options to choose from.
-    The user will be prompted to select the source system using the up/down
-    arrows in the terminal.
-
-    The function will check that 'Exit' is in the list of source systems.
-    If it is not, it will append it to the list so the user can select 'Exit',
-    if they do not wish to upload a contract.
-
-    When a source system has been chosen, this function will return the 
-    path to that source system.
-
-    Args:
-        source_systems (list) of (str's): List of source systems to choose.
-    Returns:
-        path to source system (str): The path to the source system contract.
-        e.g: './src/contracts/AdventureWorks/_sourceSystem.json'
-    Raises:
-        TypeError: If source_systems is not a list.
-        TypeError: If value in list is not string.
-    """
-
-    # Check if source_systems is a list:
-    if not isinstance(source_systems, list):
-        raise TypeError('source_systems must be a list')
-
-    # Check all values are strings:
-    if not all(isinstance(i, str) for i in source_systems):
-        raise TypeError('All values in source_systems must be strings')
-
-    # Check 'Exit' exists in list of source_systems:
-    if 'Exit' not in source_systems:
-        # If not append:
-        source_systems.append('Exit')
-
-    while True:
-        questions = [
-            inquirer.List(
-                'choice',
-                message="Which source system would you like to upload?",
-                choices=source_systems,
-            )]
-
-        source_system_name = inquirer.prompt(questions)['choice']
-
-        if source_system_name == 'Exit':
-            # Return 'Exit' if the user chooses to exit:
-            return 'Exit'
-
-        else:
-            # Return path of the source system:
-            return f'./src/contracts/{source_system_name}/_sourceSystem.json'
-
 
 def upload_source_system_contract(path: str) -> None:
     """
@@ -157,6 +102,7 @@ WHEN NOT MATCHED THEN
     '{notebooks}'
     );
     """
+    print('Query: \n')
     print(query)
 
     # Execute the query:
@@ -170,7 +116,10 @@ WHEN NOT MATCHED THEN
 source_systems = list_folders('./src/contracts/')
 
 # Next, prompt user to select source system:
-source_system_path = choose_source_return_path(source_systems)
+choice = choose_source(source_systems)
 
-# Next call the upload_source_system_contract function:
-upload_source_system_contract(source_system_path)
+# Define the path to the _sourceSystem.json:
+path = return_source_system_path(choice)
+
+# Upload sourceSystem.json contract:
+upload_source_system_contract(path)
