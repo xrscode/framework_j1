@@ -41,10 +41,22 @@ with open(azure_key_vault_ls, 'r') as file:
 # Modify Metadata Database.json
 with open(metadata_ls, 'r') as file:
     data = json.load(file)
-    # Update properties > typeProperties > baseUrl:
+    # Update properties > typeProperties > server:
     data['properties']['typeProperties']['server'] = metadata_database_server
     # Write back to file:
     with open(metadata_ls, 'w') as file:
+        json.dump(data, file, indent=4)
+
+# Modify Framework Databricks.json
+with open(databricks_ls, 'r') as file:
+    data = json.load(file)
+    # Update properties > typeProperties > domain:
+    data['properties']['typeProperties']['domain'] = databricks_domain
+    # ExistingClusterID:
+    data['properties']['typeProperties']['existingClusterId'] = \
+        databricks_cluster_id
+    # Write back to file:
+    with open(databricks_ls, 'w') as file:
         json.dump(data, file, indent=4)
 
 

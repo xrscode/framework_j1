@@ -1,19 +1,19 @@
 {
-	"name": "Framework Databricks",
-	"properties": {
-		"annotations": [],
-		"type": "AzureDatabricks",
-		"typeProperties": {
-			"domain": "https://adb-655852220450228.8.azuredatabricks.net",
-			"accessToken": {
-				"type": "AzureKeyVaultSecret",
-				"store": {
-					"referenceName": "Azure Key Vault",
-					"type": "LinkedServiceReference"
-				},
-				"secretName": "databricks-junior-token"
-			},
-			"existingClusterId": "0424-081604-k2pgdm74"
-		}
-	}
+    "name": "Framework Databricks",
+    "properties": {
+        "annotations": [],
+        "type": "AzureDatabricks",
+        "typeProperties": {
+            "domain": "https://adb-3655197894881423.3.azuredatabricks.net",
+            "accessToken": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "Azure Key Vault",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "databricks-junior-token"
+            },
+            "existingClusterId": "0425-121953-jtcyzqy4"
+        }
+    }
 }
