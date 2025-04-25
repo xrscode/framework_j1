@@ -10,7 +10,7 @@ import inquirer
 load_dotenv(override=True)
 
 # Get the keyvault name:
-kv = os.getenv('keyvault_name')
+keyvault_name = os.getenv('keyvault_name')
 
 
 def keyvault_connection_strings(keyvault_name: str) -> dict:
@@ -44,7 +44,7 @@ def keyvault_connection_strings(keyvault_name: str) -> dict:
     # Try to get secrets:
     try:
         string_dict = {'metadata': client.get_secret(metadata_string).value,
-                   'totesys': client.get_secret(totesys_string).value}
+                       'totesys': client.get_secret(totesys_string).value}
     except Exception as e:
         return e
     # Return connection string dictionary:
@@ -59,7 +59,7 @@ def query_database(database_name: str, query: str):
     Arguments:
         database_name (str): name of the database to query.
         query (str): the query to execute.
-    Returns: 
+    Returns:
         Tuples: If SELECT statement 10 results.
         String: Rows affected if not SELECT statement.
 
@@ -75,7 +75,8 @@ def query_database(database_name: str, query: str):
                         query:{type(query)}]')
 
     # Get connection string:
-    connection_string = keyvault_connection_strings(kv)[database_name]
+    connection_string = \
+        keyvault_connection_strings(keyvault_name)[database_name]
 
     # Open the Connection:
     conn = pyodbc.connect(connection_string, autocommit=False)
@@ -83,7 +84,6 @@ def query_database(database_name: str, query: str):
     # Create Cursor:
     cursor = conn.cursor()
 
-    
     try:
         # Execute Query
         cursor.execute(query)
@@ -94,12 +94,12 @@ def query_database(database_name: str, query: str):
             results = cursor.fetchmany(10)  # Returns max 10 tuples
         else:
             results = f"Rows affected: {rows_affected}"
-        
+
         # Commit changes for non-SELECT queries
         conn.commit()
 
         return results  # Return results or affected row count
-    
+
     except pyodbc.Error as e:
         # Rollback changes if error:
         if conn:
@@ -107,14 +107,13 @@ def query_database(database_name: str, query: str):
         # Handle specific database errors
         error_code = e.args[0] if e.args else "Unknown"
         return error_code
-    
+
     finally:
         # Check if there is an open connection:
         if conn:
             # Close
             cursor.close()
             conn.close()
-    
 
 
 def list_folders(path: str) -> list:
@@ -122,7 +121,7 @@ def list_folders(path: str) -> list:
     Description: This function aims to list the folders/directories
     in the given path.  It can be used to help identify the individual source
     systems.  This function will return a list of all the directories/source
-    systems at the specified location.  It does NOT return a path to the 
+    systems at the specified location.  It does NOT return a path to the
     source system.
 
     Args:
@@ -149,9 +148,8 @@ def list_folders(path: str) -> list:
         raise FileNotFoundError(f'Path: {path} is not a directory.')
 
     # Assimilate list of folders to return:
-    list_of_folders = [folder for folder in os.listdir(path)\
-                        if os.path.isdir(os.path.join(path, folder))]
-
+    list_of_folders = [folder for folder in os.listdir(path)
+                       if os.path.isdir(os.path.join(path, folder))]
 
     return list_of_folders
 
@@ -159,7 +157,7 @@ def list_folders(path: str) -> list:
 def read_sql(path: str) -> str:
     """
     Description: This function reads a sql file and returns the query
-    as a string.  
+    as a string.
 
     Args:
         path (str): Path to the sql file to read.
@@ -184,7 +182,7 @@ def read_sql(path: str) -> str:
     with open(path, 'r') as file:
         query = file.read()
 
-    return query 
+    return query
 
 
 def open_csv(location, has_header=True):
@@ -192,7 +190,7 @@ def open_csv(location, has_header=True):
     Args:
         location (str): Location of the CSV file to read.
         has_header (bool): Whether the CSV file has a header row.
-    Returns: 
+    Returns:
         data (list): List of rows within CSV (excluding header if specified).
     """
     with open(location, newline='') as csvfile:
@@ -201,7 +199,6 @@ def open_csv(location, has_header=True):
             next(reader)  # Skip the header
         data = [row for row in reader]
     return data
-
 
 
 def choose_source(source_systems: list) -> str:
@@ -215,7 +212,7 @@ def choose_source(source_systems: list) -> str:
     If it is not, it will append it to the list so the user can select 'Exit',
     if they do not wish to upload a contract.
 
-    When a source system has been chosen, this function will return the 
+    When a source system has been chosen, this function will return the
     name of that selected source system.
 
     Args:
@@ -257,7 +254,7 @@ def choose_source(source_systems: list) -> str:
         else:
             # Return path of the source system:
             return source_system_name
-        
+
 
 def return_source_system_path(source_system: list) -> str:
     """
@@ -285,7 +282,6 @@ def return_source_system_path(source_system: list) -> str:
     # Check that the file exists:
     if not os.path.isfile(path):
         raise FileNotFoundError(f'File not found at path: \n{path}!')
-
 
     else:
         # Return path of the source system:

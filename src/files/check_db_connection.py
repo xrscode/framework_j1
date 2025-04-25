@@ -1,20 +1,20 @@
 import re
-from utility_functions import *
+from utility_functions import query_database, pyodbc, load_dotenv, os
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.sql import SqlManagementClient
 
 """
 There is a strange bug where if this project is deployed from the London
-Telefonica office the WAN ip address of the computer ends in 210. 
-When pyodbc tries to connect to SQL server from the same machine Azure 
-registers the ip address as coming from a different WAN ip; 209. 
+Telefonica office the WAN ip address of the computer ends in 210.
+When pyodbc tries to connect to SQL server from the same machine Azure
+registers the ip address as coming from a different WAN ip; 209.
 
-This file queries the metadata database.  If an error is thrown, it will 
-grab the blocked ip address. 
+This file queries the metadata database.  If an error is thrown, it will
+grab the blocked ip address.
 
 It will then add a firewall rule to sql server allowing the blocked ip address.
 
-Remaining python files should then work correctly to setup the database. 
+Remaining python files should then work correctly to setup the database.
 """
 
 # Refresh dotenv:
@@ -32,7 +32,6 @@ def check_connection():
     # Define regex to extract ip address from error:
     ip_regex = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
 
-
     # Attempt to connect to the sql server:
     try:
         # Simple query
@@ -49,7 +48,7 @@ def check_connection():
         credential = DefaultAzureCredential()
         sql_client = SqlManagementClient(credential, subscription_id)
 
-        try: 
+        try:
             # Create or update the firewall rule
             firewall_rule = sql_client.firewall_rules.create_or_update(
                 resource_group,
@@ -65,7 +64,8 @@ def check_connection():
             print(e)
 
 
+# When ran directly check_connection will run
 if __name__ == "__main__":
-        check_connection()
-
-
+    # If imported into another file or Python script will NOT run
+    # automatically.
+    check_connection()
