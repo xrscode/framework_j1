@@ -14,47 +14,6 @@ the metadata database.
 # Check connection first:
 check_connection()
 
-def choose_entity_contract(sourceSystems: list) -> str:
-    """
-    This function accepts a list of source systems.
-    It appends 'exit' to the list.  Using inquirier, it creates a selection
-    of source systems for the user to choose from.  After selection, the
-    function returns that source system name as a string:
-
-    Args:
-        List: A list of the source system names to choose from.
-
-    Returns:
-        Str:  The users choice of source system as a string.
-
-    Raises:
-        TypeError:  If the argument is not a list or is empty.
-    """
-
-    # Check is list and not empty:
-    if not isinstance(sourceSystems, list) or not sourceSystems:
-        raise TypeError(f"""Expected type: list of length > 0.
-        Got: {type(sourceSystems)} of length {len(sourceSystems)}""")
-
-    # Check list composed of strings:
-    if not all(isinstance(item, str) for item in sourceSystems):
-        raise TypeError('All sourceSystems must be of type list.')
-
-    # Append 'Exit' to sourceSystems list if does not exist:
-    if not 'Exit' in sourceSystems:
-        sourceSystems.append('Exit')
-
-    while True:
-        questions = [
-            inquirer.List(
-                'SourceSystem',
-                message="Please select a source system.",
-                choices=sourceSystems)]
-        choice = inquirer.prompt(questions)['SourceSystem']
-
-        return choice
-
-
 def upload_source_entity_contract(path: str, sourceSystemName: str):
     """
     This function accepts a path to a list of contracts.  It also accepts
@@ -151,12 +110,14 @@ def upload_source_entity_contract(path: str, sourceSystemName: str):
         except Exception as e:
             print(f'Error message: {e}')
 
+# Define path to source systems:
+path = './src/contracts'
 
-# First determine list of source entities:
-source_entities = list_folders('./src/contracts')
+# Generate a list of source systems:
+source_entities = list_folders(path)
 
-# Choose which source entity to upload:
-choice = choose_entity_contract(source_entities)
+# Decide which source system to use:
+choice = choose_source(source_entities)
 
 # Upload source entity contract to metadata database:
-upload_source_entity_contract('./src/contracts', choice)
+upload_source_entity_contract(path, choice)

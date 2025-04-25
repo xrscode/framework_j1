@@ -1,8 +1,12 @@
-from src.files.utility_functions import open_csv
+from src.files.utility_functions import open_csv, list_folders, choose_source
 import json
 
-# Define the source system to generate contracts for:
-source_system = 'AdventureWorks'
+
+# First get list of source systems:
+list_source_systems = list_folders('./src/contracts/')
+
+# Next, prompt user to select source system:
+source_system = choose_source(list_source_systems)
 
 csv_location = f'./src/contracts/{source_system}/{source_system}_entity.csv'
 
@@ -20,6 +24,7 @@ for entity in list_of_entities:
 
     # Define the JSON structures for entities:
     json_structure = {
+        "$schema": "../../json_schema/_entitySchema.json",
         "name": str(entity_data[0][0]).strip(),
         "description": str(entity_data[0][1]).strip(),
         "connectionDetails": {

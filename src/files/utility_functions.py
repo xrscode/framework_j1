@@ -4,6 +4,7 @@ import pyodbc
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 import csv
+import inquirer
 
 # Refresh dotenv:
 load_dotenv(override=True)
@@ -200,3 +201,92 @@ def open_csv(location, has_header=True):
             next(reader)  # Skip the header
         data = [row for row in reader]
     return data
+
+
+
+def choose_source(source_systems: list) -> str:
+    """
+    Description: The purpose of this function is to accept a list
+    (of source systems) and present the user with those options to choose from.
+    The user will be prompted to select the source system using the up/down
+    arrows in the terminal.
+
+    The function will check that 'Exit' is in the list of source systems.
+    If it is not, it will append it to the list so the user can select 'Exit',
+    if they do not wish to upload a contract.
+
+    When a source system has been chosen, this function will return the 
+    name of that selected source system.
+
+    Args:
+        source_systems (list) of (str's): List of source systems to choose.
+    Returns:
+        Name of the source system.
+    Raises:
+        TypeError: If source_systems is not a list.
+        TypeError: If value in list is not string.
+    """
+
+    # Check if source_systems is a list:
+    if not isinstance(source_systems, list):
+        raise TypeError('source_systems must be a list')
+
+    # Check all values are strings:
+    if not all(isinstance(i, str) for i in source_systems):
+        raise TypeError('All values in source_systems must be strings')
+
+    # Check 'Exit' exists in list of source_systems:
+    if 'Exit' not in source_systems:
+        # If not append:
+        source_systems.append('Exit')
+
+    while True:
+        questions = [
+            inquirer.List(
+                'choice',
+                message="Which source system would you like to upload?",
+                choices=source_systems,
+            )]
+
+        source_system_name = inquirer.prompt(questions)['choice']
+
+        if source_system_name == 'Exit':
+            # Return Nothing if the user chooses to exit:
+            return
+
+        else:
+            # Return path of the source system:
+            return source_system_name
+        
+
+def return_source_system_path(source_system: list) -> str:
+    """
+    The purpose of this function is to accept the name of a source system.
+    It will then return the path to the _sourceSystem.json.
+
+    Args:
+        source_system (str): Name of source system.
+    Returns:
+        path to source system (str): The path to the source system contract.
+        e.g: './src/contracts/AdventureWorks/_sourceSystem.json'
+    Raises:
+        TypeError: If source_system is not a string.
+        FileNotFoundError: If the file does not exist for source system.
+    """
+
+    # Check if source_system is a list:
+    if not isinstance(source_system, str):
+        raise TypeError(f'source_system must be a string.\
+                        Got {type(source_system)}.')
+
+    # Expected path:
+    path = f'./src/contracts/{source_system}/_sourceSystem.json'
+
+    # Check that the file exists:
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f'File not found at path: \n{path}!')
+
+
+    else:
+        # Return path of the source system:
+        return path

@@ -1,4 +1,5 @@
 {
+    "$schema": "../../json_schema/_sourceSystemSchema.json",
     "name": "AdventureWorks",
     "description": "AdventureWorks is a ficticious retail database.",
     "sourceType": "http",

@@ -1,0 +1,52 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "sourceSystemSchema",
+    "title": "Source System Schema", 
+    "description": "Defines the structure of the source system contract.",
+    "type": "object",
+    "required": ["name", "sourceType", "entityNames"],
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "description": "JSON Schema URI used for validation",
+            "type": "string"
+            },
+        "name": {
+            "description": "The name of the source system.",
+            "type": "string"
+        },
+        "description": {
+            "description": "Brief description of source system",
+            "type": "string"
+        },
+        "sourceType" : {
+            "description": "Where/how the source data is derived.",
+            "type": "string",
+            "enum": ["sql_database", "http"]
+        },
+        "keyVaultQuery":{
+            "description": "Can be used to provide the name of the keyvault secret",
+            "type": "string"
+        },
+        "entityNames":{
+            "description": "List of entity names to ingest.",
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 1,
+            "uniqueItems": true
+        },
+        "notebooks": {
+            "description": "Which notebooks to run for each stage of ETL pipeline.",
+            "type": "object",
+            "properties": {
+                "bronze": { "type": ["string", "null"] },
+                "silver": { "type": ["string", "null"] },
+                "gold": { "type": ["string", "null"] },
+                "analysis": { "type": ["string", "null"] }
+            },
+            "required": ["bronze", "silver", "gold", "analysis"],
+            "additionalProperties": false
+    }
+    
+}
+}
