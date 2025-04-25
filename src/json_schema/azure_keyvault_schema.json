@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "$schema": {"type": "string"},
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "properties": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": ["AzureKeyVault"]
+          },
+          "typeProperties": {
+            "type": "object",
+            "properties": {
+              "baseUrl": {
+                "type": "string",
+                "format": "uri",
+                "minLength": 1
+              }
+            },
+            "required": ["baseUrl"]
+          }
+        },
+        "required": ["annotations", "type", "typeProperties"]
+      }
+    },
+    "required": ["name", "properties"]
+  }
+  

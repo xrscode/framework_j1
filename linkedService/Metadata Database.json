@@ -1,10 +1,11 @@
 {
+    "$schema": "../src/json_schema/azure_metadata_database_schema.json",
     "name": "Metadata Database",
     "properties": {
         "annotations": [],
         "type": "AzureSqlDatabase",
         "typeProperties": {
-            "server": "fj1sqlserver-00j196a.database.windows.net",
+            "server": "fj1sqlserver-plpz3ez.database.windows.net",
             "database": "fj1-metadata-uks",
             "encrypt": "mandatory",
             "trustServerCertificate": false,

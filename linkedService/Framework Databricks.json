@@ -1,10 +1,11 @@
 {
+    "$schema": "../src/json_schema/azure_databricks_schema.json",
     "name": "Framework Databricks",
     "properties": {
         "annotations": [],
         "type": "AzureDatabricks",
         "typeProperties": {
-            "domain": "https://adb-3655197894881423.3.azuredatabricks.net",
+            "domain": "https://adb-655852220450228.8.azuredatabricks.net",
             "accessToken": {
                 "type": "AzureKeyVaultSecret",
                 "store": {
@@ -13,7 +14,7 @@
                 },
                 "secretName": "databricks-junior-token"
             },
-            "existingClusterId": "0425-121953-jtcyzqy4"
+            "existingClusterId": null
         }
     }
 }

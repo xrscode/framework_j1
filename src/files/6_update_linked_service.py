@@ -1,7 +1,11 @@
 import json
 import os
 from dotenv import load_dotenv
+from jsonschema import validate
 
+"""
+Note that paths need to be set from the ROOT folder.
+"""
 # Re-load dotenv:
 load_dotenv(override=True)
 
@@ -18,22 +22,30 @@ databricks_ls = f'{linked_service_path}Framework Databricks.json'
 data_lake_ls = f'{linked_service_path}Azure Key Vault.json'
 metadata_ls = f'{linked_service_path}Metadata Database.json'
 
+# Define paths to schemas:
+keyvault_schema = './src/json_schema/azure_keyvault_schema.json'
+databricks_schema = './src/json_schema/azure_databricks_schema.json'
+metadata_database_schema = \
+    './src/json_schema/azure_metadata_database_schema.json'
 
 # Create list of file_paths to check:
-linked_service_list = [azure_key_vault_ls, databricks_ls, data_lake_ls, 
-                       metadata_ls]
+file_paths = [azure_key_vault_ls, databricks_ls, data_lake_ls, 
+                       metadata_ls, keyvault_schema, databricks_schema,
+                       metadata_database_schema]
 
 # Iterate through list and check files exist
-for path in linked_service_list:
+for path in file_paths:
     if not os.path.isfile(path):
         raise FileNotFoundError(f'Path: {path} does not exist!')
-    
 
 # Modify Azure Key Vault.json
 with open(azure_key_vault_ls, 'r') as file:
     data = json.load(file)
     # Update properties > typeProperties > baseUrl:
     data['properties']['typeProperties']['baseUrl'] = keyvault_address
+    
+    # Validate schema:
+    
     # Write back to file:
     with open(azure_key_vault_ls, 'w') as file:
         json.dump(data, file, indent=4)
@@ -53,13 +65,10 @@ with open(databricks_ls, 'r') as file:
     # Update properties > typeProperties > domain:
     data['properties']['typeProperties']['domain'] = databricks_domain
     # ExistingClusterID:
-    data['properties']['typeProperties']['existingClusterId'] = \
-        databricks_cluster_id
+    data['properties']['typeProperties']['existingClusterId'] = databricks_cluster_id
     # Write back to file:
     with open(databricks_ls, 'w') as file:
         json.dump(data, file, indent=4)
-
-
 
     
 

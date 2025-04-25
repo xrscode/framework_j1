@@ -1,0 +1,76 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "$schema": {
+        "type": "string",
+        "enum": ["http://json-schema.org/draft-07/schema#", "../src/json_schema/azure_databricks_schema.json"]
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "properties": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": ["AzureDatabricks"]
+          },
+          "typeProperties": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "format": "uri",
+                "minLength": 1
+              },
+              "accessToken": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["AzureKeyVaultSecret"]
+                  },
+                  "store": {
+                    "type": "object",
+                    "properties": {
+                      "referenceName": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": ["LinkedServiceReference"]
+                      }
+                    },
+                    "required": ["referenceName", "type"]
+                  },
+                  "secretName": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": ["type", "store", "secretName"]
+              },
+              "existingClusterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["domain", "accessToken", "existingClusterId"]
+          }
+        },
+        "required": ["annotations", "type", "typeProperties"]
+      }
+    },
+    "required": ["$schema", "name", "properties"],
+    "additionalProperties": false
+  }
+  
