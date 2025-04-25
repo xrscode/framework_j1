@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "fj1-adf-dev-uks-00j196a"
+		},
+		"Azure Key Vault_properties_typeProperties_baseUrl": {
+			"value": "https://fj1-kv-dev-uks-00j196a.vault.azure.net/"
+		},
+		"AzureSQLDatabase_properties_typeProperties_connectionString_secretName": {
+			"value": "@linkedService().keyVaultSecretName"
+		},
+		"Data Lake_properties_typeProperties_sasUri_secretName": {
+			"value": "sastokenURL"
+		},
+		"Framework Databricks_properties_typeProperties_existingClusterId": {
+			"value": "0424-081604-k2pgdm74"
+		},
+		"Metadata Database_properties_typeProperties_server": {
+			"value": "fj1sqlserver-plpz3ez.database.windows.net"
+		},
+		"Metadata Database_properties_typeProperties_database": {
+			"value": "fj1-metadata-uks"
+		},
+		"Metadata Database_properties_typeProperties_userName": {
+			"value": "junior_admin"
+		},
+		"http_server_properties_typeProperties_url": {
+			"value": "@{linkedService().http_url}"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
