@@ -10,7 +10,7 @@ import inquirer
 load_dotenv(override=True)
 
 # Get the keyvault name:
-kv = os.getenv('keyvault_name')
+keyvault_name = os.getenv('keyvault_name')
 
 
 def keyvault_connection_strings(keyvault_name: str) -> dict:
@@ -75,7 +75,8 @@ def query_database(database_name: str, query: str):
                         query:{type(query)}]')
 
     # Get connection string:
-    connection_string = keyvault_connection_strings(kv)[database_name]
+    connection_string = \
+        keyvault_connection_strings(keyvault_name)[database_name]
 
     # Open the Connection:
     conn = pyodbc.connect(connection_string, autocommit=False)
