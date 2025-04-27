@@ -1,4 +1,3 @@
-name,description,connectionString,sourceQuerysortOrder,columnName,dataType,required,primary_key
 customer_AW,dim_customer,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,1,SalesOrderNumber,varchar,false,false
 customer_AW,dim_customer,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,2,SalesOrderLineNumber,int,false,false
 customer_AW,sales_order,https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv,None,3,OrderDate,date,false,false
