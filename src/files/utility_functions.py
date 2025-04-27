@@ -292,3 +292,24 @@ def return_source_system_path(source_system: list) -> str:
     else:
         # Return path of the source system:
         return path
+    
+def delete_file(path: str):
+    """
+    This function deletes a file at the specified path.
+
+    Args:
+        path (str): string file path.
+    Returns:
+        Nothing.
+    Raises:
+        Nothing: This function should not raise an error.  As it removes
+        file if the file exists and does nothing if it does not exist.
+    """
+    if os.path.isfile(path):
+        # Delete if file exists:
+        os.remove(path)
+        return
+    else:
+        return
+    
+    
