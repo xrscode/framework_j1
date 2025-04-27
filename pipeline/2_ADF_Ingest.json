@@ -215,6 +215,18 @@
 											}
 										]
 									}
+								],
+								"defaultActivities": [
+									{
+										"name": "Fail1",
+										"type": "Fail",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"message": "No sourceType detected!",
+											"errorCode": "500"
+										}
+									}
 								]
 							}
 						},
