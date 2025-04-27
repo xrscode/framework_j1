@@ -30,3 +30,6 @@ autopep8 --in-place --aggressive --aggressive .\build_contract\6_update_linked_s
 autopep8 --in-place --aggressive --aggressive .\src\files\utility_functions.py && flake8 .\src\files\utility_functions.py
 autopep8 --in-place --aggressive --aggressive .\src\files\check_db_connection.py && flake8 .\src\files\check_db_connection.py
 autopep8 --in-place --aggressive --aggressive .\build_contract\create_contracts.py && flake8 .\build_contract\create_contracts.py
+
+Challenges:
+autopep8 --in-place --aggressive --aggressive .\challenges\challenge_1.py && flake8 .\challenges\challenge_1.py
