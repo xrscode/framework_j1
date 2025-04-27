@@ -68,6 +68,12 @@ def query_database(database_name: str, query: str):
         TypeError: if the database_name or query are not string types.
     """
 
+    accepted_databases = ['metadata', 'totesys']
+
+    if database_name not in accepted_databases:
+        raise ValueError(f'Database name: {database_name} not accepted.\
+            Accepted database names are: {accepted_databases}.')
+
     # Check database is a string and query is a string:
     if not isinstance(database_name, str) or not isinstance(query, str):
         raise TypeError(f'Expected strings.  Got\
