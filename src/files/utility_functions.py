@@ -248,7 +248,7 @@ def choose_source(source_systems: list) -> str:
         questions = [
             inquirer.List(
                 'choice',
-                message="Select source system:",
+                message="Select source system",
                 choices=source_systems,
             )]
 
