@@ -43,7 +43,7 @@ python src/build_contract/create_entity_contracts.py
 Hint: open the file and make sure that the path setting is correct!  This 
 file should generate the contracts for you. 
 
-To test the contract run this command:
+To your contracts run pytest:
 -------------------------------------------------------------------------------
 pytest -vv ./challenges/tests/test_challenge_1.py
 -------------------------------------------------------------------------------
