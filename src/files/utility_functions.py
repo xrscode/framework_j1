@@ -97,7 +97,8 @@ def query_database(database_name: str, query: str):
         rows_affected = cursor.rowcount
 
         # Fetch Results (if it's a SELECT query)
-        if query.strip().lower().startswith("select"):
+        if query.strip().lower().startswith("select") \
+            or query.strip().lower().startswith("declare @ssid"):
             results = cursor.fetchmany(10)  # Returns max 10 tuples
         else:
             results = f"Rows affected: {rows_affected}"
@@ -203,7 +204,14 @@ def open_csv(location, has_header=True):
     with open(location, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         if has_header:
-            next(reader)  # Skip the header
+            header = next(reader)  # Skip the header
+            if header != ['name', 'description', 'connectionString', \
+                          'sourceQuery', ' sortOrder', 'columnName', \
+                          'dataType', 'required', 'primary_key'] and \
+                            header != ['name', 'description', 'sourceType', \
+                                       'keyVaultQuery', 'entityNames', \
+                                        'notebooks']:
+                raise ValueError(f'Header does not exist!')
         data = [row for row in reader]
     return data
 

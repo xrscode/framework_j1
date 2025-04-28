@@ -8,6 +8,13 @@
     },
     "ingestion_columns": [
         {
+            "sortOrder": 1,
+            "columnName": "SalesOrderNumber",
+            "dataType": "varchar",
+            "required": false,
+            "primary_key": false
+        },
+        {
             "sortOrder": 2,
             "columnName": "SalesOrderLineNumber",
             "dataType": "int",

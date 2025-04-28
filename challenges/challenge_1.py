@@ -1,10 +1,15 @@
 from src.files.utility_functions import query_database, delete_file, write_to_csv
 import inquirer
-from challenges.recovery_data.adventureWorks_working_data import working_list
+from challenges.recovery_data.adventureWorks_csv_working_data import working_list
 
 welcome_message = """
 
 Welcome to the first challenge - contract generation!
+
+In this challenge you need to create three contracts:
+1. customer_AW.json
+2. products_AW.json
+3. sales_order_AW.json
 
 You can choose if you want to restore the CSV file to a working order, if you
 get stuck!
@@ -43,11 +48,11 @@ python src/build_contract/create_entity_contracts.py
 Hint: open the file and make sure that the path setting is correct!  This 
 file should generate the contracts for you. 
 
-To your contracts run pytest:
+To test your contracts run pytest:
 -------------------------------------------------------------------------------
 pytest -vv ./challenges/tests/test_challenge_1.py
 -------------------------------------------------------------------------------
-
+See if you can pass all the tests!
 """
 
 print(welcome_message)

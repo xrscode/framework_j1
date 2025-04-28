@@ -102,7 +102,7 @@ def upload_source_entity_contract(path: str, sourceSystemName: str):
                 VALUES (@sourceSystemID, '{entityName}', '{entityDescription}',
                 '{entitySourceQuery}', '{entityIngestionColumns}');
             """
-
+        print(query)
         # Execute the query:
         try:
             print(f'Uploading entity: {entityName}')
