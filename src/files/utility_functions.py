@@ -95,13 +95,14 @@ def query_database(database_name: str, query: str):
         # Execute Query
         cursor.execute(query)
         rows_affected = cursor.rowcount
+        results = cursor.fetchall()
 
-        # Fetch Results (if it's a SELECT query)
-        if query.strip().lower().startswith("select") \
-            or query.strip().lower().startswith("declare @ssid"):
-            results = cursor.fetchmany(10)  # Returns max 10 tuples
-        else:
-            results = f"Rows affected: {rows_affected}"
+        # # Fetch Results (if it's a SELECT query)
+        # if query.strip().lower().startswith("select") \
+        #     or query.strip().lower().startswith("declare @ssid"):
+        #     results = cursor.fetchmany(10)  # Returns max 10 tuples
+        # else:
+        #     results = f"Rows affected: {rows_affected}"
 
         # Commit changes for non-SELECT queries
         conn.commit()
