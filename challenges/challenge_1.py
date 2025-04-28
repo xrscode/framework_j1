@@ -1,7 +1,6 @@
-from src.files.utility_functions import query_database, delete_file
-import csv
+from src.files.utility_functions import query_database, delete_file, write_to_csv
 import inquirer
-from working_list import working_list
+from challenges.recovery_data.adventureWorks_working_data import working_list
 
 welcome_message = """
 
@@ -13,7 +12,9 @@ get stuck!
 By running this script, the csv files for Adventure Works will be set to a
 'challenge' state - where students will have to work to complete the contracts.
 
-The contracts from AdventureWorks will ALWAYS be deleted.  
+This script will perform the following actions:
+1. The contracts from AdventureWorks will ALWAYS be deleted.  
+2. Removal of AdventureWorks from the metada database.
 
 To recover; 
 Select 'Recover' and follow the onscreen prompts.
@@ -27,7 +28,26 @@ https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/r
 The path to the products data is:
 https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv
 
-Note: This script will ALWAYS remove AdventureWorks from the metadata database!
+Your challenge is to replace the deleted contracts. 
+
+To do this you can either write the contracts by hand.  Or complete the CSV;
+'AdventureWorks_entity.csv' enclosed within the AdventureWorks folder.  This
+is the recommended way!
+
+Once the csv has been created, you can generate the contract by running this:
+
+-------------------------------------------------------------------------------
+python src/build_contract/create_entity_contracts.py
+-------------------------------------------------------------------------------
+
+Hint: open the file and make sure that the path setting is correct!  This 
+file should generate the contracts for you. 
+
+To your contracts run pytest:
+-------------------------------------------------------------------------------
+pytest -vv ./challenges/tests/test_challenge_1.py
+-------------------------------------------------------------------------------
+
 """
 
 print(welcome_message)
@@ -61,13 +81,11 @@ BEGIN
 END
 """
 
-# Call query:
-try:
-    query_database('metadata', query)
-    print('!! AdventureWorks removed from metadata database!!\n')
-except Exception as e:
-    print(e)
+# First remove contracts and metadata data:
+# Call query against metada database:
+query_database('metadata', query)
 
+# Define path to Adventure Works folder:
 path_to_adventureWorks = 'src\\contracts\\AdventureWorks\\'
 
 # Expected path to csv file:
@@ -86,6 +104,9 @@ for contract in contracts_to_delete:
     delete_file(contract_path)
 
 
+
+
+# Recompile contract(s) and partially remove data:
 # Filter customer and products:
 filtered_csv_data = [x for x in working_list if x[0] not in
                      ['customer_AW', 'products_AW']]
@@ -95,24 +116,13 @@ header = ['name', 'description', 'connectionString', 'sourceQuery'
           'sortOrder', 'columnName', 'dataType', 'required', 'primary_key']
 
 
-def write_csv_challenge_1(path, data):
-    # Now write to CSV:
-    with open(path, mode='w', newline='') as file:
-        # Define csv writer:
-        writer = csv.writer(file)
-        # Define headers:
-        writer.writerow(header)
-        # Define rows:
-        writer.writerows(data)
-
-
-# Prompt user:
+# Prompt user to start challenge, or recover:
 while True:
     questions = [
         inquirer.List(
             'choice',
             message="Please select",
-            choices=['Challenge', 'Recover', 'Exit'],
+            choices=['Challenge_State_1', 'Recover', 'Exit'],
         )]
 
     choice = inquirer.prompt(questions)['choice']
@@ -120,12 +130,12 @@ while True:
     if choice == 'Exit':
         # Return Nothing if the user chooses to exit:
         break
-    elif choice == 'Challenge':
-        write_csv_challenge_1(path, filtered_csv_data)
+    elif choice == 'Challenge_State_1':
+        write_to_csv(path, filtered_csv_data)
         break
     else:
         print('Restoring CSV file to working order...')
-        write_csv_challenge_1(path, working_list)
+        write_to_csv(path, working_list)
         print('Run this command in terminal to build contracts:\n')
         print(f'python src/build_contract/create_entity_contracts.py', '\n')
         break

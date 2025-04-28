@@ -5,6 +5,7 @@ from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 import csv
 import inquirer
+import json
 
 # Refresh dotenv:
 load_dotenv(override=True)
@@ -247,7 +248,7 @@ def choose_source(source_systems: list) -> str:
         questions = [
             inquirer.List(
                 'choice',
-                message="Which source system would you like to upload?",
+                message="Select source system",
                 choices=source_systems,
             )]
 
@@ -311,5 +312,72 @@ def delete_file(path: str):
         return
     else:
         return
-    
+
+
+
+def write_to_csv(path: str, data: list, header: list = None):
+    """
+    This function writes to a csv file.
+
+    Args:
+        path (str): The path where the csv file should be saved.
+        data (list): Data to write to csv.
+        header (list, optional): List of strings - to define the header.
+
+    Raises:
+        TypeError: If path is not a string or if data/header are not lists.
+
+    Returns:
+        str: Success message.
+    """
+    # Set header to empty list if it does not exist:
+    if header is None:
+        header = []
+
+    # Check that path is a string
+    if not isinstance(path, str):
+        raise TypeError(f'Path expects string. Got: {type(path)}.')
+
+    # Check that data and header are lists:
+    if not isinstance(data, list):
+        raise TypeError(f'Data should be a list, got: {type(data)}.')
+    if not isinstance(header, list):
+        raise TypeError(f'Header should be a list, got: {type(header)}.')
+
+    # Write to CSV:
+    with open(path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        if header:
+            writer.writerow(header)
+        writer.writerows(data)
+
+    return 'File written successfully.'
+
+
+def load_json(path: str):
+    """
+    This function accepts a path to a JSON file. 
+    It reads the JSON and returns it as a python object. 
+
+    Args:
+        path (str): The path to the JSON file. 
+
+    Returns:
+        object: : The python object parsed from the JSON file.
+    """
+    # Check path exists:
+    if not isinstance(path, str):
+        raise TypeError(f'Expected type string, got: {type(path)}')
+
+    # Check file exists:
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f'File not found at; {path}!')
+
+    # Open JSON file:
+    with open(path, 'r') as json_data:
+        data = json.load(json_data)
+
+    # Return the data:
+    return data
+
     
