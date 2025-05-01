@@ -2,6 +2,10 @@ from src.files.utility_functions import query_database, delete_file, write_to_cs
 import inquirer
 from challenges.recovery_data.adventureWorks_csv_working_data import working_list
 
+"""
+RUN SCRIPT TO START CHALLENGE
+"""
+
 welcome_message = """
 
 Welcome to the first challenge - contract generation!

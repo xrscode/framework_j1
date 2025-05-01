@@ -93,13 +93,11 @@ def task_3():
 """
 1. Declare a variable as an INT.
 2. Set the variable to a value of 5.
-3. Select the variable
+3. Select the variable.
 """
 def task_4():
     query = """
-    DECLARE @s_id INT;
-    SET @s_id = 5;
-    SELECT @s_id;  
+  
     """
     # Remove whitespace:
     cleaned_query = query.strip()

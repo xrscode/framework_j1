@@ -40,4 +40,5 @@ def test_task_4():
         assert 'declare' in t_4_results['query'].lower()
         assert 'set' in t_4_results['query'].lower()
         assert 'select' in t_4_results['query'].lower()
+        assert 'print' not in t_4_results['query'].lower()
         assert t_4_results['results'][0][0] == 5
