@@ -1,4 +1,5 @@
 {
+    "$schema": "../../json_schema/_entitySchema.json",
     "name": "counterparty",
     "description": "dim_counterparty",
     "connectionDetails": {

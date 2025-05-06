@@ -2,6 +2,10 @@ from src.files.utility_functions import query_database, delete_file, write_to_cs
 import inquirer
 from challenges.recovery_data.adventureWorks_csv_working_data import working_list
 
+"""
+RUN SCRIPT TO START CHALLENGE
+"""
+
 welcome_message = """
 
 Welcome to the first challenge - contract generation!
@@ -21,8 +25,8 @@ This script will perform the following actions:
 1. The contracts from AdventureWorks will ALWAYS be deleted.  
 2. Removal of AdventureWorks from the metada database.
 
-To recover; 
-Select 'Recover' and follow the onscreen prompts.
+To Reset; 
+Select 'Reset' and follow the onscreen prompts.
 
 If the user selects to reset to 'working' - this file will reset the
 csv back to a working order.  Only use this option if you get stuck.
@@ -121,13 +125,13 @@ header = ['name', 'description', 'connectionString', 'sourceQuery'
           'sortOrder', 'columnName', 'dataType', 'required', 'primary_key']
 
 
-# Prompt user to start challenge, or recover:
+# Prompt user to start challenge, or Reset:
 while True:
     questions = [
         inquirer.List(
             'choice',
             message="Please select",
-            choices=['Challenge_State_1', 'Recover', 'Exit'],
+            choices=['Challenge_State_1', 'Reset', 'Exit'],
         )]
 
     choice = inquirer.prompt(questions)['choice']

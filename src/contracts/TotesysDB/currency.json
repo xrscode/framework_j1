@@ -1,4 +1,5 @@
 {
+    "$schema": "../../json_schema/_entitySchema.json",
     "name": "currency",
     "description": "dim_currency.",
     "connectionDetails": {

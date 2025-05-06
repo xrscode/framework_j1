@@ -1,4 +1,5 @@
 {
+    "$schema": "../../json_schema/_entitySchema.json",
     "name": "payment_type",
     "description": "dim_payment_type",
     "connectionDetails": {
