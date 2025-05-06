@@ -109,7 +109,10 @@ def query_database(database_name: str, query: str):
                 # It's an UPDATE/INSERT/DELETE or other non-query statement
                 affected_rows = cursor.rowcount
                 conn.commit()
-                return f"Query executed successfully. Rows affected: {affected_rows}"
+                if affected_rows == -1:
+                    return f"Query executed successfully. Database infrastructure created."
+                else:
+                    return f"Query executed successfully. Rows affected: {affected_rows}"
             else:
                 # Some other programming error
                 raise pe
@@ -118,11 +121,7 @@ def query_database(database_name: str, query: str):
         # Rollback changes if error
         if conn:
             conn.rollback()
-        
-        # Handle specific database errors
-        error_code = e.args[0] if e.args else "Unknown"
-        error_message = e.args[1] if len(e.args) > 1 else "Unknown error"
-        return f"Database error {error_code}: {error_message}"
+        return f"Database error!"
         
     finally:
         # Check if there is an open connection
