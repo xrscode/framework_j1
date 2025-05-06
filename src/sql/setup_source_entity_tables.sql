@@ -1,3 +1,6 @@
+-- Purpose: Create the sourceEntity table.
+
+-- Remove the existing table if it exists
 DROP TABLE IF EXISTS sourceEntity;
 
 -- Create the sourceEntity table
