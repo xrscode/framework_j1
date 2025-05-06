@@ -109,3 +109,29 @@ def task_4():
         return 'Not completed.'
     else:
         return {'query': query, 'results': results}
+    
+
+
+
+# Task 5:
+"""
+Use an UPDATE statement to change a value in the metadata database.
+Update the sourceSystemDescription for AdventureWorks.  Change it to 
+anything of your choosing!
+"""
+def task_5():
+    query = """
+    UPDATE sourceSystem
+    SET sourceSystemDescription = 'my update'
+    WHERE sourceSystemName = 'AdventureWorks';
+    """
+    # Remove whitespace:
+    cleaned_query = query.strip()
+
+    results = query_database('metadata', cleaned_query)
+    
+    # Check query has been attempted:
+    if not cleaned_query:
+        return 'Not completed.'
+    else:
+        return {'query': query, 'results': results}
