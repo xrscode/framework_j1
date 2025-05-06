@@ -1,4 +1,5 @@
 {
+    "$schema": "../../json_schema/_sourceSystemSchema.json",
     "name": "TotesysDB",
     "description": "Totesys is a retail database.",
     "sourceType": "sql_database",

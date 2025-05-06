@@ -1,4 +1,5 @@
 {
+    "$schema": "../../json_schema/_entitySchema.json",
     "name": "location",
     "description": "dim_location",
     "connectionDetails": {
