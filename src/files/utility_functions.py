@@ -88,36 +88,59 @@ def query_database(database_name: str, query: str):
     # Open the Connection:
     conn = pyodbc.connect(connection_string, autocommit=False)
 
-    # Create Cursor:
-    cursor = conn.cursor()
- 
     try:
+        # Open the Connection
+        conn = pyodbc.connect(connection_string, autocommit=False)
+        
+        # Create Cursor
+        cursor = conn.cursor()
+        
         # Execute Query
         cursor.execute(query)
-
-        # If an UPDATE, INSERT or DELETE, return rowcount:
-        if query.strip().upper().startswith(('UPDATE', 'INSERT', 'DELETE', 'DROP', 'CREATE')):
-            conn.commit()
-            return f'Rows affected: {cursor.rowcount}'
-        # If not return results:
-        else:
-            return cursor.fetchall()
         
-    # If error:
+        # Try to fetch results - this will work for SELECT statements
+        try:
+            results = cursor.fetchall()
+            conn.commit()
+            return results
+        except pyodbc.ProgrammingError as pe:
+            # If we get "No results. Previous SQL was not a query"
+            if "No results" in str(pe) and "not a query" in str(pe):
+                # It's an UPDATE/INSERT/DELETE or other non-query statement
+                affected_rows = cursor.rowcount
+                conn.commit()
+                return f"Query executed successfully. Rows affected: {affected_rows}"
+            else:
+                # Some other programming error
+                raise pe
+            
     except pyodbc.Error as e:
-        # Rollback changes if error:
+        # Rollback changes if error
         if conn:
             conn.rollback()
+        
         # Handle specific database errors
         error_code = e.args[0] if e.args else "Unknown"
-        return error_code
-
+        error_message = e.args[1] if len(e.args) > 1 else "Unknown error"
+        return f"Database error {error_code}: {error_message}"
+        
     finally:
-        # Check if there is an open connection:
-        if conn:
-            # Close
+        # Check if there is an open connection
+        if cursor:
             cursor.close()
+        if conn:
             conn.close()
+query = """
+    DECLARE @ssid INT;
+
+    SELECT @ssid = sourceSystemID
+    FROM dbo.sourceSystem
+    WHERE sourceSystemName = 'AdventureWorks';
+
+    SELECT * FROM dbo.sourceEntity
+    WHERE sourceSystemID = @ssid 
+    AND entityName = 'customer_AW' or entityName = 'sales_order_AW';
+    """
 
 
 def list_folders(path: str) -> list:
