@@ -1,3 +1,4 @@
+-- Drop table IF EXISTSs if they exist
 DROP TABLE IF EXISTS dbo.counterparty;
 
 CREATE TABLE dbo.counterparty (
