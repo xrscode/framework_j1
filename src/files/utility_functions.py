@@ -90,7 +90,7 @@ def query_database(database_name: str, query: str):
 
     # Create Cursor:
     cursor = conn.cursor()
-
+ 
     try:
         # Execute Query
         cursor.execute(query)
