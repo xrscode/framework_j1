@@ -13,7 +13,9 @@ Your next challenge is to write a query that queries the metadata database.
 Carefully follow the instructions in this script to complete the task.
 
 Hint: connect to SSMS to practice writing queries.  You can then copy and paste
-them into this file!
+them into this file!  Update the query variable so that between the qutoation
+marks is your query.
+
 
 To run the tests, simply run the following command:
 -------------------------------------------------------------------------------
@@ -121,9 +123,7 @@ anything of your choosing!
 """
 def task_5():
     query = """
-    UPDATE sourceSystem
-    SET sourceSystemDescription = 'my update'
-    WHERE sourceSystemName = 'AdventureWorks';
+    
     """
     # Remove whitespace:
     cleaned_query = query.strip()

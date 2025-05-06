@@ -94,21 +94,16 @@ def query_database(database_name: str, query: str):
     try:
         # Execute Query
         cursor.execute(query)
-        rows_affected = cursor.rowcount
-        results = cursor.fetchall()
 
-        # # Fetch Results (if it's a SELECT query)
-        # if query.strip().lower().startswith("select") \
-        #     or query.strip().lower().startswith("declare @ssid"):
-        #     results = cursor.fetchmany(10)  # Returns max 10 tuples
-        # else:
-        #     results = f"Rows affected: {rows_affected}"
-
-        # Commit changes for non-SELECT queries
-        conn.commit()
-
-        return results  # Return results or affected row count
-
+        # If an UPDATE, INSERT or DELETE, return rowcount:
+        if query.strip().upper().startswith(('UPDATE', 'INSERT', 'DELETE')):
+            conn.commit()
+            return f'Rows affected: {cursor.rowcount}'
+        # If not return results:
+        else:
+            return cursor.fetchall()
+        
+    # If error:
     except pyodbc.Error as e:
         # Rollback changes if error:
         if conn:
