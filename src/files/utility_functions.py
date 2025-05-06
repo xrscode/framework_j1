@@ -96,7 +96,7 @@ def query_database(database_name: str, query: str):
         cursor.execute(query)
 
         # If an UPDATE, INSERT or DELETE, return rowcount:
-        if query.strip().upper().startswith(('UPDATE', 'INSERT', 'DELETE')):
+        if query.strip().upper().startswith(('UPDATE', 'INSERT', 'DELETE', 'DROP', 'CREATE')):
             conn.commit()
             return f'Rows affected: {cursor.rowcount}'
         # If not return results:

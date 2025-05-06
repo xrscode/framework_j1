@@ -10,6 +10,8 @@ welcome_message = """
 
 Welcome to the first challenge - contract generation!
 
+DO NOT CHANGE ANYTHING IN THIS SCRIPT.
+
 In this challenge you need to create three contracts:
 1. customer_AW.json
 2. products_AW.json
@@ -57,6 +59,8 @@ To test your contracts run pytest:
 pytest -vv ./challenges/tests/test_challenge_1.py
 -------------------------------------------------------------------------------
 See if you can pass all the tests!
+
+DO NOT CHANGE ANYTHING IN THIS SCRIPT.
 """
 
 print(welcome_message)

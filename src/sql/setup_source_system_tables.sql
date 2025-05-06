@@ -1,6 +1,3 @@
--- Purpose: Create the sourceSystem table.
-
--- Remove the existing table if it exists
 DROP TABLE IF EXISTS sourceSystem;
 
 -- Create the sourceSystem table
