@@ -8,10 +8,11 @@ list_source_systems = list_folders('./src/contracts/')
 # Next, prompt user to select source system:
 source_system = choose_source(list_source_systems)
 
+# Define the csv location
 csv_location = f'./src/contracts/{source_system}/{source_system}_entity.csv'
 
-# Save the data to variable:
-csv_data = open_csv(csv_location, True)
+# Save the csv data to a variable:
+csv_data = open_csv(csv_location)
 
 # Create a set for unique entity names:
 list_of_entities = list({x[0] for x in csv_data})

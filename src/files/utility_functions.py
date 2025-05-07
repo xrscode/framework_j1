@@ -129,17 +129,6 @@ def query_database(database_name: str, query: str):
             cursor.close()
         if conn:
             conn.close()
-query = """
-    DECLARE @ssid INT;
-
-    SELECT @ssid = sourceSystemID
-    FROM dbo.sourceSystem
-    WHERE sourceSystemName = 'AdventureWorks';
-
-    SELECT * FROM dbo.sourceEntity
-    WHERE sourceSystemID = @ssid 
-    AND entityName = 'customer_AW' or entityName = 'sales_order_AW';
-    """
 
 
 def list_folders(path: str) -> list:
@@ -211,26 +200,63 @@ def read_sql(path: str) -> str:
     return query
 
 
-def open_csv(location, has_header=True):
+def open_csv(path):
     """
     Args:
-        location (str): Location of the CSV file to read.
-        has_header (bool): Whether the CSV file has a header row.
+        path (str): path of the CSV file to read.
+    
     Returns:
         data (list): List of rows within CSV (excluding header if specified).
+    
+    Raises:
+        ValueError: if the csv is empty.
+        ValueError: if the found header is missing or invalid.
+        FileNotFoundError: if the path is not valid.
+        CSV Error: if the csv file can not be read.
+    
     """
-    with open(location, newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',')
-        if has_header:
-            header = next(reader)  # Skip the header
-            if header != ['name', 'description', 'connectionString', \
-                          'sourceQuery', ' sortOrder', 'columnName', \
-                          'dataType', 'required', 'primary_key'] and \
-                            header != ['name', 'description', 'sourceType', \
-                                       'keyVaultQuery', 'entityNames', \
-                                        'notebooks']:
-                raise ValueError(f'Header does not exist!')
-        data = [row for row in reader]
+    # Define anticipated header for entity contract:
+    header_entity = ['name','description','connectionString',\
+                     'sourceQuery', 'sortOrder','columnName',\
+                        'dataType','required','primary_key']
+    
+    # Define anticipated header for source contract:
+    header_source = ['name','description','sourceType','keyVaultQuery',\
+                     'entityNames','notebooks']
+
+    # Check path is correct:
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f'File not found at: {path}!')
+
+    # Check if file is empty
+    if os.path.getsize(path) == 0:
+        raise ValueError('CSV file is empty!')
+
+    # Try to open csv:
+    try:
+        with open(path, newline='', encoding='utf8') as csvfile:
+            # Create a reader object:
+            reader = csv.reader(csvfile, delimiter=',')
+            
+            # Access the first row and remove whitespaces:
+            header = [x.strip() for x in next(reader)]
+            # Reader has now iterated along by 1.  Remaining data
+            # should just be the data needed to build the contract.
+            
+            # Check header exists and is valid:    
+            if header != header_entity and header != header_source:
+                raise ValueError(f"""Header does not exist or is invalid!
+                                Header in csv is; {header}.
+                                """)
+            
+            # Return data, make sure to remove whitespace:
+            data = [[cell.strip() for cell in row] for row in reader]
+
+    # Return csv error if csv can't be opened:
+    except csv.Error as e:
+        raise csv.Error(f"Error reading CSV file: {e}")
+    
+    # Return data: 
     return data
 
 
@@ -319,7 +345,8 @@ def return_source_system_path(source_system: list) -> str:
     else:
         # Return path of the source system:
         return path
-    
+
+
 def delete_file(path: str):
     """
     This function deletes a file at the specified path.
@@ -338,7 +365,6 @@ def delete_file(path: str):
         return
     else:
         return
-
 
 
 def write_to_csv(path: str, data: list, header: list = None):
