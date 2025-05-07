@@ -200,7 +200,7 @@ def read_sql(path: str) -> str:
     return query
 
 
-def open_csv(path):
+def open_csv(path: str) -> list:
     """
     Args:
         path (str): path of the CSV file to read.
