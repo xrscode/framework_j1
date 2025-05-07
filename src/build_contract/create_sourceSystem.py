@@ -13,7 +13,7 @@ csv_location = \
     f'./src/contracts/{source_system}/{source_system}_sourceSystem.csv'
 
 # Save the data to variable:
-csv_data = open_csv(csv_location, True)
+csv_data = open_csv(csv_location)
 
 # Create a set for unique entity names:
 data = [x for x in csv_data[0]]
