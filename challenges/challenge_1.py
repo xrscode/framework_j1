@@ -2,6 +2,7 @@ from src.files.utility_functions import query_database, delete_file, write_to_cs
 import inquirer
 from challenges.recovery_data.adventureWorks_csv_working_data import working_list
 
+
 """
 RUN SCRIPT TO START CHALLENGE
 """
@@ -12,23 +13,16 @@ Welcome to the first challenge - contract generation!
 
 DO NOT CHANGE ANYTHING IN THIS SCRIPT.
 
-In this challenge you need to create three contracts:
-1. customer_AW.json
-2. products_AW.json
-3. sales_order_AW.json
-
-You can choose if you want to restore the CSV file to a working order, if you
-get stuck!
-
-By running this script, the csv files for Adventure Works will be set to a
-'challenge' state - where students will have to work to complete the contracts.
+To begin this challenge run this script and select Challenge_State_1 from the
+options.
 
 This script will perform the following actions:
-1. The contracts from AdventureWorks will ALWAYS be deleted.  
-2. Removal of AdventureWorks from the metada database.
+1. The Entity Contracts for AdventureWorks will be deleted/modified.
+2. Removal of AdventureWorks from the metadata database.
 
-To Reset; 
-Select 'Reset' and follow the onscreen prompts.
+To Reset;
+If you get stuck and need to return everything to a working order, run this
+script again and select 'Reset'.
 
 If the user selects to reset to 'working' - this file will reset the
 csv back to a working order.  Only use this option if you get stuck.
@@ -39,7 +33,7 @@ https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/r
 The path to the products data is:
 https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv
 
-Your challenge is to replace the deleted contracts. 
+Your challenge is to replace the deleted contracts.
 
 To do this you can either write the contracts by hand.  Or complete the CSV;
 'AdventureWorks_entity.csv' enclosed within the AdventureWorks folder.  This
@@ -51,8 +45,8 @@ Once the csv has been created, you can generate the contract by running this:
 python src/build_contract/create_entity_contracts.py
 -------------------------------------------------------------------------------
 
-Hint: open the file and make sure that the path setting is correct!  This 
-file should generate the contracts for you. 
+Hint: open the file and make sure that the path setting is correct!  This
+file should generate the contracts for you.
 
 To test your contracts run pytest:
 -------------------------------------------------------------------------------
@@ -104,29 +98,10 @@ path_to_adventureWorks = 'src\\contracts\\AdventureWorks\\'
 # Expected path to csv file:
 path = f'{path_to_adventureWorks}AdventureWorks_entity.csv'
 
-# Define contracts to delete if they exist:
-contracts_to_delete = {
-    'customer_AW': f'{path_to_adventureWorks}customer_AW.json',
-    'products_AW': f'{path_to_adventureWorks}products_AW.json',
-    'sales_order_AW': f'{path_to_adventureWorks}sales_order_AW.json'
-}
-
-# Delete the contracts:
-for contract in contracts_to_delete:
-    contract_path = contracts_to_delete[contract]
-    delete_file(contract_path)
-
-
-
-
-# Recompile contract(s) and partially remove data:
-# Filter customer and products:
-filtered_csv_data = [x for x in working_list if x[0] not in
-                     ['customer_AW', 'products_AW']]
-
-# Define header:
-header = ['name', 'description', 'connectionString', 'sourceQuery'
-          'sortOrder', 'columnName', 'dataType', 'required', 'primary_key']
+# Define header for entities:
+header_entity = ['name', 'description', 'connectionString',
+                 'sourceQuery', 'sortOrder', 'columnName',
+                 'dataType', 'required', 'primary_key']
 
 
 # Prompt user to start challenge, or Reset:
@@ -144,13 +119,30 @@ while True:
         # Return Nothing if the user chooses to exit:
         break
     elif choice == 'Challenge_State_1':
-        write_to_csv(path, filtered_csv_data)
+        # Define ENTITY contracts to delete if they exist:
+        contracts_to_delete = {
+            'customer_AW': f'{path_to_adventureWorks}customer_AW.json',
+            'products_AW': f'{path_to_adventureWorks}products_AW.json',
+            'sales_order_AW': f'{path_to_adventureWorks}sales_order_AW.json'
+        }
+
+        # Delete the contracts:
+        for contract in contracts_to_delete:
+            contract_path = contracts_to_delete[contract]
+            delete_file(contract_path)
+
+        # Recompile contract(s) and partially remove data:
+        # Filter customer and products:
+        filtered_csv_data = [x for x in working_list if x[0] not in
+                             ['customer_AW', 'products_AW']]
         break
     else:
         print('Restoring CSV file to working order...')
-        write_to_csv(path, working_list)
-        print('Run this command in terminal to build contracts:\n')
-        print(f'python src/build_contract/create_entity_contracts.py', '\n')
+        # First create the csv file:
+        write_to_csv(path, working_list, header_entity)
+        # Run script to build contract:
+        print("""CSV created. To build contract run this command in terminal:\n
+-----------------------------------------------------------------------
+python src\\build_contract\\create_entity_contracts.py
+-----------------------------------------------------------------------""")
         break
-        
-
