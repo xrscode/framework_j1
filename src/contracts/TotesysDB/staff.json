@@ -17,14 +17,14 @@
         {
             "sortOrder": 2,
             "columnName": "first_name",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 3,
             "columnName": "last_name",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
@@ -38,7 +38,7 @@
         {
             "sortOrder": 5,
             "columnName": "email_address",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },

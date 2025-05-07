@@ -45,7 +45,7 @@
         {
             "sortOrder": 6,
             "columnName": "item_code",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },

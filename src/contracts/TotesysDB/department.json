@@ -17,21 +17,21 @@
         {
             "sortOrder": 2,
             "columnName": "department_name",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 3,
             "columnName": "location",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 4,
             "columnName": "manager",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },

@@ -17,7 +17,7 @@
         {
             "sortOrder": 2,
             "columnName": "transaction_type",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },

@@ -24,21 +24,21 @@
         {
             "sortOrder": 3,
             "columnName": "design_name",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": true
         },
         {
             "sortOrder": 4,
             "columnName": "file_location",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 5,
             "columnName": "file_name",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },

@@ -31,14 +31,14 @@
         {
             "sortOrder": 4,
             "columnName": "commercial_contact",
-            "dataType": "str",
+            "dataType": "string",
             "required": false,
             "primary_key": false
         },
         {
             "sortOrder": 5,
             "columnName": "delivery_contact",
-            "dataType": "str",
+            "dataType": "string",
             "required": false,
             "primary_key": false
         },

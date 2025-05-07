@@ -17,49 +17,49 @@
         {
             "sortOrder": 2,
             "columnName": "address_line_1",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 3,
             "columnName": "address_line_2",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 4,
             "columnName": "distrcit",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 5,
             "columnName": "city",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 6,
             "columnName": "postal_code",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 7,
             "columnName": "country",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
         {
             "sortOrder": 8,
             "columnName": "phone",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },

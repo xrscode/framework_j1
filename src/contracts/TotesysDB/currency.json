@@ -17,7 +17,7 @@
         {
             "sortOrder": 2,
             "columnName": "currency_code",
-            "dataType": "str",
+            "dataType": "string",
             "required": true,
             "primary_key": false
         },
