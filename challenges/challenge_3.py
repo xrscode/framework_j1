@@ -33,6 +33,9 @@ dbo.sourceSystem table.
 def task_1():
     query = """
 
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -55,6 +58,9 @@ customer_AW.
 def task_2():
     query = """
     
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -77,6 +83,9 @@ products_AW.
 def task_3():
     query = """
     
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -100,6 +109,9 @@ def task_3():
 def task_4():
     query = """
   
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -124,6 +136,9 @@ anything of your choosing!
 def task_5():
     query = """
     
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()

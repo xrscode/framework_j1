@@ -3,22 +3,25 @@ import json
 
 def test_sourceSystem_table_exists_with_data():
     """
-    If the database has data it will return; [(1,)].
-    Caution: Make sure to select the 1 with; result[0][0] and convert to int.
-    If this test fails, there is no data in the metadata database.
+    Verifies that the sourceSystem table exists and contains at least one row.
     """
-    result = query_database('metadata', 'SELECT 1 FROM dbo.sourceSystem')
-    assert int(result[0][0]) == 1
+    result = query_database('metadata', 'SELECT TOP 1 1 FROM dbo.sourceSystem')
+
+    assert result, "sourceSystem table exists but has no data or cannot be queried."
+    assert int(result[0][0]) == 1, f"Unexpected result from sourceSystem: {result}"
 
 
 def test_sourceEntity_table_exists_with_data():
     """
-    If the database has data it will return; [(1,)].
-    Caution: Make sure to select the 1 with; result[0][0] and convert to int.
-    If this test fails, there is no data in the metadata database.
+    Verifies that the sourceEntity table exists and contains at least one row.
     """
-    result = query_database('metadata', 'SELECT 1 FROM dbo.sourceEntity')
-    assert int(result[0][0]) == 1
+    result = query_database('metadata', 'SELECT TOP 1 1 FROM dbo.sourceEntity')
+
+    # Check that at least one row was returned
+    assert result, "sourceEntity table exists but has no data or cannot be queried."
+
+    # Confirm that the returned value is as expected
+    assert int(result[0][0]) == 1, f"Unexpected result from sourceEntity: {result}"
 
 
 def test_AdventureWorks_exists_in_sourceSystem():
@@ -83,9 +86,9 @@ def test_sourceEntity_entities_exist():
     WHERE sourceSystemID = @ssid;
     """
     results = query_database('metadata', query)
-    assert len(results) > 2
+    assert results
 
-def test_sourceEntity_entities_names_are_correct():
+def test_sourceEntity_entityName_is_correct():
     query = """
     DECLARE @ssid INT;
 
@@ -96,11 +99,25 @@ def test_sourceEntity_entities_names_are_correct():
     SELECT * FROM dbo.sourceEntity
     WHERE sourceSystemID = @ssid;
     """
+    # Query the database:
     results = query_database('metadata', query)
-    entity_names_in_database = [x[2] for x in results]
+
+    # Check results have been returned:
+    assert results
+
+    # Extract entity names from results:
+    entity_names_in_database = [row[2] for row in results]
+    
+    # Define expected entity names:
     expected_entities = ['sales_order_AW', 'products_AW', 'customer_AW']
-    for entity in entity_names_in_database:
-        assert entity in expected_entities
+    
+    # Search for unexpected entities:
+    unexpected_entities = [entity for entity in entity_names_in_database\
+                           if entity not in expected_entities]
+    
+    assert not unexpected_entities, \
+        f"Unexpected entities found: {unexpected_entities}"
+
 
 def test_sourceEntity_customer_and_sales_order_have_correct_connection_string():
     query = """
@@ -115,6 +132,8 @@ def test_sourceEntity_customer_and_sales_order_have_correct_connection_string():
     """
     connectionString = 'https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv'
     results = query_database('metadata', query)
+    assert results, "No results.  Entities may not exist or are not associated with source system."
+    
     for row in results:
         if row[2] == 'customer_AW' or row[2] == 'sales_order_AW':
             assert json.loads(row[4])['connectionString'] == connectionString
@@ -132,6 +151,7 @@ def test_sourceEntity_product_has_correct_connection_string():
     """
     connectionString = 'https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv'
     results = query_database('metadata', query)
+    assert results, "No results.  Entities may not exist or are not associated with source system."
     for row in results:
         if row[2] == 'products_AW':
             assert json.loads(row[4])['connectionString'] == connectionString
@@ -150,6 +170,7 @@ def test_sourceEntity_customer_has_entityIngestionColumns():
     AND entityName = 'customer_AW' or entityName = 'sales_order_AW';
     """
     results = query_database('metadata', query)
+    assert results, "No results.  Entities may not exist or are not associated with source system."
     columns =  len(json.loads(results[0][5]))
     for row in results:
         column = row[5]

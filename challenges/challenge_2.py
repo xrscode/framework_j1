@@ -9,11 +9,12 @@ sales_order_AW.json
 
 There are a number of options available to you:
 1.  Create your own python file that:
-    1. Reads the csv. 
-    2. Creates a sql DML (Data Manipulation Language) statement.
-    3. Queries the metadata database and INSERTS the data.
+    a. Reads the csv. 
+    b. Creates a sql DML (Data Manipulation Language) statement.
+    c. Queries the metadata database and INSERTS the data.
 
-2. Use the python scripts already created for you.  In the terminal run:
+2. Use the python scripts already created for you.  In the terminal sequentially
+run:
 -------------------------------------------------------------------------------
 src/files/3_upload_source_system_contract.py
 src/files/4_upload_source_entity_contract.py
