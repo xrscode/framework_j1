@@ -1,7 +1,8 @@
 from src.files.utility_functions import query_database, delete_file, write_to_csv
 import inquirer
 from challenges.recovery_data.adventureWorks_csv_working_data import working_list
-
+import subprocess
+import os
 
 """
 RUN SCRIPT TO START CHALLENGE
@@ -135,14 +136,24 @@ while True:
         # Filter customer and products:
         filtered_csv_data = [x for x in working_list if x[0] not in
                              ['customer_AW', 'products_AW']]
+        
+        message = """Challenge state has been activated.  Contracts deleted:
+        """
+
         break
     else:
         print('Restoring CSV file to working order...')
         # First create the csv file:
         write_to_csv(path, working_list, header_entity)
-        # Run script to build contract:
-        print("""CSV created. To build contract run this command in terminal:\n
------------------------------------------------------------------------
-python src\\build_contract\\create_entity_contracts.py
------------------------------------------------------------------------""")
+
+        # Use the same Python interpreter that's running this script
+        python_executable = r"C:\\Repos\\framework_j1\\venv\\Scripts\\python.exe"
+
+        # Get the absolute path to the target script
+        script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 
+                                    '../src/build_contract/create_entity_contracts.py'))
+
+        # Run the subprocess with the correct Python interpreter
+        subprocess.run([python_executable, script_path])
+
         break

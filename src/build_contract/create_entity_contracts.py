@@ -2,6 +2,7 @@ from src.files.utility_functions import open_csv, list_folders, choose_source
 import os
 import json
 
+
 # First get list of source systems:
 list_source_systems = list_folders('./src/contracts/')
 

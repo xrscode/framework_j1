@@ -7,8 +7,18 @@ import csv
 import inquirer
 import json
 
+# Get the project root (Go two levels up!)
+project_root = \
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')) 
+
+
+# Define path to env:
+env_path = os.path.join(project_root, '.env')
+
+
 # Refresh dotenv:
-load_dotenv(override=True)
+load_dotenv(dotenv_path=env_path, override=True)
+
 
 # Get the keyvault name:
 keyvault_name = os.getenv('keyvault_name')
