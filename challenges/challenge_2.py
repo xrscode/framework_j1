@@ -1,4 +1,9 @@
-welcome_message = """
+"""
+-------------------------------------------------------------------------------
+CONTRACT UPLOAD
+-------------------------------------------------------------------------------
+
+
 Now that you have completed the first challenge, hopefully you will have four
 contracts to upload: 
 
