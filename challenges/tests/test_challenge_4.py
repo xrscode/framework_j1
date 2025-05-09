@@ -168,8 +168,8 @@ def test_goldLocation_path_is_correct():
 
 def test_bronzeLocation_links_to_data_in_data_lake():
     """
-    Data must also exist in the data lake.  This function will check to 
-    ensure there is data.
+    Data must also exist in the data lake.  This function will check that 
+    csv data exists for each expected entity within the data lake..
     """
     # Define the expected file locations:
     expected_file_locations = [
@@ -189,8 +189,8 @@ def test_bronzeLocation_links_to_data_in_data_lake():
 
 def test_silverLocation_is_delta_table():
     """
-    Data must also exist in the data lake.  This function will check to 
-    ensure there is data.
+    Data must also exist in the data lake.  This function will check that 
+    at the silver location, the data is in delta format.
     """
     # Define the expected file locations:
     expected_file_locations = [
@@ -212,8 +212,8 @@ def test_silverLocation_is_delta_table():
 
 def test_goldLocation_is_delta_table():
     """
-    Data must also exist in the data lake.  This function will check to 
-    ensure there is data.
+    Data must also exist in the data lake.  At the gold location, this function
+    will check that the data is in delta format.
     """
     # Define the expected file locations:
     expected_file_locations = [

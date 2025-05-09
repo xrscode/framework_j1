@@ -5,7 +5,11 @@ import subprocess
 import os
 
 """
-RUN SCRIPT TO START CHALLENGE
+-------------------------------------------------------------------------------
+CONTRACT GENERATION
+-------------------------------------------------------------------------------
+
+Run this script to begin the challenge!
 """
 
 welcome_message = """

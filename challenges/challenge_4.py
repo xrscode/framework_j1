@@ -1,6 +1,7 @@
 from src.files.utility_functions import query_database
 
 """
+-------------------------------------------------------------------------------
 AdventureWorks Pipeline Run
 -------------------------------------------------------------------------------
 
@@ -18,4 +19,7 @@ When you have done this, run the following test.  In the terminal run:
 pytest -vv ./challenges/tests/test_challenge_4.py
 ---------------------------------------------------------------------------
 
+These series of tests will ensure that the metadata database has been updated
+correctly.  They will also ensure that the correct data has been written to 
+the data lake.
 """

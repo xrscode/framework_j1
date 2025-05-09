@@ -1,7 +1,8 @@
 from src.files.utility_functions import query_database
 
-welcome_message = """
+"""
 
+-------------------------------------------------------------------------------
 Query the Metadata Database
 -------------------------------------------------------------------------------
 
@@ -21,9 +22,13 @@ To run the tests, simply run the following command:
 -------------------------------------------------------------------------------
 pytest -vv ./challenges/tests/test_challenge_3.py
 -------------------------------------------------------------------------------
+
+You do not need to run this script.  The tests will check the functions for 
+you.  You just need to ensure that your SQL queries are correct.
+
 """
 
-print(welcome_message)
+
 
 # Task 1:
 """
