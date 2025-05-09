@@ -102,8 +102,7 @@ WHEN NOT MATCHED THEN
     );
     """
     print('Query: \n')
-    print(query)
-
+    
     # Execute the query:
     result = query_database('metadata', query)
     print(result)

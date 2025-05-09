@@ -6,6 +6,13 @@ from azure.keyvault.secrets import SecretClient
 import csv
 import inquirer
 import json
+from azure.storage.filedatalake import (
+    DataLakeServiceClient,
+    DataLakeDirectoryClient,
+    FileSystemClient
+)
+from datetime import date
+
 
 # Get the project root (Go two levels up!)
 project_root = \
@@ -22,6 +29,52 @@ load_dotenv(dotenv_path=env_path, override=True)
 
 # Get the keyvault name:
 keyvault_name = os.getenv('keyvault_name')
+
+"""
+-------------------------------------------------------------------------------
+Keyvault Functions
+-------------------------------------------------------------------------------
+"""
+def get_secret_from_keyvault(keyvault_name: str, secret_name):
+    """
+    This function gets a secret from keyvault and returns it.
+
+    Args:
+        keyvault_name (str): the name of the keyvault to query.
+        secret_name (str): the secret to search for.
+    
+    Returns:
+        str: If exists, the secret that has been queried.
+    
+    Raises:
+        exception: if the secret does not exist. Or if keyvault name is wrong.
+        TypeError: if keyvault_name or secret_name or not of type string.
+    """
+
+    # Keyvault name should be a string:
+    if not isinstance(keyvault_name, str):
+        raise TypeError(f'Keyvault name should be string.  Got: {type(keyvault_name)}.')
+    
+    # Secret name should be a string:
+    if not isinstance(secret_name, str):
+        raise TypeError(f'Secret name should be string.  Got: {type(secret_name)}.')
+    
+    # Define the keyvault url:
+    kv_url = f"https://{keyvault_name}.vault.azure.net/"
+    
+    # Define credential:
+    credential = DefaultAzureCredential()
+    
+    # Define client:
+    client = SecretClient(vault_url=kv_url, credential=credential)
+    
+    # Try to get secrets:
+    try:
+        secret = client.get_secret(secret_name).value
+    except Exception as e:
+        return f'Error!  Unable to get secret, error message: {e}.'
+    # Return connection string dictionary:
+    return secret
 
 
 def keyvault_connection_strings(keyvault_name: str) -> dict:
@@ -61,7 +114,61 @@ def keyvault_connection_strings(keyvault_name: str) -> dict:
     # Return connection string dictionary:
     return string_dict
 
+"""
+-------------------------------------------------------------------------------
+Date Functions
+-------------------------------------------------------------------------------
+"""
+def get_current_date_path():
+    """
+    Function to return the date in the following formats:
+    2021/09/01
+    2025/10/24
+    """
+    # Get current date:
+    return date.today().strftime("%Y/%m/%d")
+    
 
+
+"""
+-------------------------------------------------------------------------------
+DataLake Functions
+-------------------------------------------------------------------------------
+"""
+# Function to create an authorised DataLakeServiceClient instance:
+def get_service_client_sas(account_url: str, sas_token: str) -> DataLakeServiceClient:
+    """
+    This function will return a DataLakeServiceClient object when called. 
+    """
+
+    # The SAS token string can be passed in as credential param or appended to the account URL
+    service_client = DataLakeServiceClient(account_url, credential=sas_token)
+
+    return service_client
+
+
+def list_directory_contents(directory_name: str, file_system_client: FileSystemClient):
+    """
+    This function will return a list of files found in a directory.
+    """
+    # Get paths:
+    data_lake_paths = file_system_client.get_paths(path=directory_name)
+    
+    # Filter delta logs:
+    paths = [path for path in data_lake_paths if '_delta_log' not in path]
+    return paths
+
+
+
+
+
+
+
+"""
+-------------------------------------------------------------------------------
+Database Functions
+-------------------------------------------------------------------------------
+"""
 def query_database(database_name: str, query: str):
     """
     This function accepts the name of a database and a query.
