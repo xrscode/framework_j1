@@ -146,7 +146,7 @@ def get_service_client_sas(account_url: str, sas_token: str) -> DataLakeServiceC
 
     return service_client
 
-
+# Function to list files and folders at a given location:
 def list_directory_contents(directory_name: str, file_system_client: FileSystemClient):
     """
     This function will return a list of files found in a directory.
