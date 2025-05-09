@@ -1,6 +1,7 @@
 azure-storage-blob
 pyodbc
 azure-identity
+azure-storage-file-datalake
 azure-keyvault-secrets
 python-dotenv
 inquirer

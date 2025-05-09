@@ -5,7 +5,11 @@ import subprocess
 import os
 
 """
-RUN SCRIPT TO START CHALLENGE
+-------------------------------------------------------------------------------
+CONTRACT GENERATION
+-------------------------------------------------------------------------------
+
+Run this script to begin the challenge!
 """
 
 welcome_message = """
@@ -59,9 +63,6 @@ DO NOT CHANGE ANYTHING IN THIS SCRIPT.
 """
 
 
-print(welcome_message)
-
-
 # Define query to remove AdventureWorks from metadata database if exists:
 query = """
 -- Create source system id variable first
@@ -91,8 +92,8 @@ END
 """
 
 # First remove contracts and metadata data:
-# Call query against metada database:
 query_database('metadata', query)
+
 
 # Define path to Adventure Works folder:
 path_to_adventureWorks = 'src\\contracts\\AdventureWorks\\'
@@ -138,8 +139,12 @@ while True:
         filtered_csv_data = [x for x in working_list if x[0] not in
                              ['customer_AW', 'products_AW']]
         
-        message = """Challenge state has been activated.  Contracts deleted:
+        message = f"""Challenge state has been activated.  Contracts deleted:
+        customer_AW at path: {contracts_to_delete['customer_AW']}
+        products_AW at path: {contracts_to_delete['products_AW']}
+        sales_order_AW at path: {contracts_to_delete['sales_order_AW']}
         """
+        print(message)
 
         break
     else:

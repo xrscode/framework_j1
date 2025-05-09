@@ -1,7 +1,8 @@
 from src.files.utility_functions import query_database
 
-welcome_message = """
+"""
 
+-------------------------------------------------------------------------------
 Query the Metadata Database
 -------------------------------------------------------------------------------
 
@@ -21,9 +22,13 @@ To run the tests, simply run the following command:
 -------------------------------------------------------------------------------
 pytest -vv ./challenges/tests/test_challenge_3.py
 -------------------------------------------------------------------------------
+
+You do not need to run this script.  The tests will check the functions for 
+you.  You just need to ensure that your SQL queries are correct.
+
 """
 
-print(welcome_message)
+
 
 # Task 1:
 """
@@ -32,6 +37,9 @@ dbo.sourceSystem table.
 """
 def task_1():
     query = """
+
+
+
 
     """
     # Remove whitespace:
@@ -55,6 +63,9 @@ customer_AW.
 def task_2():
     query = """
     
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -77,6 +88,9 @@ products_AW.
 def task_3():
     query = """
     
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -100,6 +114,9 @@ def task_3():
 def task_4():
     query = """
   
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()
@@ -124,6 +141,9 @@ anything of your choosing!
 def task_5():
     query = """
     
+
+
+
     """
     # Remove whitespace:
     cleaned_query = query.strip()

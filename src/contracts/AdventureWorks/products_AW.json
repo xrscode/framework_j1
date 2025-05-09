@@ -1,0 +1,39 @@
+{
+    "$schema": "../../json_schema/_entitySchema.json",
+    "name": "products_AW",
+    "description": "dim_products",
+    "connectionDetails": {
+        "connectionString": "https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/master/Allfiles/labs/01/adventureworks/products.csv",
+        "sourceQuery": "None"
+    },
+    "ingestion_columns": [
+        {
+            "sortOrder": 1,
+            "columnName": "ProductID",
+            "dataType": "int",
+            "required": true,
+            "primary_key": true
+        },
+        {
+            "sortOrder": 2,
+            "columnName": "ProductName",
+            "dataType": "varchar",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 3,
+            "columnName": "Category",
+            "dataType": "varchar",
+            "required": true,
+            "primary_key": false
+        },
+        {
+            "sortOrder": 4,
+            "columnName": "ListPrice",
+            "dataType": "double",
+            "required": true,
+            "primary_key": false
+        }
+    ]
+}
