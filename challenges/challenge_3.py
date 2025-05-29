@@ -1,9 +1,8 @@
 from src.files.utility_functions import query_database
 
 """
-
 -------------------------------------------------------------------------------
-Query the Metadata Database
+QUERY METADATA DATABASE
 -------------------------------------------------------------------------------
 
 By now, you should have successfully generated contracts and uploaded them

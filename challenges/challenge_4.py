@@ -2,7 +2,7 @@ from src.files.utility_functions import query_database
 
 """
 -------------------------------------------------------------------------------
-AdventureWorks Pipeline Run
+PIPELINE RUN FOR ADVENTUREWORKS
 -------------------------------------------------------------------------------
 
 Your next task is a simple one.  Simply go to the Azure Portal and run

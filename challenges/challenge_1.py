@@ -29,8 +29,10 @@ To Reset;
 If you get stuck and need to return everything to a working order, run this
 script again and select 'Reset'.
 
-If the user selects to reset to 'working' - this file will reset the
+If the user selects 'Reset' - this file will reset the
 csv back to a working order.  Only use this option if you get stuck.
+
+Here is some useful information:
 
 The path to the customer data is:
 https://raw.githubusercontent.com/MicrosoftLearning/dp-203-azure-data-engineer/refs/heads/master/Allfiles/labs/03/data/2020.csv
@@ -63,37 +65,6 @@ DO NOT CHANGE ANYTHING IN THIS SCRIPT.
 """
 
 
-# Define query to remove AdventureWorks from metadata database if exists:
-query = """
--- Create source system id variable first
-DECLARE @ssid INT;
-
-IF EXISTS (SELECT 1 FROM dbo.sourceSystem
-    WHERE sourceSystemName = 'AdventureWorks')
-BEGIN
-    PRINT 'AdventureWorks exists.';
-
-    -- Save source system id variable:
-    SELECT @ssid = sourceSystemID
-    FROM dbo.sourceSystem
-    WHERE sourceSystemName = 'AdventureWorks';
-
-    -- Print source system id:
-    PRINT CONCAT('AdventureWorks sourceSystemID is: ', @ssid);
-
-    -- Now delete from entity table
-    DELETE FROM dbo.sourceEntity WHERE sourceSystemID = @ssid;
-    DELETE FROM dbo.sourceSystem WHERE sourceSystemID = @ssid;
-END
-ELSE
-BEGIN
-    PRINT 'AdventureWorks not found.';
-END
-"""
-
-# First remove contracts and metadata data:
-query_database('metadata', query)
-
 
 # Define path to Adventure Works folder:
 path_to_adventureWorks = 'src\\contracts\\AdventureWorks\\'
@@ -122,7 +93,37 @@ while True:
         # Return Nothing if the user chooses to exit:
         break
     elif choice == 'Challenge_State_1':
-        # Define ENTITY contracts to delete if they exist:
+        # Define query to remove AdventureWorks from metadata database if exists:
+        query = """
+        -- Create source system id variable first
+        DECLARE @ssid INT;
+
+        IF EXISTS (SELECT 1 FROM dbo.sourceSystem
+            WHERE sourceSystemName = 'AdventureWorks')
+        BEGIN
+            PRINT 'AdventureWorks exists.';
+
+            -- Save source system id variable:
+            SELECT @ssid = sourceSystemID
+            FROM dbo.sourceSystem
+            WHERE sourceSystemName = 'AdventureWorks';
+
+            -- Print source system id:
+            PRINT CONCAT('AdventureWorks sourceSystemID is: ', @ssid);
+
+            -- Now delete from entity table
+            DELETE FROM dbo.sourceEntity WHERE sourceSystemID = @ssid;
+            DELETE FROM dbo.sourceSystem WHERE sourceSystemID = @ssid;
+        END
+        ELSE
+        BEGIN
+            PRINT 'AdventureWorks not found.';
+        END
+        """
+        # First remove contracts and metadata data:
+        query_database('metadata', query)
+
+        # Next define ENTITY contracts to delete if they exist:
         contracts_to_delete = {
             'customer_AW': f'{path_to_adventureWorks}customer_AW.json',
             'products_AW': f'{path_to_adventureWorks}products_AW.json',

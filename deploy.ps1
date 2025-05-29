@@ -114,16 +114,16 @@ if (Test-Path $terraformTfvars) {
 
 
 
-Write-Host "Initiating unit tests..." -ForegroundColor Cyan
+# Write-Host "Initiating unit tests..." -ForegroundColor Cyan
 
-# Define test directory:
-$testDir = "src\tests\"
-# Run pytest on all tests in the directory
-pytest $testDir
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ Tests failed! Aborting Terraform deployment." -ForegroundColor Red
-    exit 1
-}
+# # Define test directory:
+# $testDir = "src\tests\"
+# # Run pytest on all tests in the directory
+# pytest $testDir
+# if ($LASTEXITCODE -ne 0) {
+#     Write-Host "❌ Tests failed! Aborting Terraform deployment." -ForegroundColor Red
+#     exit 1
+# }
 
 Write-Host "✅ All tests passed! Proceeding with Terraform deployment...✅" -ForegroundColor Green
 

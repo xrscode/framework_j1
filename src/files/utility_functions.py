@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 import os
+import requests
 import pyodbc
+from azure.core.exceptions import ResourceNotFoundError
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 import csv
@@ -146,7 +148,7 @@ def get_service_client_sas(account_url: str, sas_token: str) -> DataLakeServiceC
 
     return service_client
 
-
+# Function to list files and folders at a given location:
 def list_directory_contents(directory_name: str, file_system_client: FileSystemClient):
     """
     This function will return a list of files found in a directory.
@@ -158,8 +160,43 @@ def list_directory_contents(directory_name: str, file_system_client: FileSystemC
     paths = [path for path in data_lake_paths if '_delta_log' not in path]
     return paths
 
+def delete_directory(directory_client: DataLakeDirectoryClient):
+    """
+    This function will attempt to delete all files in a given directory.
 
+    Args:
+        directory_client (object): call the 'create_data_lake_directory_client'
+        to create an Azure data lake directory client. 
+    Returns:
+        message: if unnsuccessful.
+    Raises:
+        ResourceNotFoundError: if the file could not be found.
 
+    """
+    
+    try:
+        # Delete
+        directory_client.delete_directory()
+    except ResourceNotFoundError as e:
+        # Print path not found if file does not exist:
+        print(f"""Path not found at: {directory_client.path_name}.""")
+    except Exception as e:
+        # Any other error print message:
+        print(f"An unexpected error occurred: {str(e)}")
+    
+def create_data_lake_directory_client(account_url: str, directory_name: str, sas_token: str) -> DataLakeDirectoryClient:
+    """
+    Creates a DataLakeDirectoryClient using a SAS token.
+    A data lake client is a bit like an object that links to a particular
+    directory within the data lake.
+    """
+    directory_client = DataLakeDirectoryClient(
+        account_url=account_url,
+        file_system_name='vivaldi',
+        directory_name=directory_name,
+        credential=sas_token
+    )
+    return directory_client
 
 
 
@@ -246,6 +283,41 @@ def query_database(database_name: str, query: str):
             cursor.close()
         if conn:
             conn.close()
+
+"""
+-------------------------------------------------------------------------------
+DATABRICKS FUNCTIONS
+-------------------------------------------------------------------------------
+"""
+# def upload_notebook_to_databricks(path: str):
+#     # # Define configuration:
+#     # DATABRICKS_INSTANCE = os.getenv('databricks_workspace_url')
+#     # HEADERS = {
+#     #     "Authorization": f"Bearer {get_secret_from_keyvault(keyvault_name, 'databricks-junior-token')}"
+#     # }
+
+#     # # Define the Databricks REST API endpoint to import a notebook
+#     # url = f"{DATABRICKS_INSTANCE}/api/2.0/workspace/import"
+
+    
+#     # # Prepare the payload
+#     # payload = {
+#     #     "path": path,  # Destination path in Databricks
+#     #     "format": "SOURCE",  # Format of the notebook (SOURCE, DBC, JUPYTER, HTML)
+#     #     "language": "PYTHON",  # Language of the notebook
+#     #     "overwrite": True,  # Overwrite the existing notebook if it exists
+#     #     "content": json.loads(path)
+#     # }
+
+#     # # Make the POST request to upload the notebook
+#     # response = requests.post(url, headers=HEADERS, json=payload)
+
+
+
+# upload_notebook_to_databricks('challenges\corrupted_data\BRONZE_AdventureWorks_TEST.ipynb')
+
+    
+
 
 
 def list_folders(path: str) -> list:
