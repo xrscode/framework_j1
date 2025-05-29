@@ -289,32 +289,32 @@ def query_database(database_name: str, query: str):
 DATABRICKS FUNCTIONS
 -------------------------------------------------------------------------------
 """
-def upload_notebook_to_databricks(path: str):
-    # # Define configuration:
-    # DATABRICKS_INSTANCE = os.getenv('databricks_workspace_url')
-    # HEADERS = {
-    #     "Authorization": f"Bearer {get_secret_from_keyvault(keyvault_name, 'databricks-junior-token')}"
-    # }
+# def upload_notebook_to_databricks(path: str):
+#     # # Define configuration:
+#     # DATABRICKS_INSTANCE = os.getenv('databricks_workspace_url')
+#     # HEADERS = {
+#     #     "Authorization": f"Bearer {get_secret_from_keyvault(keyvault_name, 'databricks-junior-token')}"
+#     # }
 
-    # # Define the Databricks REST API endpoint to import a notebook
-    # url = f"{DATABRICKS_INSTANCE}/api/2.0/workspace/import"
+#     # # Define the Databricks REST API endpoint to import a notebook
+#     # url = f"{DATABRICKS_INSTANCE}/api/2.0/workspace/import"
 
     
-    # # Prepare the payload
-    # payload = {
-    #     "path": path,  # Destination path in Databricks
-    #     "format": "SOURCE",  # Format of the notebook (SOURCE, DBC, JUPYTER, HTML)
-    #     "language": "PYTHON",  # Language of the notebook
-    #     "overwrite": True,  # Overwrite the existing notebook if it exists
-    #     "content": json.loads(path)
-    # }
+#     # # Prepare the payload
+#     # payload = {
+#     #     "path": path,  # Destination path in Databricks
+#     #     "format": "SOURCE",  # Format of the notebook (SOURCE, DBC, JUPYTER, HTML)
+#     #     "language": "PYTHON",  # Language of the notebook
+#     #     "overwrite": True,  # Overwrite the existing notebook if it exists
+#     #     "content": json.loads(path)
+#     # }
 
-    # # Make the POST request to upload the notebook
-    # response = requests.post(url, headers=HEADERS, json=payload)
+#     # # Make the POST request to upload the notebook
+#     # response = requests.post(url, headers=HEADERS, json=payload)
 
 
 
-upload_notebook_to_databricks('challenges\corrupted_data\BRONZE_AdventureWorks_TEST.ipynb')
+# upload_notebook_to_databricks('challenges\corrupted_data\BRONZE_AdventureWorks_TEST.ipynb')
 
     
 

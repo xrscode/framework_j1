@@ -28,7 +28,7 @@ resource "databricks_secret_scope" "dbs_secret_scope" {
 # Create a cluster:
 resource "databricks_cluster" "low_cost_cluster" {
   cluster_name            = "fj1-db-cluster"
-  spark_version           = "13.3.x-scala2.12"  # Latest LTS version, update if needed
+  spark_version           = "16.4.x-scala2.13"  # Latest LTS version, update if needed
   node_type_id            = "Standard_DS3_v2"   # Cheap VM type
   autotermination_minutes = 15                  # Auto-shutdown after 15 mins
   num_workers             = 0                   # Single-node mode (driver only)
