@@ -41,7 +41,7 @@ resource "databricks_cluster" "low_cost_cluster" {
   }
 
   custom_tags = {
-    "Owner"   = "YourName"
+    "Owner"   = "None"
     "Purpose" = "Cost-Optimized Databricks Cluster"
   }
 }
