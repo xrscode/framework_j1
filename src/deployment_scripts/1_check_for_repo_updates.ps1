@@ -32,10 +32,12 @@ if ($LASTEXITCODE -eq 0) {
         Write-Host "Push to origin successful." -ForegroundColor Green
     } else {
         Write-Host "Unable to push main to origin. Please check your network connection or authentication." -ForegroundColor Red
+        exit 1
     }
 
 } else {
     Write-Host "Merge failed. Please resolve conflicts manually." -ForegroundColor Red
+    exit 1
 }
 
 # 5. Remove upstream:

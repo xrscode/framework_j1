@@ -21,4 +21,5 @@ if (Test-Path $pythonScript) {
     }
 } else {
     Write-Host "Python script not found at '$pythonScript'. Skipping execution." -ForegroundColor Red
+    exit 1
 }

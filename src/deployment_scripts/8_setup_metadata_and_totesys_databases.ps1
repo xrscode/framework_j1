@@ -18,6 +18,7 @@ if (Test-Path $metadataScript) {
     }
 } else {
     Write-Host "Python script not found at '$metadataScript'. Skipping execution." -ForegroundColor Red
+    exit 1
 }
 
 # Setup the totesys database:
@@ -34,4 +35,5 @@ if (Test-Path $totesysScript) {
     }
 } else {
     Write-Host "Python script not found at '$totesysScript'. Skipping execution." -ForegroundColor Red
+    exit 1
 }
