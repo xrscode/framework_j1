@@ -3,9 +3,24 @@ import subprocess
 import inquirer
 
 """
-For terraform to deploy correctly, terraform.tfvars will need to be created.
-It needs to be populated with GIT credentials.
-This python file will create terraform.tfvars with correct credentials.
+For Terraform to deploy infrastructure correctly, it needs the correct
+GIT credentials:
+
+git_url (path to your repository).
+git_pat (a git personal access token.)
+
+This script will first to check if 'terraform.tfvars' exists.  If it does not
+it creates it. 
+
+Next the script aims to update (if present) existing credentials, or write
+new credentials to terraform.tfvars. 
+
+Then, a function to read from terraform.tfvars is used to extract the newly 
+written data.  This helps to verify that terraform.tfvars had been written to
+successfully. 
+
+Finally, with these credentials, the final function will check if they are
+valid. 
 """
 
 # Define path to terraform .tfvars:
@@ -80,7 +95,6 @@ def validate_git_credentials(url: str, pat: str) -> bool:
     return True, "Valid URL and PAT token."
 
 
-# Check terraform.tfvars exists:
 def create_terraform_tfvars(path: str) -> bool:
     """
     This function checks if terraform tfvars exists.
@@ -186,7 +200,7 @@ def update_terraform_tfvars(path: str):
 def read_terraform_tfvars(path):
     """
     This function reads form terraform.tfvars.
-    It aims to extract the data.
+    It aims to extract the data git_url and git_pat.
 
     Args:
         String path to file.
