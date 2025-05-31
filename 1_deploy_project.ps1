@@ -1,8 +1,8 @@
 # 1. Check for updates on upstream repository.
-# & "$PSScriptRoot\src\scripts\1_check_for_repo_updates.ps1"
+# & "$PSScriptRoot\src\deployment_scripts\1_check_for_repo_updates.ps1"
 
 # 2. Check Python is installed.
-& "$PSScriptRoot\src\scripts\2_check_python_installed.ps1"
+& "$PSScriptRoot\src\deployment_scripts\2_check_python_installed.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Python not installed.  Aborting deployment..." -ForegroundColor Red
     exit 1
@@ -37,17 +37,17 @@ if (Test-Path $requirementsFile) {
 }
 
 # 5. Check Terraform is installed & env exists:
-& "$PSScriptRoot\src\scripts\3_check_terraform_installed.ps1"
+& "$PSScriptRoot\src\deployment_scripts\3_check_terraform_installed.ps1"
 
 # 6. Check ODBC drivers:
-& "$PSScriptRoot\src\scripts\4_check_odbc_drivers_installed.ps1"
+& "$PSScriptRoot\src\deployment_scripts\4_check_odbc_drivers_installed.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ODBC not installed.  Aborting deployment..." -ForegroundColor Red
     exit 1
 }
 
 # 7. Run Unit tests:
-& "$PSScriptRoot\src\scripts\5_run_unit_tests.ps1"
+& "$PSScriptRoot\src\deployment_scripts\5_run_unit_tests.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Unit tests failed.  Aborting deployment..." -ForegroundColor Red
     exit 1
@@ -63,28 +63,28 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # 9. Run Terraform deployment:
-& "$PSScriptRoot\src\scripts\6_deploy_terraform.ps1"
+& "$PSScriptRoot\src\deployment_scripts\6_deploy_terraform.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Terraform deployment script failed. Aborting overall deployment." -ForegroundColor Red
     exit 1
 }
 
 # 10. Check ip address is valid:
-& "$PSScriptRoot\src\scripts\7_check_ip_address.ps1"
+& "$PSScriptRoot\src\deployment_scripts\7_check_ip_address.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Azure does not allow current ip address access... Aborting..." -ForegroundColor Red
     exit 1
 }
 
 # 11. Set up the metadata and totesys database:
-& "$PSScriptRoot\src\scripts\8_setup_metadata_and_totesys_databases.ps1"
+& "$PSScriptRoot\src\deployment_scripts\8_setup_metadata_and_totesys_databases.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Unable to setup metadata/totesys database." -ForegroundColor Red
     exit 1
 }
 
 # 12. Update the ADF pipeline so linked services work:
-& "$PSScriptRoot\src\scripts\9_update_adf_pipelines.ps1"
+& "$PSScriptRoot\src\deployment_scripts\9_update_adf_pipelines.ps1"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Unable to setup metadata/totesys database." -ForegroundColor Red
     exit 1
