@@ -1,63 +1,36 @@
-# First check for updates on upstream repository. 
+# 1. Check for updates on upstream repository.
 & "$PSScriptRoot\src\scripts\1_check_for_repo_updates.ps1"
 
+# 2. Check Python is installed.
+& "$PSScriptRoot\src\scripts\2_check_python_installed.ps1"
 
-
-
-# # Check if Python is installed.  If it is not, exit.
-# $python = Get-Command python -ErrorAction SilentlyContinue
-# if (-not $python) {
-#     Write-Host "Python is not installed. Please install Python and try again." -ForegroundColor Red
-#     exit 1
-# } else {
-#     Write-Host "Python is installed. Continuing with installation." -ForegroundColor Yellow
-# }
-
-# # Define venv directory:
-# $venvDir = ".\venv"
-
-# # If venv does not exist create:
-# if (-not (Test-Path $venvDir)) {
-#     Write-Host "Creating virtual environment..." -ForegroundColor Cyan
-#     python -m venv $venvDir
-# }
-
-# # Activate virtual environment:
-# $venvActivate = "$venvDir\Scripts\Activate.ps1"
-# if (Test-Path $venvActivate) {
-#     Write-Host "Activating virtual environment..." -ForegroundColor Green
-#     & $venvActivate
-# } else {
-#     Write-Host "Failed to activate virtual environment. Please check your Python installation." -ForegroundColor Red
-# }
-
-# # Set PYTHONPATH to the current directory
-# $env:PYTHONPATH = Get-Location
-
+# 3. Set the Pythonpath to the current directory.
+# Set PYTHONPATH to the current directory
+$env:PYTHONPATH = Get-Location
 # # Optionally, print it to verify it's set correctly
-# Write-Host "PYTHONPATH is set to: $env:PYTHONPATH"
+Write-Host "PYTHONPATH is set to: $env:PYTHONPATH"
 
 
-# # Install requirements if requirements.txt exists
-# $requirementsFile = ".\requirements.txt"
-# if (Test-Path $requirementsFile) {
-#     Write-Host "Installing dependencies from requirements.txt..." -ForegroundColor Yellow
-#     python -m pip install --upgrade pip
+# Install Requirements:
+$requirementsFile = ".\requirements.txt"
+if (Test-Path $requirementsFile) {
+    Write-Host "Installing dependencies from requirements.txt..." -ForegroundColor Yellow
+    python -m pip install --upgrade pip
     
-#     if ($LASTEXITCODE -ne 0) {
-#         Write-Host "Failed to upgrade pip. Exiting." -ForegroundColor Red
-#         exit 1
-#     }
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Failed to upgrade pip. Exiting." -ForegroundColor Red
+        exit 1
+    }
 
-#     python -m pip install -r $requirementsFile
-#     if ($LASTEXITCODE -ne 0) {
-#         Write-Host "Dependency installation failed. Exiting." -ForegroundColor Red
-#         exit 1
-#     }
-#     Write-Host "All dependencies installed successfully!" -ForegroundColor Green
-# } else {
-#     Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
-# }
+    python -m pip install -r $requirementsFile
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Dependency installation failed. Exiting." -ForegroundColor Red
+        exit 1
+    }
+    Write-Host "All dependencies installed successfully!" -ForegroundColor Green
+} else {
+    Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
+}
 
 
 
