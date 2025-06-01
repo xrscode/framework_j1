@@ -36,8 +36,12 @@ if (Test-Path $requirementsFile) {
     Write-Host "No requirements.txt file found. Skipping dependency installation." -ForegroundColor Red
 }
 
-# 5. Check Terraform is installed & env exists:
+# 5. Check Terraform is installed:
 & "$PSScriptRoot\src\deployment_scripts\3_check_terraform_installed.ps1"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Deployment aborted." -ForegroundColor Red
+    exit 1
+}
 
 # 6. Check ODBC drivers:
 & "$PSScriptRoot\src\deployment_scripts\4_check_odbc_drivers_installed.ps1"

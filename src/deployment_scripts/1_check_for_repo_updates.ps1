@@ -5,7 +5,7 @@
 $ErrorActionPreference = 'Stop'
 
 # Prompt the user
-$updatePrompt = Read-Host "🔄 Do you want to check for and apply updates? (y/n)"
+$updatePrompt = Read-Host "🔄 Check if upstream repo: https://github.com/xrscode/framework_j has updates? (y/n)"
 if ($updatePrompt -notin @("y", "Y", "yes", "YES")) {
     Write-Host "❌ Skipping update process." -ForegroundColor Yellow
     exit 0

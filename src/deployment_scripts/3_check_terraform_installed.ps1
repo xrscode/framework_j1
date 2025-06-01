@@ -16,7 +16,7 @@ try {
             $userInput = Read-Host "❓ Do you want to continue with the current version? (y/n)"
             if ($userInput -notin @("y", "Y", "yes", "YES")) {
                 Write-Host "🚫 Aborting script at user request due to outdated Terraform version." -ForegroundColor Red
-                exit 2  # Exit with a custom code
+                exit 1  # Exit with a custom code
             }
 
             Write-Host "✅ Continuing with current Terraform version..." -ForegroundColor Cyan
