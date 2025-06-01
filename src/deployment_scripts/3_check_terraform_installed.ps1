@@ -14,22 +14,6 @@ if (-not $terraform) {
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $rootDir = Split-Path -Parent (Split-Path -Parent $scriptDir)
 
-# Define the path to the .env file in the root directory
-$envFile = Join-Path $rootDir ".env"
-
-Write-Host "Checking for .env file at: $envFile"
-
-# Check if the .env file exists
-if (Test-Path $envFile) {
-    # If it exists, inform the user and delete the file to start fresh
-    Write-Host ".env file found. Deleting..."
-    Remove-Item $envFile -Force
-    Write-Host ".env file deleted."
-} else {
-    # If the file does not exist, inform the user that deletion is unnecessary
-    Write-Host "No .env file found.  Deletion unnecessary."
-}
-
 # Define the full path to the Python script responsible for checking terraform.tfvars,
 # assuming $rootDir has been defined elsewhere to point to the project root directory
 $terraformTfvars = Join-Path $rootDir "src\files\5_check_terraform_tfvars.py"
