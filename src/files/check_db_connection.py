@@ -36,7 +36,7 @@ def check_connection():
     try:
         # Simple query
         query_database('metadata', 'Select 1')
-        print('Ip address OK.')
+        print('Your current ip address has access to Azure services.  Firewall update not necessary.')
     except pyodbc.Error as e:
         # If there is an error extract the ip address:
         ip_regex = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
