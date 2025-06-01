@@ -5,7 +5,7 @@
         "annotations": [],
         "type": "AzureDatabricks",
         "typeProperties": {
-            "domain": "https://adb-6227747761797.17.azuredatabricks.net",
+            "domain": "https://adb-343303689201905.5.azuredatabricks.net",
             "accessToken": {
                 "type": "AzureKeyVaultSecret",
                 "store": {
@@ -14,7 +14,7 @@
                 },
                 "secretName": "databricks-junior-token"
             },
-            "existingClusterId": "0601-160321-qz70r27a"
+            "existingClusterId": "0601-165705-3ag1fg49"
         }
     }
 }
