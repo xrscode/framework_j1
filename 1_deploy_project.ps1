@@ -1,5 +1,5 @@
 # 1. Check for updates on upstream repository.
-# & "$PSScriptRoot\src\deployment_scripts\1_check_for_repo_updates.ps1"
+& "$PSScriptRoot\src\deployment_scripts\1_check_for_repo_updates.ps1"
 
 # 2. Check Python is installed.
 & "$PSScriptRoot\src\deployment_scripts\2_check_python_installed.ps1"

@@ -12,7 +12,7 @@ try {
 
 Write-Host "✅ Python is installed at: $($pythonCmd.Source)" -ForegroundColor Yellow
 
-# Get the directory where the current script is located (e.g., '.\src\scripts')
+# Get the directory where the current script is located (e.g., '.\src\deployment_scripts')
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
 # Move two directory levels up from the script directory (to project root)

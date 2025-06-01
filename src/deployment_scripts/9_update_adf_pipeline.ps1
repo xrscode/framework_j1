@@ -1,7 +1,19 @@
-# Get current script directory (e.g., ...\src\scripts)
+"
+During deployment random names for resource group resource will be generated.
+In order for the ADF pipeline to work without having to manually update
+linked services.  The purpose of this script is to run 6_update_linked_serivce.
+This script will make the modifications to the ADF pipeline and update the 
+relevant information to the linked services. 
+
+It will then try to push the changes onto the main branch so that when ADF
+is opened and the main branch is selected from the GIT repo, the ETL pipeline
+should work.
+"
+
+# Get current script directory (e.g., .\src\deployment_scripts)
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-# Go up two levels to root directory (scripts -> src -> root)
+# Go up two levels to root directory (deployment_scripts -> src -> root)
 $rootDir = Split-Path -Parent (Split-Path -Parent $scriptDir)
 
 # Define the full path to the Python script relative to the root directory
