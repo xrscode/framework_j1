@@ -1,52 +1,38 @@
-# Get current script directory (e.g., ...\src\scripts)
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+try {
+    # Run terraform version and capture all output
+    $terraformOutput = terraform version 2>&1
 
-# Go two levels up to root
-$rootDir = Split-Path -Parent (Split-Path -Parent $scriptDir)
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Terraform version output:" -ForegroundColor Green
+        Write-Host $terraformOutput
 
-# Define Terraform directory relative to root
-$terraformDir = Join-Path $rootDir "terraform"
+        # Check if output contains 'update' keyword (case-insensitive)
+        if ($terraformOutput -match "(?i)update") {
+            Write-Host ""
+            Write-Host "⚠️ Terraform update detected!" -ForegroundColor Yellow
+            Write-Host "ℹ️  Visit https://www.terraform.io/downloads.html to get the latest version." -ForegroundColor Yellow
+            Write-Host "ℹ️  Or run: 'choco upgrade terraform' (in an elevated PowerShell window)." -ForegroundColor Yellow
 
-# Check if the Terraform directory exists
-if (Test-Path $terraformDir) {
-    Write-Host "Navigating to Terraform directory..." -ForegroundColor Cyan
-    
-    # Change location to the Terraform directory
-    Set-Location $terraformDir
+            $userInput = Read-Host "❓ Do you want to continue with the current version? (y/n)"
+            if ($userInput -notin @("y", "Y", "yes", "YES")) {
+                Write-Host "🚫 Aborting script at user request due to outdated Terraform version." -ForegroundColor Red
+                exit 2  # Exit with a custom code
+            }
 
-    # Initialize Terraform and check for errors
-    Write-Host "Initializing Terraform..." -ForegroundColor Yellow
-    terraform init
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Terraform initialization failed! Aborting deployment." -ForegroundColor Red
-        Set-Location $rootDir
+            Write-Host "✅ Continuing with current Terraform version..." -ForegroundColor Cyan
+        }
+        else {
+            Write-Host "✅ Terraform is up to date." -ForegroundColor Green
+        }
+
+        exit 0
+    }
+    else {
+        Write-Host "Terraform command found but failed to execute properly." -ForegroundColor Red
         exit 1
     }
-
-    # Plan Terraform deployment and check for errors
-    Write-Host "Planning Terraform deployment..." -ForegroundColor Yellow
-    terraform plan
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Terraform plan failed! Aborting deployment." -ForegroundColor Red
-        Set-Location $rootDir
-        exit 1
-    }
-
-    # Apply Terraform deployment and check for errors
-    Write-Host "Applying Terraform deployment..." -ForegroundColor Yellow
-    terraform apply -auto-approve
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Terraform apply failed! Aborting deployment." -ForegroundColor Red
-        Set-Location $rootDir
-        exit 1
-    }
-
-    Write-Host "🚀 Deployment complete! 🚀" -ForegroundColor Green
-
-    # Return to root directory after deployment
-    Write-Host "Navigating out of the 'terraform' directory..." -ForegroundColor Cyan
-    Set-Location $rootDir
-} else {
-    Write-Host "Terraform directory not found at '$terraformDir'. Please ensure the 'terraform' folder exists in the root." -ForegroundColor Red
+}
+catch {
+    Write-Host "Terraform is not installed or not found in the system PATH." -ForegroundColor Red
     exit 1
 }
