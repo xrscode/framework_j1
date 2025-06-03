@@ -1,3 +1,6 @@
+# 0. Check Powershell Version:
+& "$PSScriptRoot\src\deployment_scripts\0_update_powershell.ps1"
+
 # 1. Check for updates on upstream repository.
 & "$PSScriptRoot\src\deployment_scripts\1_check_for_repo_updates.ps1"
 

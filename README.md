@@ -1,3 +1,6 @@
+!!!MAKE SURE TO BE ON LATEST POWERSHELL VERSION!!!
+
+
 # 1. Fork: framework_j1
 In order to deploy resources, first you will need to fork the following git repository:
 
