@@ -184,6 +184,12 @@ def update_terraform_tfvars(path: str):
                     else:
                         # Grab existing git_user:
                         variables[variable] = value
+    """
+    There is a possibility that users could enter in their username/email
+    with trailing whitespace.  Look at possibly removing this. 
+    1.  Replace leading and trailing whitespace.
+    2. Look at possibly replacing ' ', with ''.
+    """
 
     # Write variables to terraform.tfvars:
     try:
