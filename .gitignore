@@ -28,6 +28,9 @@ src/files/__pycache__/*
 src/files/__pycache__/
 src/files/__pycache__/*.pyc
 
+# Ignore challenges __pycache__
+challenges\__pycache__\*
+
 # Recommended: Ignore all __pycache__ folders and pyc files everywhere
 **/__pycache__/
 **/*.pyc
