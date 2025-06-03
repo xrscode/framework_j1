@@ -1,11 +1,12 @@
 # This script checks for updates from an upstream repository and merges them into the local main branch only if changes exist.
-# Original repo: https://github.com/xrscode/framework_j
+# It auto-resolves known conflict files using the upstream version (theirs).
+# Original repo: https://github.com/xrscode/framework_j1
 
 # Stop on any error
 $ErrorActionPreference = 'Stop'
 
 # Prompt the user
-$updatePrompt = Read-Host "🔄 Check if upstream repo: https://github.com/xrscode/framework_j has updates? (y/n)"
+$updatePrompt = Read-Host "🔄 Check if upstream repo: https://github.com/xrscode/framework_j1 has updates? (y/n)"
 if ($updatePrompt -notin @("y", "Y", "yes", "YES")) {
     Write-Host "❌ Skipping update process." -ForegroundColor Yellow
     exit 0
@@ -43,9 +44,37 @@ try {
         # 5. Merge changes
         Write-Host "Merging changes from upstream/main..." -ForegroundColor Green
         git merge upstream/main
-        if ($LASTEXITCODE -ne 0) { throw "Merge failed. Please resolve conflicts manually." }
+        $mergeExitCode = $LASTEXITCODE
 
-        Write-Host "✅ Merge successful." -ForegroundColor Green
+        if ($mergeExitCode -ne 0) {
+            Write-Host "⚠️ Merge resulted in conflicts. Attempting to auto-resolve specific files using 'theirs'..." -ForegroundColor Yellow
+
+            # List of known conflict-prone files
+            $conflictFiles = @(
+                "linkedService/Azure Key Vault.json",
+                "linkedService/Framework Databricks.json",
+                "linkedService/Metadata Database.json"
+            )
+
+            foreach ($file in $conflictFiles) {
+                if (Test-Path $file) {
+                    $content = Get-Content $file -Raw
+                    if ($content -match '<<<<<<< HEAD') {
+                        Write-Host "🔁 Conflict in $file. Using upstream version ('theirs')." -ForegroundColor Cyan
+                        git checkout --theirs "$file"
+                        git add "$file"
+                    }
+                }
+            }
+
+            # Try to complete the merge
+            git commit -m "Auto-resolved known conflicts using upstream version"
+            if ($LASTEXITCODE -ne 0) { throw "❌ Could not complete merge after auto-resolving." }
+
+            Write-Host "✅ Merge completed with automatic conflict resolution." -ForegroundColor Green
+        } else {
+            Write-Host "✅ Merge successful with no conflicts." -ForegroundColor Green
+        }
 
         # 6. Push to origin
         Write-Host "Pushing changes to origin/main..." -ForegroundColor Green
