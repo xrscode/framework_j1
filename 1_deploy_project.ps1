@@ -62,6 +62,9 @@ if ($LASTEXITCODE -ne 0) {
 
 # 8. Login to Azure using Data & Ai tenant:
 Write-Host "Logging into Azure..." -ForegroundColor Cyan
+Write-Host "! Please sign in with your TT address !" -ForegroundColor Red
+Write-Host "! Please sign in with your TT address !" -ForegroundColor White
+Write-Host "! Please sign in with your TT address !" -ForegroundColor Red
 az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
 
 if ($LASTEXITCODE -ne 0) {
