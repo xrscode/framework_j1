@@ -1,8 +1,6 @@
 # This script checks for updates from an upstream repository and merges them into the local main branch only if changes exist.
 # It auto-resolves known conflict files using the upstream version (theirs).
-# Original repo: https://github.com/xrscode/framework_j1
 
-# Stop on any error
 $ErrorActionPreference = 'Stop'
 
 # Prompt the user
@@ -32,7 +30,20 @@ try {
     git checkout main
     if ($LASTEXITCODE -ne 0) { throw "Failed to checkout 'main' branch." }
 
-    # 4. Check if upstream/main has changes
+    # 4. Check for local changes
+    Write-Host "🔍 Checking for local changes..." -ForegroundColor Yellow
+    $hasLocalChanges = git status --porcelain | Where-Object { $_ -match '^[ MADRCU]' }
+
+    if ($hasLocalChanges) {
+        Write-Host "📦 Local changes detected. Stashing them before merge..." -ForegroundColor Yellow
+        git stash push -m "Auto-stash before upstream merge"
+        if ($LASTEXITCODE -ne 0) { throw "❌ Failed to stash local changes." }
+        $stashed = $true
+    } else {
+        $stashed = $false
+    }
+
+    # 5. Check if upstream/main has updates
     Write-Host "Checking for updates between 'main' and 'upstream/main'..." -ForegroundColor Green
     $mergeBase = git merge-base main upstream/main
     git diff --quiet $mergeBase upstream/main
@@ -41,7 +52,7 @@ try {
     if (-not $hasChanges) {
         Write-Host "✅ No updates found. Your branch is up to date with upstream." -ForegroundColor Cyan
     } else {
-        # 5. Merge changes
+        # 6. Merge changes
         Write-Host "Merging changes from upstream/main..." -ForegroundColor Green
         git merge upstream/main
         $mergeExitCode = $LASTEXITCODE
@@ -67,7 +78,6 @@ try {
                 }
             }
 
-            # Try to complete the merge
             git commit -m "Auto-resolved known conflicts using upstream version"
             if ($LASTEXITCODE -ne 0) { throw "❌ Could not complete merge after auto-resolving." }
 
@@ -76,7 +86,18 @@ try {
             Write-Host "✅ Merge successful with no conflicts." -ForegroundColor Green
         }
 
-        # 6. Push to origin
+        # 7. Restore stashed changes if any
+        if ($stashed) {
+            Write-Host "🔄 Restoring previously stashed changes..." -ForegroundColor Yellow
+            git stash pop
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "⚠️ Conflicts occurred when applying stashed changes. Please resolve manually." -ForegroundColor Red
+            } else {
+                Write-Host "✅ Stashed changes successfully reapplied." -ForegroundColor Green
+            }
+        }
+
+        # 8. Push to origin
         Write-Host "Pushing changes to origin/main..." -ForegroundColor Green
         git push origin main
         if ($LASTEXITCODE -ne 0) { throw "Failed to push to origin. Check authentication or network connection." }
@@ -84,7 +105,7 @@ try {
         Write-Host "✅ Push to origin successful." -ForegroundColor Green
     }
 
-    # 7. Remove upstream remote
+    # 9. Remove upstream remote
     Write-Host "Cleaning up: Removing 'upstream' remote..." -ForegroundColor Yellow
     git remote remove upstream
     if ($LASTEXITCODE -ne 0) { throw "Failed to remove 'upstream' remote." }
