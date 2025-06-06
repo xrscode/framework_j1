@@ -4,7 +4,7 @@ from utility_functions import get_secret_from_keyvault
 from check_db_connection import check_connection
 
 """
-The purpose of this file is to run post deployment scripts to make sure
+The purpose of this file is to run post deployment logic to make sure
 that the infrastructure has been setup correctly. 
 """
 # Get the project root (Go two levels up!)
@@ -16,7 +16,7 @@ project_root = \
 env_path = os.path.join(project_root, '.env')
 
 
-# Check that the env has been created:# Define path to env:
+# Check that the env has been created:
 env_path = os.path.join(project_root, '.env')
 
 # Check that the env exists:
@@ -31,7 +31,7 @@ required_vars = [
     'totesysConnectionStringADO', 'dataLakeConnectionString'
 ]
 
-# Remove from dotenv incase of updates!:
+# Remove from dotenv incase of updates:
 for var in required_vars:
     os.environ.pop(var, None)
 
@@ -57,4 +57,5 @@ sas_token = get_secret_from_keyvault(os.getenv('keyvault_name'), 'sastoken')
 """
 SQL DATABASE
 """
+# This function will check the connection to the sql database:
 check_connection()
