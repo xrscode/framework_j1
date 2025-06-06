@@ -4,7 +4,7 @@
 # 2. Check Python is installed.
 & "$PSScriptRoot\src\deployment_scripts\2_check_python_installed.ps1"
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Python not installed.  Aborting deployment..." -ForegroundColor Red
+    Write-Host "Either python not installed or venv could not be activated." -ForegroundColor Red
     exit 1
 }
 

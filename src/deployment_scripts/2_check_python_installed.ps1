@@ -41,6 +41,7 @@ if (Test-Path $venvActivate) {
     Write-Host "⚙️ Activating virtual environment..." -ForegroundColor Green
     try {
         & $venvActivate
+        exit 0
     } catch {
         Write-Host "❌ Failed to activate virtual environment. Aborting." -ForegroundColor Red
         exit 1
