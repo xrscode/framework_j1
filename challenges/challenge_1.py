@@ -61,7 +61,10 @@ pytest -vv ./challenges/tests/test_challenge_1.py
 -------------------------------------------------------------------------------
 See if you can pass all the tests!
 
-DO NOT CHANGE ANYTHING IN THIS SCRIPT.
+NOTE: When writing the script for Adventure Works assume that ALL of the data
+in the tables must be ingested.  This means that you will effectively be ingesting
+the SalesOrder table twice.  The purpose of this challenge is not to understand
+FACT/DIMS, but how to create a contract. 
 """
 
 
