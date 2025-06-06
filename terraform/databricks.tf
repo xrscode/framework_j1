@@ -29,11 +29,11 @@ resource "databricks_secret_scope" "dbs_secret_scope" {
 resource "databricks_cluster" "low_cost_cluster" {
   cluster_name            = "fj1-db-cluster"
   spark_version           = "16.4.x-scala2.13"  # Latest LTS version, update if needed
-  node_type_id            = "Standard_DS3_v2"   # Cheap VM type
+  node_type_id            = "Standard_D4ds_v4"   # Cheap VM type
   autotermination_minutes = 15                  # Auto-shutdown after 15 mins
   num_workers             = 0                   # Single-node mode (driver only)
 
-  driver_node_type_id = "Standard_DS3_v2"  # Use the same cheap VM for the driver
+  driver_node_type_id = "Standard_D4ds_v4"  # Use the same cheap VM for the driver
 
   spark_conf = {
     "spark.databricks.cluster.profile" = "singleNode"  # Single-node mode for lowest cost
