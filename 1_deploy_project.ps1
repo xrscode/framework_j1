@@ -76,11 +76,14 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# 10. Check ip address is valid:
-& "$PSScriptRoot\src\deployment_scripts\7_check_ip_address.ps1"
+
+# 10. Post deployment checks:
+python "$PSScriptRoot\src\files\0_post_deployment_check.py"
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Azure does not allow current ip address access... Aborting..." -ForegroundColor Red
+    Write-Host "Post deployment checks failed." -ForegroundColor Red
     exit 1
+} else {
+    Write-Host "Post deployment checks passed.  Setting up database!" -ForegroundColor Green
 }
 
 # 11. Set up the metadata and totesys database:

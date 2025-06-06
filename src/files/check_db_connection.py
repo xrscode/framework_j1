@@ -29,7 +29,7 @@ sql_server = os.getenv('server_name').replace('.database.windows.net', '')
 
 
 def check_connection():
-    # Define regex to extract ip address from error:
+    # Define regex to extract ip address if there is an error:
     ip_regex = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
 
     # Attempt to connect to the sql server:
