@@ -5,7 +5,7 @@
         "annotations": [],
         "type": "AzureKeyVault",
         "typeProperties": {
-            "baseUrl": "https://fj1-kv-dev-uks-5l6988l.vault.azure.net/"
+            "baseUrl": "https://fj1-kv-dev-uks-3yps112.vault.azure.net/"
         }
     }
 }
