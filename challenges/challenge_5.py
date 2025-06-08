@@ -1,6 +1,7 @@
 import os
-from src.files.utility_functions import load_dotenv, get_secret_from_keyvault,\
-create_data_lake_directory_client, get_current_date_path, delete_directory
+import sys
+import subprocess
+import pytest
 
 """
 -----------------------------------------------------------------------------
@@ -22,5 +23,24 @@ Open ADF and look at the pipeline editor.  There is a pipeline called:
 Run it and see if you can fix it!
 """
 
+# Go one level up from current file's directory
+project_root = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..')
+)
 
+# Define path to the test file relative to project_root
+pytest_4 = os.path.join(project_root, 'challenges', 'tests', 'test_challenge_5.py')
+
+def run_tests_and_main():
+    # Run pytest programmatically
+    result = pytest.main([pytest_4])  # or your specific test file/folder
+
+    if result == 0:
+        print("✅ All tests passed. Running main script...")
+        subprocess.run([sys.executable, 'your_script.py'])  # replace with your target script
+    else:
+        print(f"❌ Tests failed with exit code {result}. Main script not executed.")
+
+
+run_tests_and_main()
     
