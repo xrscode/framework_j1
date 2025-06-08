@@ -1,0 +1,58 @@
+{
+	"name": "sourceEntity_table1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Metadata Database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "entityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "entityName",
+				"type": "varchar"
+			},
+			{
+				"name": "entityDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "connectionSourceType",
+				"type": "varchar"
+			},
+			{
+				"name": "connectionRequestType",
+				"type": "varchar"
+			},
+			{
+				"name": "connectionString",
+				"type": "varchar"
+			},
+			{
+				"name": "fileName",
+				"type": "varchar"
+			},
+			{
+				"name": "fileFormat",
+				"type": "varchar"
+			},
+			{
+				"name": "delimiterColumn",
+				"type": "varchar"
+			},
+			{
+				"name": "delimiterRow",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sourceEntity"
+		}
+	}
+}

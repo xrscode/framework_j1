@@ -1,0 +1,38 @@
+{
+	"name": "sourceSystem_table1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Metadata Database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sourceEntityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "sourceEntityName",
+				"type": "varchar"
+			},
+			{
+				"name": "sourceEntityDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "keyVaultQuery",
+				"type": "varchar"
+			},
+			{
+				"name": "notebooks",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sourceSystem"
+		}
+	}
+}
