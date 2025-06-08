@@ -274,7 +274,7 @@ def query_database(database_name: str, query: str):
         # Rollback changes if error
         if conn:
             conn.rollback()
-        return f"Database error!"
+        return f"Database error! Error message: {e}."
         
     finally:
         # Check if there is an open connection

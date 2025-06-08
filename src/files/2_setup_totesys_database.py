@@ -2,9 +2,6 @@ import json
 from utility_functions import read_sql, query_database
 from check_db_connection import check_connection
 
-# Run Check Connection first:
-check_connection()
-
 
 """
 This python file will setup the totesys database.

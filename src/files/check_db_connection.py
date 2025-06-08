@@ -62,10 +62,3 @@ def check_connection():
             print(f"Firewall rule {firewall_rule.name} added successfully!")
         except Exception as e:
             print(e)
-
-
-# When ran directly check_connection will run
-if __name__ == "__main__":
-    # If imported into another file or Python script will NOT run
-    # automatically.
-    check_connection()

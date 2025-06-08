@@ -1,6 +1,5 @@
 import json
-from utility_functions import list_folders, choose_source, query_database
-from check_db_connection import check_connection
+from utility_functions import list_folders, choose_source, query_databa
 import os
 
 
@@ -8,10 +7,6 @@ import os
 This python file will take a sourceEntityContract.json and upload it into
 the metadata database.
 """
-
-
-# Check connection first:
-check_connection()
 
 
 def upload_source_entity_contract(path: str, sourceSystemName: str):
