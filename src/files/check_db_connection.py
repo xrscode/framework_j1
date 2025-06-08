@@ -29,13 +29,11 @@ sql_server = os.getenv('server_name').replace('.database.windows.net', '')
 
 
 def check_connection():
-    # Define regex to extract ip address if there is an error:
-    ip_regex = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
-
     # Attempt to connect to the sql server:
     try:
         # Simple query
         query_database('metadata', 'Select 1')
+        
         print('Your current ip address has access to Azure services.  Firewall update not necessary.')
     except pyodbc.Error as e:
         # If there is an error extract the ip address:
@@ -62,3 +60,4 @@ def check_connection():
             print(f"Firewall rule {firewall_rule.name} added successfully!")
         except Exception as e:
             print(e)
+            raise
