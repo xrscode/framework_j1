@@ -12,10 +12,6 @@ Use the up and down arrow keys to select the source system to upload.
 New source systems should be placed in src/contracts/<sourceSystemName>
 """
 
-# Run Check Connection first:
-check_connection()
-
-
 def upload_source_system_contract(path: str) -> None:
     """
     Description:

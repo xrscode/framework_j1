@@ -30,7 +30,8 @@ src/files/4_upload_source_entity_contract.py
 src/contracts/upload.ps1
 -------------------------------------------------------------------------------
 Check that you have uploaded the contracts by checking the database using 
-SSMS.
+SSMS.  Or online within Azure portal - use the query editor in the 
+metadata database.
 
 Remember that all the credentials you need are stored in the .env file after
 deployment.

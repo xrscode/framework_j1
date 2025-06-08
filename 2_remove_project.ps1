@@ -3,6 +3,7 @@ Write-Host "az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46" -ForegroundC
 
 # Add the az login command to authenticate to Azure, use Telefonica tenant_id:
 az login --tenant 6771b25a-f4d8-4f9f-9fcc-e7468a5cdc46
+# In order to remove Azure resources, you must be logged in.
 
 # Check if the .env exists.  If it does, delete:
 $envFile = ".\.env"  # Define the file name
@@ -32,6 +33,16 @@ if (Test-Path $terraformDir) {
         Write-Host "Destroying Terraform deployment..." -ForegroundColor Yellow
         terraform destroy -auto-approve
         Write-Host "Framework destruction completed!" -ForegroundColor Green
+
+        # Move to root:
+        Set-Location ..
+
+        # Logout of Azure after successful destruction:
+        Write-Host "Logging out with the following command:" -ForegroundColor Yellow
+        Write-Host "az logout" -ForegroundColor Cyan
+
+# Logout
+az logout
     } else {
         Write-Host "Operation canceled. Terraform deployment remains intact." -ForegroundColor Cyan
         Set-Location "..\"
@@ -40,10 +51,3 @@ if (Test-Path $terraformDir) {
     Write-Host "Terraform directory not found. Please ensure './terraform' exists." -ForegroundColor Red
 }
 
-Set-Location ..
-
-Write-Host "Logging out with the following command:" -ForegroundColor Yellow
-Write-Host "az logout" -ForegroundColor Cyan
-
-# Logout
-az logout

@@ -63,8 +63,9 @@ See if you can pass all the tests!
 
 NOTE: When writing the script for Adventure Works assume that ALL of the data
 in the tables must be ingested.  This means that you will effectively be ingesting
-the SalesOrder table twice.  The purpose of this challenge is not to understand
-FACT/DIMS, but how to create a contract. 
+the SalesOrder table twice.  The fine people at Adventure Works have specifically asked
+that all data is to be ingested.  Data that is not needed can be dropped in the 
+silver layer. 
 """
 
 
