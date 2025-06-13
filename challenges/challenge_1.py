@@ -144,6 +144,9 @@ while True:
         filtered_csv_data = [x for x in working_list if x[0] not in
                              ['customer_AW', 'products_AW']]
         
+        # Write filtered csv data to csv:
+        write_to_csv(path, filtered_csv_data, header_entity)
+        
         message = f"""Challenge state has been activated.  Contracts deleted:
         customer_AW at path: {contracts_to_delete['customer_AW']}
         products_AW at path: {contracts_to_delete['products_AW']}
